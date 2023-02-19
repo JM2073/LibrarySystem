@@ -57,7 +57,6 @@
     </ApplicationDefinition>
     <Compile Include="Commands\CommandBace.cs" />
     <Compile Include="Commands\NavigateCommand.cs" />
-    <Compile Include="Enums\Views.cs" />
     <Compile Include="Stores\NavigationStore.cs" />
     <Compile Include="ViewModel\BaceViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />

@@ -18,6 +18,9 @@ namespace Main.ViewModel
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
         }
 
+        /// <summary>
+        /// notifies the view that the viewmodel has changed, causing changes to view
+        /// </summary>
         private void OnCurrentViewModelChanged()
         {
             OnPropertyChange(nameof(CurrentViewModel));

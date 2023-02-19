@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Main.Stores
 {
+    /// <summary>
+    /// Storing the state of navigation so that it can be passed between viewmodles
+    /// </summary>
     public class NavigationStore
     {
 
