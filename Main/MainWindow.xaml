@@ -7,46 +7,18 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TabControl>
-            <TabItem x:Name="TabLogin" Header="LOGIN">
-                <Grid Background="#FFE5E5E5">
-                    <Label Content="LOGIN" HorizontalAlignment="Left" Margin="318,19,0,0" VerticalAlignment="Top"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <ContentControl Content="{Binding SelectedViewModel}"/>
 
-                    <Label Content="User Name" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="187,76,0,0"/>
-                    <TextBox x:Name="txtUserName" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="187,102,0,0"/>
-
-                    <Label Content="Password" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="395,76,0,0"/>
-                    <PasswordBox x:Name="txtPassword" HorizontalAlignment="Left" Margin="395,102,0,0" VerticalAlignment="Top" Width="120" Height="23"/>
-
-                    <Button x:Name="btnLogin" Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="318,175,0,0"/>
-                    <Button x:Name="btnRegister" Content="Register" HorizontalAlignment="Left" Margin="318,235,0,0" VerticalAlignment="Top" Width="75" />
-
-                </Grid>
-            </TabItem>
-            <TabItem x:Name="TabRegister" Header="REGISTER">
-                <Grid Background="#FFE5E5E5">
-                    <Label Content="REGISTER" HorizontalAlignment="Left" Margin="322,18,0,0" VerticalAlignment="Top"/>
-
-                    <Label Content="Name" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="77,102,0,0"/>
-                    <TextBox x:Name="txtName" HorizontalAlignment="Left" Height="23" Margin="77,128,0,0" TextWrapping="Wrap" Text="name" VerticalAlignment="Top" Width="120"/>
-
-                    <Label Content="Email" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="77,204,0,0"/>
-                    <TextBox x:Name="txtEmail" HorizontalAlignment="Left" Height="23" Margin="77,230,0,0" TextWrapping="Wrap" Text="email" VerticalAlignment="Top" Width="120"/>
-
-                    <Label Content="Phone Number" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="77,258,0,0"/>
-                    <TextBox x:Name="txtPhoneNumber" HorizontalAlignment="Left" Height="23" Margin="77,284,0,0" TextWrapping="Wrap" Text="phonenumber" VerticalAlignment="Top" Width="120"/>
-
-                    <Label Content="Password" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="77,151,0,0"/>
-                    <PasswordBox x:Name="txtPasswordReg" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="77,177,0,0" Height="23" Width="120"/>
-
-                </Grid>
-            </TabItem>
-            <TabItem x:Name="TabMain" Header="MAIN">
-                <Grid Background="#FFE5E5E5">
-
-                </Grid>
-            </TabItem>
-        </TabControl>
+        <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="btnLogin" Margin="10" Width="200" Click="btnLogin_Click">
+                <Button Content="Button" Width="75"/>
+            </Button>
+            <Button x:Name="btnRegister" Margin="10" Width="200" Content="Register"/>
+        </StackPanel>-->
 
     </Grid>
 </Window>
