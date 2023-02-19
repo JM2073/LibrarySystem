@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Main.Views"
-             xmlns:Enums="clr-namespace:Main.Enums"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="White">
@@ -16,8 +15,8 @@
 
         <Label Content="Password" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="425,137,0,0"/>
         <PasswordBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="425,163,0,0" Height="23" Width="120"/>
-        <Button x:Name="btnLogin" Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="223,218,0,0" Height="32" Click="btnLogin_Click"/>
-        <Button x:Name="btnRegister" Content="Register" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="425,218,0,0" Height="32"/>
+        <Button x:Name="btnLogin" Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="223,218,0,0" Height="32" />
+        <Button x:Name="btnRegister" Content="Register" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="425,218,0,0" Height="32" Command="{Binding NavigateRegisterCommand}"/>
 
     </Grid>
 </UserControl>

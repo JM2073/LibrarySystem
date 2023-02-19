@@ -1,6 +1,5 @@
 ﻿using Main.ViewModel;
 using System.Windows;
-using _eView = Main.Enums.Views;
 
 
 namespace Main
@@ -13,13 +12,6 @@ namespace Main
         public MainWindow()
         {
             InitializeComponent();
-
-            DataContext = new MainViewModel();
-
-            var viewModel = (MainViewModel)DataContext;
-
-            if (viewModel.UpdateViewCommand.CanExecute(null))
-                viewModel.UpdateViewCommand.Execute(_eView.Login);
         }
     }
 }

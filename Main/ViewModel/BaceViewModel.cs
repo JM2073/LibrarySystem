@@ -9,6 +9,7 @@ namespace Main.ViewModel
 {
     public class BaceViewModel : INotifyPropertyChanged
     {
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChange(string propertyName)

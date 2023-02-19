@@ -4,21 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Main"
+        xmlns:viewmodels="clr-namespace:Main.ViewModel"
+        xmlns:views="clr-namespace:Main.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="100"/>
-        </Grid.RowDefinitions>
-        <ContentControl Content="{Binding SelectedViewModel}"/>
-
-        <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button x:Name="btnLogin" Margin="10" Width="200" Click="btnLogin_Click">
-                <Button Content="Button" Width="75"/>
-            </Button>
-            <Button x:Name="btnRegister" Margin="10" Width="200" Content="Register"/>
-        </StackPanel>-->
-
+        <ContentControl Content="{Binding CurrentViewModel}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewmodels:LoginViewModel}">
+                    <views:LoginView/>
+                </DataTemplate>     
+                <DataTemplate DataType="{x:Type viewmodels:RegisterViewModel}">
+                    <views:RegisterView/>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
     </Grid>
 </Window>

@@ -1,35 +1,26 @@
-﻿using Main.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using Main.Stores;
 
 namespace Main.ViewModel
 {
     public class MainViewModel : BaceViewModel
     {
-        private BaceViewModel _selectedViewModel;
+        private readonly NavigationStore _navigationStore;
 
-        public BaceViewModel SelectedViewModel
+        /// <summary>
+        /// the view model that is currently loaded.
+        /// </summary>
+        public BaceViewModel CurrentViewModel => _navigationStore.CurrentViewModel;
+
+        public MainViewModel(NavigationStore navigationStore)
         {
-            get { return _selectedViewModel; }
-            set { 
-                
-                _selectedViewModel = value;
-                OnPropertyChange(nameof(SelectedViewModel));
-            }
+            _navigationStore = navigationStore;
+
+            _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
         }
 
-        public ICommand UpdateViewCommand { get; set; }
-
-        public MainViewModel()
+        private void OnCurrentViewModelChanged()
         {
-            UpdateViewCommand =  new UpdateViewCommand(this);
+            OnPropertyChange(nameof(CurrentViewModel));
         }
-
-
-
     }
 }
