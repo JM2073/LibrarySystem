@@ -56,12 +56,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\CommandBace.cs" />
+    <Compile Include="Commands\LoginCommand.cs" />
     <Compile Include="Commands\NavigateCommand.cs" />
+    <Compile Include="Servies\NavigationService.cs" />
     <Compile Include="Stores\NavigationStore.cs" />
+    <Compile Include="Stores\UserStore.cs" />
+    <Compile Include="ViewModel\AccountViewModel.cs" />
     <Compile Include="ViewModel\BaceViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\RegisterViewModel.cs" />
+    <Compile Include="Views\AccountView.xaml.cs">
+      <DependentUpon>AccountView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -83,6 +90,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\AccountView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

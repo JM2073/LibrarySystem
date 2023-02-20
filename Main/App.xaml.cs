@@ -11,8 +11,10 @@ namespace Main
         {
             NavigationStore navigationStore = new NavigationStore();
 
+            UserStore userStore = new UserStore();
+
             //start the application with the Login view loaded by setting the LoginViewModel as the CurrentView 
-            navigationStore.CurrentViewModel = new LoginViewModel(navigationStore);
+            navigationStore.CurrentViewModel = new LoginViewModel(userStore,navigationStore);
 
             MainWindow = new MainWindow()
             {

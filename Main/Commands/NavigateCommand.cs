@@ -1,4 +1,5 @@
-﻿using Main.Stores;
+﻿using Main.Servies;
+using Main.Stores;
 using Main.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -16,14 +17,15 @@ namespace Main.Commands
     public class NavigateCommand<TViewModel> : CommandBace
         where TViewModel : BaceViewModel
     {
-        private readonly NavigationStore _navigationStore;
-        private readonly Func<TViewModel> _createVewModel;
+        private readonly NavigationService<TViewModel> _navigationService;
 
-        public NavigateCommand(NavigationStore navigationStore, Func<TViewModel> createVewModel)
+        public NavigateCommand(NavigationService<TViewModel> navigationService)
         {
-            _navigationStore = navigationStore;
-            _createVewModel = createVewModel;
+            _navigationService = navigationService;
         }
+
+
+
 
         /// <summary>
         /// sets the current viewmodel to the passed model.
@@ -31,7 +33,7 @@ namespace Main.Commands
         /// <param name="parameter">parameter that was passed with the usage.</param>
         public override void Execute(object parameter)
         {
-            _navigationStore.CurrentViewModel = _createVewModel();
+            _navigationService.Navigate();
         }
     }
 }

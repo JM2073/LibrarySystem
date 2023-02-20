@@ -9,11 +9,8 @@ namespace Main.ViewModel
 {
     public class RegisterViewModel : BaceViewModel
     {
-        private NavigationStore navigationStore;
-
         public RegisterViewModel(NavigationStore navigationStore)
         {
-            this.navigationStore = navigationStore;
         }
     }
 }
