@@ -1,5 +1,4 @@
-﻿using Main.ViewModel;
-using System.Windows;
+﻿using System.Windows;
 
 
 namespace Main

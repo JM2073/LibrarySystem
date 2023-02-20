@@ -1,12 +1,5 @@
 ﻿using Main.Commands;
 using Main.Stores;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace Main.ViewModel
@@ -21,11 +14,11 @@ namespace Main.ViewModel
         public string Email { get; set; }
         public string Password { private get; set; }
 
-        public LoginViewModel(UserStore userStore,NavigationStore navigationStore)
+        public LoginViewModel(UserStore userStore, NavigationStore navigationStore)
         {
-            NavigateRegisterCommand = new NavigateCommand<RegisterViewModel>(new Servies.NavigationService<RegisterViewModel>(navigationStore, () =>  new RegisterViewModel(navigationStore)));
+            NavigateRegisterCommand = new NavigateCommand<RegisterViewModel>(new Servies.NavigationService<RegisterViewModel>(navigationStore, () => new RegisterViewModel(navigationStore)));
 
-            LoginCommand = new LoginCommand(this, userStore,new Servies.NavigationService<AccountViewModel>(navigationStore, () => new AccountViewModel(userStore, navigationStore)));
+            LoginCommand = new LoginCommand(this, userStore, new Servies.NavigationService<AccountViewModel>(navigationStore, () => new AccountViewModel(userStore, navigationStore)));
         }
     }
 }

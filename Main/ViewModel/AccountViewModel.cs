@@ -1,9 +1,4 @@
 ﻿using Main.Stores;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Main.ViewModel
 {
@@ -16,7 +11,7 @@ namespace Main.ViewModel
 
         public AccountViewModel(UserStore userStore, NavigationStore navigationStore)
         {
-            _userStore = userStore; 
+            _userStore = userStore;
         }
     }
 }

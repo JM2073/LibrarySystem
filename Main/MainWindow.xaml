@@ -4,20 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Main"
-        xmlns:viewmodels="clr-namespace:Main.ViewModel"
+        xmlns:viewmodel="clr-namespace:Main.ViewModel"
         xmlns:views="clr-namespace:Main.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <ContentControl Content="{Binding CurrentViewModel}">
             <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type viewmodels:LoginViewModel}">
+                <DataTemplate DataType="{x:Type viewmodel:LoginViewModel}">
                     <views:LoginView/>
                 </DataTemplate>     
-                <DataTemplate DataType="{x:Type viewmodels:RegisterViewModel}">
+                <DataTemplate DataType="{x:Type viewmodel:RegisterViewModel}">
                     <views:RegisterView/>
                 </DataTemplate>               
-                <DataTemplate DataType="{x:Type viewmodels:AccountViewModel}">
+                <DataTemplate DataType="{x:Type viewmodel:AccountViewModel}">
                     <views:AccountView/>
                 </DataTemplate>
             </ContentControl.Resources>

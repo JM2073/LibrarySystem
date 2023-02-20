@@ -1,5 +1,4 @@
-﻿using Main.ViewModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 
@@ -18,7 +17,7 @@ namespace Main.Views
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (DataContext != null)
-                ((dynamic)DataContext).Password = ((PasswordBox)sender).Password; 
+                ((dynamic)DataContext).Password = ((PasswordBox)sender).Password;
         }
     }
 }
