@@ -3,22 +3,34 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Main"
-        xmlns:viewmodel="clr-namespace:Main.ViewModel"
+        xmlns:viewmodels="clr-namespace:Main.ViewModel"
         xmlns:views="clr-namespace:Main.Views"
+        xmlns:components="clr-namespace:Main.Components"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <ContentControl Content="{Binding CurrentViewModel}">
             <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type viewmodel:LoginViewModel}">
-                    <views:LoginView/>
-                </DataTemplate>     
-                <DataTemplate DataType="{x:Type viewmodel:RegisterViewModel}">
-                    <views:RegisterView/>
-                </DataTemplate>               
-                <DataTemplate DataType="{x:Type viewmodel:AccountViewModel}">
-                    <views:AccountView/>
+                <DataTemplate DataType="{x:Type viewmodels:LayoutViewModel}">
+                    <components:Layout />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:LoginViewModel}">
+                    <views:LoginView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:RegisterViewModel}">
+                    <views:RegisterView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:AccountViewModel}">
+                    <views:AccountView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:SearchViewModel}">
+                    <views:SearchView />
+                </DataTemplate>             
+                <DataTemplate DataType="{x:Type viewmodels:CheckInBookViewModel}">
+                    <views:CheckInBookView/>
+                </DataTemplate>              
+                <DataTemplate DataType="{x:Type viewmodels:CheckOutBookViewModel}">
+                    <views:CheckOutBookView />
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>

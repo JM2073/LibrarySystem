@@ -4,8 +4,7 @@ using System;
 
 namespace Main.Servies
 {
-    public class NavigationService<TViewModel>
-           where TViewModel : BaceViewModel
+    public class NavigationService<TViewModel> : INavigationService where TViewModel : BaceViewModel
     {
         private readonly NavigationStore _navigationStore;
         private readonly Func<TViewModel> _createVewModel;

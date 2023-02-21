@@ -1,15 +1,35 @@
-﻿using Main.Models;
+﻿using System;
+using Main.Models;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Documents;
 using System.Xml;
 namespace Main
 {
     public class BookService
     {
 
-        public List<Book> GetAllBooks()
+        public ObservableCollection<Book> GetAllBooks()
         {
+            ObservableCollection<Book> books = new ObservableCollection<Book>();
+            var xmlDocument = new XmlDocument();
+            xmlDocument.Load("D:\\Solutions\\LibrarySystem\\Main\\XML\\BookDetails.xml");
 
-            return null; //TODO:
+            XmlNodeList nodeList = xmlDocument.DocumentElement.SelectNodes("/catalog/book"); 
+
+            foreach (XmlNode node in nodeList)
+            {
+                var item = new Book();
+                item.Author = node.SelectSingleNode("author")?.InnerText;
+                item.Title = node.SelectSingleNode("title")?.InnerText;
+                item.Genre = node.SelectSingleNode("genre")?.InnerText;
+                item.Price = node.SelectSingleNode("price")?.InnerText;
+                item.PublicationDate = node.SelectSingleNode("publish_date")?.InnerText;
+                item.Summary = node.SelectSingleNode("description")?.InnerText;
+                books.Add(item);
+            }
+
+            return books;
         }
 
         public void AddBook()
@@ -40,7 +60,7 @@ namespace Main
             price.InnerText = newBook.Price.ToString();
 
             XmlElement date = doc.CreateElement("publish_date");
-            date.InnerText = newBook.PublicationDate.ToShortDateString();
+            date.InnerText = newBook.PublicationDate;
 
             XmlElement description = doc.CreateElement("description");
             description.InnerText = newBook.Summary;

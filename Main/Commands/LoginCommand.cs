@@ -9,10 +9,11 @@ namespace Main.Commands
     public class LoginCommand : CommandBace
     {
         private readonly LoginViewModel _viewModel;
-        private readonly NavigationService<AccountViewModel> _navigationService;
-        private readonly UserStore _userStore;
+        private readonly INavigationService _navigationService;
+        private readonly AccountStore _userStore;
+        private AccountService _accountService => new AccountService();
 
-        public LoginCommand(LoginViewModel viewModel, UserStore userStore, NavigationService<AccountViewModel> navigationService)
+        public LoginCommand(LoginViewModel viewModel, AccountStore userStore, INavigationService navigationService)
         {
             _viewModel = viewModel;
             _userStore = userStore;
@@ -21,14 +22,15 @@ namespace Main.Commands
 
         public override void Execute(object parameter)
         {
+            _accountService.GetUser("");
             MessageBox.Show($"loggin in {_viewModel.Email}....");
 
             _userStore.CurrentUser = new User()
             {
                 Name = "Testinson",
                 Email = _viewModel.Email,
-                PhoneNumber = 0,
-                LibraryCardNumber = 0
+                PhoneNumber = "0",
+                LibraryCardNumber = "0"
 
             };
 

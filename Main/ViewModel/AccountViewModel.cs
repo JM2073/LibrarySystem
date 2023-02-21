@@ -1,17 +1,39 @@
-﻿using Main.Stores;
+﻿using System;
+using System.Data.SqlClient;
+using Main.Stores;
 
 namespace Main.ViewModel
 {
     public class AccountViewModel : BaceViewModel
     {
-        private readonly UserStore _userStore;
+        private readonly AccountStore _accountStore;
 
-        public string Name => _userStore.CurrentUser?.Name;
-        public string Email => _userStore.CurrentUser?.Email;
+        private readonly BookService _bookService;
 
-        public AccountViewModel(UserStore userStore, NavigationStore navigationStore)
+        
+
+        public string Name => _accountStore.CurrentUser?.Name;
+        public string Email => _accountStore.CurrentUser?.Email;
+
+        public AccountViewModel(AccountStore accountStore)
         {
-            _userStore = userStore;
+            _accountStore = accountStore;
+            _bookService = new BookService();
+
+            _accountStore.CurrentAccountChanged += OnCurrentAccountChanged;
+        }
+
+        private void OnCurrentAccountChanged()
+        {
+            OnPropertyChange(nameof(Name));
+            OnPropertyChange(nameof(Email));
+        }
+
+        public override void Dispose()
+        {
+            _accountStore.CurrentAccountChanged -= OnCurrentAccountChanged;
+
+            base.Dispose();
         }
     }
 }

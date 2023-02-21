@@ -4,12 +4,11 @@ namespace Main.Models
 {
     public class User
     {
-        public int LibraryCardNumber { get; set; }
+        public string LibraryCardNumber { get; set; }
         public string Name { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public int NumberOfBooksCheckedOut { get; set; }
         public List<Book> Books { get; set; }
-        public string Password { get; set; }
     }
 }
