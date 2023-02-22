@@ -7,9 +7,6 @@ namespace Main.ViewModel
 {
     public class LoginViewModel : BaceViewModel
     {
-        /// <summary>
-        /// command for changing the view to the ResgierView
-        /// </summary>
         public ICommand NavigateRegisterCommand { get; }
         public ICommand LoginCommand { get; }
 
@@ -19,7 +16,6 @@ namespace Main.ViewModel
         public LoginViewModel(AccountStore userStore, INavigationService accountNavigationService,
             INavigationService registerNavigationService)
         {
-
             NavigateRegisterCommand = new NavigateCommand(registerNavigationService);
           
             LoginCommand = new LoginCommand(this, userStore, accountNavigationService);

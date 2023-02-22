@@ -18,7 +18,7 @@ namespace Main.Stores
         }
 
         public bool IsLoggedIn => CurrentUser != null;
-
+        
         public void LogOut() => CurrentUser = null;
 
         public event Action CurrentAccountChanged;

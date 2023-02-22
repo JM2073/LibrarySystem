@@ -2,49 +2,46 @@
 using Main.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Documents;
 using System.Xml;
+using System.Xml.Linq;
+
 namespace Main
 {
-    public class BookService
+    public class BookService 
     {
-
+#if DEBUG
+        private string XMLFilePath = "C:\\Users\\reavu\\Documents\\RiderSolutions\\LibrarySystem\\Main\\XML\\BookDetails.xml";
+#else
+        private string XMLFilePath = "Main/XML/UserDetails.xml";
+#endif
         public ObservableCollection<Book> GetAllBooks()
         {
             ObservableCollection<Book> books = new ObservableCollection<Book>();
-            var xmlDocument = new XmlDocument();
-            xmlDocument.Load("D:\\Solutions\\LibrarySystem\\Main\\XML\\BookDetails.xml");
+            XDocument doc = XDocument.Load(XMLFilePath);
 
-            XmlNodeList nodeList = xmlDocument.DocumentElement.SelectNodes("/catalog/book"); 
-
-            foreach (XmlNode node in nodeList)
+            books =  new ObservableCollection<Book>(doc.Descendants("book").Select(x => new Book
             {
-                var item = new Book();
-                item.Author = node.SelectSingleNode("author")?.InnerText;
-                item.Title = node.SelectSingleNode("title")?.InnerText;
-                item.Genre = node.SelectSingleNode("genre")?.InnerText;
-                item.Price = node.SelectSingleNode("price")?.InnerText;
-                item.PublicationDate = node.SelectSingleNode("publish_date")?.InnerText;
-                item.Summary = node.SelectSingleNode("description")?.InnerText;
-                books.Add(item);
-            }
-
+                Title = x.Element("title").Value,
+                Author = x.Element("author").Value,
+                ISBN = x.Element("isbn").Value,
+                Publisher = x.Element("publisher").Value,
+                PublicationDate = x.Element("publish_date").Value,
+                Summary = x.Element("description").Value,
+                Genre = x.Element("genre").Value,
+                Price = x.Element("price").Value,
+            }).ToList());
+            
             return books;
         }
 
         public void AddBook()
         {
-
             Book newBook = new Book();
-            //    newBook.Title = txtTitle.Text;
-            //    newBook.auther = txtAuthor.Text;
-            //    newBook.genre= txtGenre.Text;
-            //    newBook.price= txtPrice.Text;
-            //    newBook.publish_date= txtDate.Text;
-            //    newBook.description= txtDescription.Text;
-
+ 
             XmlDocument doc = new XmlDocument();
-            doc.Load("Books.XML");
+            doc.Load(XMLFilePath);
 
             XmlElement book = doc.CreateElement("Book");
             XmlElement title = doc.CreateElement("title");
@@ -65,6 +62,16 @@ namespace Main
             XmlElement description = doc.CreateElement("description");
             description.InnerText = newBook.Summary;
 
+            XmlElement isbn = doc.CreateElement("isbn");
+            isbn.InnerText = newBook.Price.ToString();
+
+            XmlElement publisher = doc.CreateElement("publisher");
+            publisher.InnerText = newBook.Publisher;
+
+            XmlElement availableCopies = doc.CreateElement("available_copies");
+            availableCopies.InnerText = newBook.AvailableCopies.ToString();
+
+            
             book.AppendChild(title);
             book.AppendChild(auth);
             book.AppendChild(genre);
@@ -73,10 +80,30 @@ namespace Main
             book.AppendChild(description);
 
             doc.DocumentElement.AppendChild(book);
-            doc.Save("Books.XML");
-
-
+            doc.Save(XMLFilePath);
         }
+        public ObservableCollection<Book> SearchBooks(string searchString)
+        {
+            ObservableCollection<Book> books = new ObservableCollection<Book>();
+            var doc = XDocument.Load(XMLFilePath);
 
+            books = new ObservableCollection<Book>(doc.Descendants("book").Where(x =>
+                x.Element("author").Value.Contains(searchString) ||
+                x.Element("title").Value.Contains(searchString) ||
+                x.Element("isbn").Value.Contains(searchString)).Select(x => new Book
+            {
+                Title = x.Element("title").Value,
+                Author = x.Element("author").Value,
+                ISBN = x.Element("isbn").Value,
+                Publisher = x.Element("publisher").Value,
+                PublicationDate = x.Element("publish_date").Value,
+                Summary = x.Element("description").Value,
+                Genre = x.Element("genre").Value,
+                Price = x.Element("price").Value,
+            }).ToList());
+            
+            return books;
+        }
+        
     }
 }

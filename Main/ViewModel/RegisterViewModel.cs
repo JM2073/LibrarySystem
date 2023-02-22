@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using Main.Commands;
+using Main.Servies;
 using Main.Stores;
 
 namespace Main.ViewModel
@@ -13,10 +14,10 @@ namespace Main.ViewModel
         public string LastName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public RegisterViewModel(NavigationStore navigationStore)
+        public RegisterViewModel(INavigationService loginNavigationService)
         {
 
-            RegisterCommand = new RegisterCommand();
+            RegisterCommand = new RegisterCommand(this,loginNavigationService);
         }
     }
 }

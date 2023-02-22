@@ -17,15 +17,16 @@ namespace Main
 
             services.AddSingleton<AccountStore>();
             services.AddSingleton<NavigationStore>();
+            services.AddSingleton<SearchStore>();
 
             services.AddSingleton<INavigationService>(s => CreateLoginNavigationService(s));
 
             services.AddTransient<NavigationBarViewModel>(s => CreateNavigationBarViewModel(s));
-            services.AddTransient<SearchBarViewModel>(s => new SearchBarViewModel(CreateSearchNavigationService(s)));
+            services.AddTransient<SearchBarViewModel>(s => new SearchBarViewModel(s.GetRequiredService<SearchStore>(),CreateSearchNavigationService(s)));
             services.AddTransient<LoginViewModel>(s => new LoginViewModel(s.GetRequiredService<AccountStore>(),CreateAccountNavigationService(s),CreateRegisterNavigationService(s)));
-            services.AddTransient<RegisterViewModel>(s => new RegisterViewModel(s.GetRequiredService<NavigationStore>()));
+            services.AddTransient<RegisterViewModel>(s => new RegisterViewModel(CreateLoginNavigationService(s)));
             services.AddTransient<AccountViewModel>(s => new AccountViewModel(s.GetRequiredService<AccountStore>()));
-            services.AddTransient<SearchViewModel>(s => new SearchViewModel());
+            services.AddTransient<SearchViewModel>(s => new SearchViewModel(s.GetRequiredService<SearchStore>()));
             services.AddTransient<CheckInBookViewModel>();
             services.AddTransient<CheckOutBookViewModel>();
 

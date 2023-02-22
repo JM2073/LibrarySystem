@@ -48,6 +48,6 @@
             <Label Content="Phone Number" />
             <TextBox Text="{Binding PhoneNumber}" />
         </StackPanel>
-        <Button Grid.Row="4" Content="Submit" Command="{Binding }" />
+        <Button Grid.Row="4" Content="Submit" Command="{Binding RegisterCommand}" />
     </Grid>
 </UserControl>

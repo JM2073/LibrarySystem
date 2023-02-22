@@ -13,7 +13,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0"></TextBox>
+            <TextBox Grid.Column="0" Text="{Binding SearchString}"></TextBox>
             <Button Margin="10 0" Grid.Column="1" Content="Search" Command="{Binding SearchCommand}"></Button>
         </Grid>
 </UserControl>

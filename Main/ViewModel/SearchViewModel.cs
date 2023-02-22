@@ -5,24 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Main.Models;
+using Main.Stores;
 
 namespace Main.ViewModel
 {
     public class SearchViewModel : BaceViewModel
     {
-
-        private readonly BookService _bookService;
+        private  BookService _bookService => new BookService();
 
         private readonly ObservableCollection<Book> _books;
         public IEnumerable<Book> Books => _books;
         
-        public SearchViewModel()
+        public SearchViewModel(SearchStore searchStore)
         {
-            _bookService = new BookService();
-            _books = new ObservableCollection<Book>();
-
-          _books =  _bookService.GetAllBooks();
-
+            _books = searchStore.SearchString != null ? _bookService.SearchBooks(searchStore.SearchString) : _bookService.GetAllBooks();
         }
 
     }

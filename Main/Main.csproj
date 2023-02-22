@@ -75,6 +75,7 @@
     <Compile Include="Commands\LogoutCommand.cs" />
     <Compile Include="Commands\NavigateCommand.cs" />
     <Compile Include="Commands\RegisterCommand.cs" />
+    <Compile Include="Commands\SearchCommand.cs" />
     <Compile Include="Components\Layout.xaml.cs">
       <DependentUpon>Layout.xaml</DependentUpon>
     </Compile>
@@ -92,6 +93,7 @@
     <Compile Include="Servies\NavigationService.cs" />
     <Compile Include="Stores\NavigationStore.cs" />
     <Compile Include="Stores\AccountStore.cs" />
+    <Compile Include="Stores\SearchStore.cs" />
     <Compile Include="ViewModel\AccountViewModel.cs" />
     <Compile Include="ViewModel\BaceViewModel.cs" />
     <Compile Include="ViewModel\CheckInBookViewModel.cs" />
