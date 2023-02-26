@@ -40,43 +40,19 @@
     </bookscheckedout>
   </user>
   <user>
-    <librarycardnumber>7596968f-4205-48a0-af5c-864e1fe008fb</librarycardnumber>
+    <librarycardnumber>63546821</librarycardnumber>
     <name>Johnathon Millard</name>
-    <email>Johnathon.millard@gmail.com</email>
-    <phonenumber>07712547027</phonenumber>
-    <numberofbookscheckedout>0</numberofbookscheckedout>
+    <email>jm</email>
+    <phonenumber>555-555-5556</phonenumber>
+    <numberofbookscheckedout>1</numberofbookscheckedout>
     <bookscheckedout>
-      <book>
+      <book id="bk101">
         <isbn>
         </isbn>
-        <title>
-        </title>
-        <checkedoutdate>
-        </checkedoutdate>
-        <duebackdate>
-        </duebackdate>
+        <title>Midnight Rain</title>
+        <checkedoutdate>2000-11-17</checkedoutdate>
+        <duebackdate>2000-11-17</duebackdate>
       </book>
     </bookscheckedout>
-  </user>
-  <user>
-    <librarycardnumber>b09bda68-f4cb-46d7-b1d4-fd713034eed7</librarycardnumber>
-    <name>
-    </name>
-    <email>
-    </email>
-    <phonenumber>
-    </phonenumber>
-    <numberofbookscheckedout>0</numberofbookscheckedout>
-    <bookscheckedout />
-  </user>
-  <user>
-    <librarycardnumber>389893b9-4572-4366-9d08-ac006320e87e</librarycardnumber>
-    <name> </name>
-    <email>
-    </email>
-    <phonenumber>
-    </phonenumber>
-    <numberofbookscheckedout>0</numberofbookscheckedout>
-    <bookscheckedout />
   </user>
 </users>

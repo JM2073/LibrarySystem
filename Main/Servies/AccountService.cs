@@ -32,8 +32,10 @@ namespace Main.Servies
            if (singleUser == null)
                 return null;
 
+         
+           
            User user = new User()
-            {
+           {
                 LibraryCardNumber = singleUser.Element("librarycardnumber")?.Value,
                 Name = singleUser.Element("name")?.Value,
                 Email = singleUser.Element("email")?.Value,

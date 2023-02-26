@@ -6,11 +6,19 @@ using System.Linq;
 using System.Windows.Documents;
 using System.Xml;
 using System.Xml.Linq;
+using Main.Stores;
 
 namespace Main
 {
     public class BookService 
     {
+        private readonly AccountStore _currentUser;
+
+        public BookService(AccountStore currentUser)
+        {
+            _currentUser = currentUser;
+        }
+        
 #if DEBUG
         private string XMLFilePath = "C:\\Users\\reavu\\Documents\\RiderSolutions\\LibrarySystem\\Main\\XML\\BookDetails.xml";
 #else
@@ -36,10 +44,8 @@ namespace Main
             return books;
         }
 
-        public void AddBook()
+        public void AddBook(Book newBook)
         {
-            Book newBook = new Book();
- 
             XmlDocument doc = new XmlDocument();
             doc.Load(XMLFilePath);
 
@@ -87,7 +93,7 @@ namespace Main
             ObservableCollection<Book> books = new ObservableCollection<Book>();
             var doc = XDocument.Load(XMLFilePath);
 
-            books = new ObservableCollection<Book>(doc.Descendants("book").Where(x =>
+                books = new ObservableCollection<Book>(doc.Descendants("book").Where(x =>
                 x.Element("author").Value.Contains(searchString) ||
                 x.Element("title").Value.Contains(searchString) ||
                 x.Element("isbn").Value.Contains(searchString)).Select(x => new Book
@@ -104,6 +110,13 @@ namespace Main
             
             return books;
         }
+
+        public void CheckOutBook()
+        {
+            
+        }
+        
+        
         
     }
 }

@@ -26,7 +26,7 @@ namespace Main
             services.AddTransient<LoginViewModel>(s => new LoginViewModel(s.GetRequiredService<AccountStore>(),CreateAccountNavigationService(s),CreateRegisterNavigationService(s)));
             services.AddTransient<RegisterViewModel>(s => new RegisterViewModel(CreateLoginNavigationService(s)));
             services.AddTransient<AccountViewModel>(s => new AccountViewModel(s.GetRequiredService<AccountStore>()));
-            services.AddTransient<SearchViewModel>(s => new SearchViewModel(s.GetRequiredService<SearchStore>()));
+            services.AddTransient<SearchViewModel>(s => new SearchViewModel(s.GetRequiredService<SearchStore>(),new AccountStore()));
             services.AddTransient<CheckInBookViewModel>();
             services.AddTransient<CheckOutBookViewModel>();
 

@@ -8,18 +8,14 @@ namespace Main.ViewModel
     {
         private readonly AccountStore _accountStore;
 
-        private readonly BookService _bookService;
-
+        private BookService _bookService => new BookService(_accountStore);
         
-
         public string Name => _accountStore.CurrentUser?.Name;
         public string Email => _accountStore.CurrentUser?.Email;
 
         public AccountViewModel(AccountStore accountStore)
         {
             _accountStore = accountStore;
-            _bookService = new BookService();
-
             _accountStore.CurrentAccountChanged += OnCurrentAccountChanged;
         }
 

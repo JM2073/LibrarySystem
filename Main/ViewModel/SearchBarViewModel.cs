@@ -18,7 +18,6 @@ namespace Main.ViewModel
         
         public SearchBarViewModel(SearchStore searchStore,INavigationService searchNavigationService)
         {
-            
             SearchCommand = new SearchCommand(this,searchStore,searchNavigationService);
         }
     }
