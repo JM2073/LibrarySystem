@@ -1,16 +1,13 @@
-﻿using System;
-using Main.Models;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Documents;
 using System.Xml;
 using System.Xml.Linq;
+using Main.Models;
 using Main.Stores;
 
 namespace Main
 {
-    public class BookService 
+    public class BookService
     {
         private readonly AccountStore _currentUser;
 
@@ -18,18 +15,18 @@ namespace Main
         {
             _currentUser = currentUser;
         }
-        
+
 #if DEBUG
-        private string XMLFilePath = "C:\\Users\\reavu\\Documents\\RiderSolutions\\LibrarySystem\\Main\\XML\\BookDetails.xml";
+        private readonly string XMLFilePath =
+            "D:\\Solutions\\LibrarySystem\\Main\\XML\\BookDetails.xml";
 #else
         private string XMLFilePath = "Main/XML/UserDetails.xml";
 #endif
         public ObservableCollection<Book> GetAllBooks()
         {
-            ObservableCollection<Book> books = new ObservableCollection<Book>();
-            XDocument doc = XDocument.Load(XMLFilePath);
+            var doc = XDocument.Load(XMLFilePath);
 
-            books =  new ObservableCollection<Book>(doc.Descendants("book").Select(x => new Book
+            var books = new ObservableCollection<Book>(doc.Descendants("book").Select(x => new Book
             {
                 Title = x.Element("title").Value,
                 Author = x.Element("author").Value,
@@ -39,45 +36,48 @@ namespace Main
                 Summary = x.Element("description").Value,
                 Genre = x.Element("genre").Value,
                 Price = x.Element("price").Value,
+                CheckedOutDate = x.Element("Checked_Out_Date").Value,
+                DueBackDate = x.Element("Due_Back_Date").Value,
             }).ToList());
+
+            foreach (var book in books)
+                book.AvailabilityCount = books.Where(x=>x.IsCheckedOut == false).Count(x => x.ISBN == book.ISBN);
             
-            return books;
+            
+            return new ObservableCollection<Book>(books.Distinct().ToList());
         }
 
         public void AddBook(Book newBook)
         {
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
             doc.Load(XMLFilePath);
 
-            XmlElement book = doc.CreateElement("Book");
-            XmlElement title = doc.CreateElement("title");
+        
+            var book = doc.CreateElement("Book");
+            var title = doc.CreateElement("title");
             title.InnerText = newBook.Title;
 
-            XmlElement auth = doc.CreateElement("author");
+            var auth = doc.CreateElement("author");
             auth.InnerText = newBook.Author;
 
-            XmlElement genre = doc.CreateElement("genre");
+            var genre = doc.CreateElement("genre");
             genre.InnerText = newBook.Genre;
 
-            XmlElement price = doc.CreateElement("price");
-            price.InnerText = newBook.Price.ToString();
+            var price = doc.CreateElement("price");
+            price.InnerText = newBook.Price;
 
-            XmlElement date = doc.CreateElement("publish_date");
+            var date = doc.CreateElement("publish_date");
             date.InnerText = newBook.PublicationDate;
 
-            XmlElement description = doc.CreateElement("description");
+            var description = doc.CreateElement("description");
             description.InnerText = newBook.Summary;
 
-            XmlElement isbn = doc.CreateElement("isbn");
-            isbn.InnerText = newBook.Price.ToString();
+            var isbn = doc.CreateElement("isbn");
+            isbn.InnerText = newBook.Price;
 
-            XmlElement publisher = doc.CreateElement("publisher");
+            var publisher = doc.CreateElement("publisher");
             publisher.InnerText = newBook.Publisher;
-
-            XmlElement availableCopies = doc.CreateElement("available_copies");
-            availableCopies.InnerText = newBook.AvailableCopies.ToString();
-
-            
+        
             book.AppendChild(title);
             book.AppendChild(auth);
             book.AppendChild(genre);
@@ -88,12 +88,13 @@ namespace Main
             doc.DocumentElement.AppendChild(book);
             doc.Save(XMLFilePath);
         }
+
         public ObservableCollection<Book> SearchBooks(string searchString)
         {
-            ObservableCollection<Book> books = new ObservableCollection<Book>();
+            var books = new ObservableCollection<Book>();
             var doc = XDocument.Load(XMLFilePath);
-
-                books = new ObservableCollection<Book>(doc.Descendants("book").Where(x =>
+            
+            books = new ObservableCollection<Book>(doc.Descendants("book").Where(x =>
                 x.Element("author").Value.Contains(searchString) ||
                 x.Element("title").Value.Contains(searchString) ||
                 x.Element("isbn").Value.Contains(searchString)).Select(x => new Book
@@ -106,17 +107,19 @@ namespace Main
                 Summary = x.Element("description").Value,
                 Genre = x.Element("genre").Value,
                 Price = x.Element("price").Value,
+                CheckedOutDate = x.Element("Checked_Out_Date").Value,
+                DueBackDate = x.Element("Due_Back_Date").Value
             }).ToList());
+
+            foreach (var book in books)
+                book.AvailabilityCount = books.Where(x=>x.IsCheckedOut == false).Count(x => x.ISBN == book.ISBN);
             
-            return books;
+            return new ObservableCollection<Book>(books.Distinct().ToList());
         }
 
         public void CheckOutBook()
         {
             
         }
-        
-        
-        
     }
 }

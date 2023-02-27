@@ -7,7 +7,7 @@
         xmlns:views="clr-namespace:Main.Views"
         xmlns:components="clr-namespace:Main.Components"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="1080" Width="1920" ResizeMode="NoResize">
     <Grid>
         <ContentControl Content="{Binding CurrentViewModel}">
             <ContentControl.Resources>
@@ -25,10 +25,10 @@
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type viewmodels:SearchViewModel}">
                     <views:SearchView />
-                </DataTemplate>             
+                </DataTemplate>
                 <DataTemplate DataType="{x:Type viewmodels:CheckInBookViewModel}">
-                    <views:CheckInBookView/>
-                </DataTemplate>              
+                    <views:CheckInBookView />
+                </DataTemplate>
                 <DataTemplate DataType="{x:Type viewmodels:CheckOutBookViewModel}">
                     <views:CheckOutBookView />
                 </DataTemplate>

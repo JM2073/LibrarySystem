@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Main.Servies;
+﻿using Main.Servies;
 using Main.Stores;
-using Main.ViewModel;
 
 namespace Main.Commands
 {
     public class LogoutCommand : CommandBace
     {
-        private readonly AccountStore _userStore;
         private readonly INavigationService _navigationService;
+        private readonly AccountStore _userStore;
 
 
         public LogoutCommand(AccountStore userStore, INavigationService navigationService)

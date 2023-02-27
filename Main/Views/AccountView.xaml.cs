@@ -3,7 +3,7 @@
 namespace Main.Views
 {
     /// <summary>
-    /// Interaction logic for AccountView.xaml
+    ///     Interaction logic for AccountView.xaml
     /// </summary>
     public partial class AccountView : UserControl
     {

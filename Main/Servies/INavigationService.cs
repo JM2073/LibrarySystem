@@ -1,6 +1,4 @@
-﻿using Main.ViewModel;
-
-namespace Main.Servies
+﻿namespace Main.Servies
 {
     public interface INavigationService
     {

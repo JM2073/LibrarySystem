@@ -1,13 +1,13 @@
-﻿using Main.Stores;
+﻿using System;
+using Main.Stores;
 using Main.ViewModel;
-using System;
 
 namespace Main.Servies
 {
     public class NavigationService<TViewModel> : INavigationService where TViewModel : BaceViewModel
     {
-        private readonly NavigationStore _navigationStore;
         private readonly Func<TViewModel> _createVewModel;
+        private readonly NavigationStore _navigationStore;
 
         public NavigationService(NavigationStore navigationStore, Func<TViewModel> createVewModel)
         {
@@ -18,7 +18,6 @@ namespace Main.Servies
         public void Navigate()
         {
             _navigationStore.CurrentViewModel = _createVewModel();
-
         }
     }
 }

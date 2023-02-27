@@ -1,25 +1,26 @@
-﻿using System.Windows;
-using Main.Servies;
+﻿using Main.Servies;
 using Main.ViewModel;
 
 namespace Main.Commands
 {
     public class RegisterCommand : CommandBace
     {
-        private RegisterViewModel _viewModel;
         private readonly INavigationService _navigationService;
-
-        private AccountService _accountService => new AccountService();
+        private readonly RegisterViewModel _viewModel;
 
         public RegisterCommand(RegisterViewModel registerViewModel, INavigationService navigationService)
         {
             _viewModel = registerViewModel;
             _navigationService = navigationService;
         }
+
+        private AccountService _accountService => new AccountService();
+
         public override void Execute(object parameter)
         {
-            _accountService.AddUser($"{_viewModel.FirstName} {_viewModel.LastName}", _viewModel.Email, _viewModel.PhoneNumber);
-           
+            _accountService.AddUser($"{_viewModel.FirstName} {_viewModel.LastName}", _viewModel.Email,
+                _viewModel.PhoneNumber);
+
             //TODO work in validation.
             // if (sucess)
             // {

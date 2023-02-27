@@ -6,11 +6,12 @@ namespace Main.Commands
 {
     public class SearchCommand : CommandBace
     {
-        private readonly SearchBarViewModel _viewModel;
         private readonly INavigationService _navigationService;
         private readonly SearchStore _searchStore;
+        private readonly SearchBarViewModel _viewModel;
 
-        public SearchCommand(SearchBarViewModel searchBarViewModel,SearchStore searchStore, INavigationService navigationService)
+        public SearchCommand(SearchBarViewModel searchBarViewModel, SearchStore searchStore,
+            INavigationService navigationService)
         {
             _viewModel = searchBarViewModel;
             _searchStore = searchStore;

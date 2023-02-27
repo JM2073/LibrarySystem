@@ -1,20 +1,20 @@
 ﻿<UserControl x:Class="Main.Components.Layout"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Main.Components"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d"
+             d:DesignHeight="1080" d:DesignWidth="1920">
     <UserControl.Resources>
         <Style TargetType="Button">
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <TextBlock Text="{TemplateBinding Content}"/>
+                        <TextBlock Text="{TemplateBinding Content}" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -23,7 +23,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
-                                <TextBlock Text="{TemplateBinding Content}" TextDecorations="Underline"/>
+                                <TextBlock Text="{TemplateBinding Content}" TextDecorations="Underline" />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -32,17 +32,18 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <local:NavigationBar Grid.Row="0" Grid.RowSpan="2 " Grid.Column="0" DataContext="{Binding NavigationBarViewModel}"/>
-        <local:SearchBar Grid.Row="0" Grid.Column="1" DataContext="{Binding SearchBarViewModel}"/>
-        <ContentControl Grid.Row="1" Grid.Column="1" Margin="20" Content="{Binding ContentViewModel}"/>
+        <local:NavigationBar Grid.Row="0" Grid.RowSpan="2 " Grid.Column="0"
+                             DataContext="{Binding NavigationBarViewModel}" />
+        <local:SearchBar Grid.Row="0" Grid.Column="1" DataContext="{Binding SearchBarViewModel}" />
+        <ContentControl Grid.Row="1" Grid.Column="1" Margin="20" Content="{Binding ContentViewModel}" />
     </Grid>
 </UserControl>

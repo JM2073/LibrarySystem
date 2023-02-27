@@ -4,50 +4,45 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="1080" d:DesignWidth="1920"
              Background="White">
     <UserControl.Resources>
         <Style TargetType="Label">
-            <Setter Property="FontWeight" Value="Bold"/> 
-            <Setter Property="FontSize" Value="18"/> 
-            <Setter Property="HorizontalContentAlignment" Value="Center"/> 
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
         </Style>
         <Style TargetType="TextBox">
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Height" Value="23"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Height" Value="23" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
         <Style TargetType="Button">
-            <Setter Property="Width" Value="200"/> 
-            <Setter Property="Height" Value="32"/> 
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Height" Value="32" />
         </Style>
-       
+
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        
-        <Label Grid.Row="0" FontSize="25" Content="Register with us"/>
-        
+
+        <Label Grid.Row="0" FontSize="25" Content="Register with us" />
+
         <StackPanel Grid.Row="1">
             <Label Content="First Name" />
             <TextBox Text="{Binding FirstName}" />
             <Label Content="Last Name" />
             <TextBox Text="{Binding LastName}" />
-        </StackPanel>       
-         <StackPanel Grid.Row="2">
             <Label Content="Email" />
             <TextBox Text="{Binding Email}" />
-        </StackPanel>    
-        <StackPanel Grid.Row="3">
             <Label Content="Phone Number" />
             <TextBox Text="{Binding PhoneNumber}" />
         </StackPanel>
-        <Button Grid.Row="4" Content="Submit" Command="{Binding RegisterCommand}" />
+       
+        <Button Grid.Row="2" Content="Submit" Command="{Binding RegisterCommand}" />
     </Grid>
 </UserControl>

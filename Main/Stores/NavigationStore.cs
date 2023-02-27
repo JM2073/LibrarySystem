@@ -1,17 +1,15 @@
-﻿using Main.ViewModel;
-using System;
+﻿using System;
+using Main.ViewModel;
 
 namespace Main.Stores
 {
     /// <summary>
-    /// Storing the state of navigation so that it can be passed between viewmodles
+    ///     Storing the state of navigation so that it can be passed between viewmodles
     /// </summary>
     public class NavigationStore
     {
-
-        public event Action CurrentViewModelChanged;
-
         private BaceViewModel _currentViewModel;
+
         public BaceViewModel CurrentViewModel
         {
             get => _currentViewModel;
@@ -21,8 +19,9 @@ namespace Main.Stores
                 _currentViewModel = value;
                 OnCurrentViewMOdelChanged();
             }
-
         }
+
+        public event Action CurrentViewModelChanged;
 
         private void OnCurrentViewMOdelChanged()
         {

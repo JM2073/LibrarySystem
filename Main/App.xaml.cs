@@ -19,20 +19,22 @@ namespace Main
             services.AddSingleton<NavigationStore>();
             services.AddSingleton<SearchStore>();
 
-            services.AddSingleton<INavigationService>(s => CreateLoginNavigationService(s));
+            services.AddSingleton(s => CreateLoginNavigationService(s));
 
-            services.AddTransient<NavigationBarViewModel>(s => CreateNavigationBarViewModel(s));
-            services.AddTransient<SearchBarViewModel>(s => new SearchBarViewModel(s.GetRequiredService<SearchStore>(),CreateSearchNavigationService(s)));
-            services.AddTransient<LoginViewModel>(s => new LoginViewModel(s.GetRequiredService<AccountStore>(),CreateAccountNavigationService(s),CreateRegisterNavigationService(s)));
-            services.AddTransient<RegisterViewModel>(s => new RegisterViewModel(CreateLoginNavigationService(s)));
-            services.AddTransient<AccountViewModel>(s => new AccountViewModel(s.GetRequiredService<AccountStore>()));
-            services.AddTransient<SearchViewModel>(s => new SearchViewModel(s.GetRequiredService<SearchStore>(),new AccountStore()));
+            services.AddTransient(s => CreateNavigationBarViewModel(s));
+            services.AddTransient(s =>
+                new SearchBarViewModel(s.GetRequiredService<SearchStore>(), CreateSearchNavigationService(s)));
+            services.AddTransient(s => new LoginViewModel(s.GetRequiredService<AccountStore>(),
+                CreateAccountNavigationService(s), CreateRegisterNavigationService(s)));
+            services.AddTransient(s => new RegisterViewModel(CreateLoginNavigationService(s)));
+            services.AddTransient(s => new AccountViewModel(s.GetRequiredService<AccountStore>()));
+            services.AddTransient(s => new SearchViewModel(s.GetRequiredService<SearchStore>(), new AccountStore()));
             services.AddTransient<CheckInBookViewModel>();
             services.AddTransient<CheckOutBookViewModel>();
 
             services.AddSingleton<MainViewModel>();
 
-            services.AddSingleton<MainWindow>(s => new MainWindow
+            services.AddSingleton(s => new MainWindow
             {
                 DataContext = s.GetRequiredService<MainViewModel>()
             });
@@ -73,7 +75,7 @@ namespace Main
                 serviceProvider.GetRequiredService<NavigationStore>(),
                 () => serviceProvider.GetRequiredService<AccountViewModel>(),
                 () => serviceProvider.GetRequiredService<NavigationBarViewModel>(),
-                ()=>serviceProvider.GetRequiredService<SearchBarViewModel>());
+                () => serviceProvider.GetRequiredService<SearchBarViewModel>());
         }
 
         private INavigationService CreateSearchNavigationService(IServiceProvider serviceProvider)
@@ -89,9 +91,8 @@ namespace Main
         {
             return new NavigationBarViewModel(
                 serviceProvider.GetRequiredService<AccountStore>(),
-                CreateLoginNavigationService(serviceProvider), 
+                CreateLoginNavigationService(serviceProvider),
                 CreateAccountNavigationService(serviceProvider));
         }
-
     }
 }
