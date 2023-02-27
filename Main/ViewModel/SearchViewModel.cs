@@ -11,14 +11,14 @@ namespace Main.ViewModel
         private readonly ObservableCollection<Book> _books;
         public IEnumerable<Book> Books => _books;
         public string SearchResultCountString { get; set; }
-        public SearchViewModel(SearchStore searchStore, AccountStore accountStore)
+        public SearchViewModel(SearchStore searchStore)
         {
             _books = searchStore.SearchString != null
                 ? _bookService.SearchBooks(searchStore.SearchString)
                 : _bookService.GetAllBooks();
             
-            SearchResultCountString = $"Showing {_books.Count} Results ";
-            SearchResultCountString += searchStore.SearchString != null ? $"filtering result by '{searchStore.SearchString}'" : string.Empty ;
+            SearchResultCountString = $"SHOWING '{_books.Count}' RESULTS ";
+            SearchResultCountString += searchStore.SearchString != null ? $"FILTERING RESULT BY '{searchStore.SearchString}'" : string.Empty ;
         }
       
     }

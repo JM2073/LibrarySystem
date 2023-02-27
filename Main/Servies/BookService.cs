@@ -26,6 +26,17 @@ namespace Main
         {
             var doc = XDocument.Load(XMLFilePath);
 
+            var books = CreateBookFromXml(doc);
+
+            foreach (var book in books)
+                book.AvailabilityCount = books.Where(x=>x.IsCheckedOut == false).Count(x => x.ISBN == book.ISBN);
+            
+            
+            return new ObservableCollection<Book>(books.Distinct().ToList());
+        }
+
+        private static ObservableCollection<Book> CreateBookFromXml(XDocument doc)
+        {
             var books = new ObservableCollection<Book>(doc.Descendants("book").Select(x => new Book
             {
                 Title = x.Element("title").Value,
@@ -39,12 +50,7 @@ namespace Main
                 CheckedOutDate = x.Element("Checked_Out_Date").Value,
                 DueBackDate = x.Element("Due_Back_Date").Value,
             }).ToList());
-
-            foreach (var book in books)
-                book.AvailabilityCount = books.Where(x=>x.IsCheckedOut == false).Count(x => x.ISBN == book.ISBN);
-            
-            
-            return new ObservableCollection<Book>(books.Distinct().ToList());
+            return books;
         }
 
         public void AddBook(Book newBook)

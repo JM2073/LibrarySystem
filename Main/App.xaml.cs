@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Main
 {
-    public partial class App : Application
+    public partial class App 
     {
         private readonly IServiceProvider _serviceProvider;
 
@@ -28,7 +28,7 @@ namespace Main
                 CreateAccountNavigationService(s), CreateRegisterNavigationService(s)));
             services.AddTransient(s => new RegisterViewModel(CreateLoginNavigationService(s)));
             services.AddTransient(s => new AccountViewModel(s.GetRequiredService<AccountStore>()));
-            services.AddTransient(s => new SearchViewModel(s.GetRequiredService<SearchStore>(), new AccountStore()));
+            services.AddTransient(s => new SearchViewModel(s.GetRequiredService<SearchStore>()));
             services.AddTransient<CheckInBookViewModel>();
             services.AddTransient<CheckOutBookViewModel>();
 
