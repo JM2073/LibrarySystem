@@ -1,58 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <users>
-    <user>
-        <librarycardnumber>123456789</librarycardnumber>
-        <name>John Smith</name>
-        <email>johnsmith@email.com</email>
-        <phonenumber>555-555-5555</phonenumber>
-        <numberofbookscheckedout>2</numberofbookscheckedout>
-        <bookscheckedout>
-            <book id="bk102">
-                <isbn>
-                </isbn>
-                <title>Midnight Rain</title>
-                <checkedoutdate>2000-11-17</checkedoutdate>
-                <duebackdate>2000-11-17</duebackdate>
-            </book>
-            <book id="bk104">
-                <isbn>
-                </isbn>
-                <title>sunset bulvard</title>
-                <checkedoutdate>2000-11-17</checkedoutdate>
-                <duebackdate>2000-11-17</duebackdate>
-            </book>
-        </bookscheckedout>
-    </user>
-    <user>
-        <librarycardnumber>987654321</librarycardnumber>
-        <name>Jane Doe</name>
-        <email>janedoe@email.com</email>
-        <phonenumber>555-555-5556</phonenumber>
-        <numberofbookscheckedout>1</numberofbookscheckedout>
-        <bookscheckedout>
-            <book id="bk101">
-                <isbn>
-                </isbn>
-                <title>Midnight Rain</title>
-                <checkedoutdate>2000-11-17</checkedoutdate>
-                <duebackdate>2000-11-17</duebackdate>
-            </book>
-        </bookscheckedout>
-    </user>
-    <user>
-        <librarycardnumber>63546821</librarycardnumber>
-        <name>Johnathon Millard</name>
-        <email>jm</email>
-        <phonenumber>555-555-5556</phonenumber>
-        <numberofbookscheckedout>1</numberofbookscheckedout>
-        <bookscheckedout>
-            <book id="bk101">
-                <isbn>
-                </isbn>
-                <title>Midnight Rain</title>
-                <checkedoutdate>2000-11-17</checkedoutdate>
-                <duebackdate>2000-11-17</duebackdate>
-            </book>
-        </bookscheckedout>
-    </user>
+  <user>
+    <library_card_number>3537ec73-ef63-459d-9ab2-0e3ac48272b9</library_card_number>
+    <name>John Smith</name>
+    <email>johnsmith@email.com</email>
+    <phone_number>555-555-5555</phone_number>
+    <books_checked_out>
+      <book id="bk102">
+        <isbn></isbn>
+        <title>Midnight Rain</title>
+        <checked_out_by></checked_out_by>
+        <due_back_date></due_back_date>
+      </book>
+      <book id="bk104">
+        <isbn></isbn>
+        <title>sunset bulvard</title>
+        <due_back_date></due_back_date>
+        <checked_out_by></checked_out_by>
+      </book>
+    </books_checked_out>
+  </user>
+  <user>
+    <library_card_number>dcaece6e-566f-4148-88c1-3e9aad88ec86</library_card_number>
+    <name>Jane Doe</name>
+    <email>janedoe@email.com</email>
+    <phone_number>555-555-5556</phone_number>
+    <books_checked_out>
+      <book id="bk101">
+        <isbn></isbn>
+        <title>Midnight Rain</title>
+        <checked_out_by></checked_out_by>
+        <due_back_date></due_back_date>
+      </book>
+    </books_checked_out>
+  </user>
+  <user>
+    <library_card_number>01d49c54-1326-447b-a820-52cd3c53c9ff</library_card_number>
+    <name>Johnathon Millard</name>
+    <email>jm</email>
+    <phone_number>555-555-5556</phone_number>
+    <books_checked_out>
+      <book id="bk101">
+        <isbn>4</isbn>
+        <title>Midnight Raina</title>
+        <checked_out_by></checked_out_by>
+        <due_back_date></due_back_date>
+      </book>
+    </books_checked_out>
+  </user>
 </users>

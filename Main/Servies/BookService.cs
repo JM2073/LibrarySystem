@@ -1,43 +1,135 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using Main.Models;
+using Main.Servies;
 using Main.Stores;
 
 namespace Main
 {
     public class BookService
     {
-        private readonly AccountStore _currentUser;
+        private readonly string _xmlFilePath = "D:\\Solutions\\LibrarySystem\\Main\\XML\\BookDetails.xml";
 
-        public BookService(AccountStore currentUser)
+        private readonly AccountStore _accountStore;
+        private AccountService _accountService => new AccountService(_accountStore);
+
+        public BookService(AccountStore accountStore)
         {
-            _currentUser = currentUser;
+            _accountStore = accountStore;
         }
 
-#if DEBUG
-        private readonly string XMLFilePath =
-            "D:\\Solutions\\LibrarySystem\\Main\\XML\\BookDetails.xml";
-#else
-        private string XMLFilePath = "Main/XML/UserDetails.xml";
-#endif
         public ObservableCollection<Book> GetAllBooks()
         {
-            var doc = XDocument.Load(XMLFilePath);
+            var books = BuildBookListFromXml();
 
-            var books = CreateBookFromXml(doc);
-
-            foreach (var book in books)
-                book.AvailabilityCount = books.Where(x=>x.IsCheckedOut == false).Count(x => x.ISBN == book.ISBN);
-            
-            
-            return new ObservableCollection<Book>(books.Distinct().ToList());
+            return new ObservableCollection<Book>(books);
         }
 
-        private static ObservableCollection<Book> CreateBookFromXml(XDocument doc)
+        public void AddBook(Book newBook)
         {
-            var books = new ObservableCollection<Book>(doc.Descendants("book").Select(x => new Book
+            var doc = XDocument.Load(_xmlFilePath);
+
+            doc.Element("catalog").Add(
+                new XElement("book",
+                    new XElement("title", newBook.Title),
+                    new XElement("author", newBook.Author),
+                    new XElement("genre", newBook.Genre),
+                    new XElement("price", newBook.Price),
+                    new XElement("publish_date", newBook.PublicationDate),
+                    new XElement("description", newBook.Summary),
+                    new XElement("isbn", newBook.ISBN),
+                    new XElement("publisher", newBook.Publisher)));
+
+            doc.Save(_xmlFilePath);
+        }
+
+        public ObservableCollection<Book> SearchBooks(string searchString)
+        {
+            //gets the collection of books
+            var books = BuildBookListFromXml();
+
+            //filters down the collection to only display results that match the search term
+            books = books.Where(x =>
+                x.Author.Contains(searchString) ||
+                x.Title.Contains(searchString) ||
+                x.ISBN.Contains(searchString)).ToList();
+
+            //returns filtered down results
+            return new ObservableCollection<Book>(books);
+        }
+
+        public void CheckOutBook(string ISBN)
+        {
+            //gets collection of books
+            var doc = XDocument.Load(_xmlFilePath);
+
+            var singleBook = doc.Descendants("book").Where(x => x.Element("Checked_Out_Date").Value == string.Empty)
+                .FirstOrDefault(x => x.Element("isbn").Value == ISBN);
+            //changes the value of checked out by 
+            singleBook.Element("Checked_Out_By").Value = _accountStore.CurrentUser.LibraryCardNumber;
+
+            //changes the value of checked out date 
+            singleBook.Element("Checked_Out_Date").Value = DateTime.Now.ToString();
+
+            //changes the value of due back date, TODO find out how long the default lenght a book can be out for.
+            singleBook.Element("Due_Back_Date").Value = DateTime.Now.AddDays(14).ToString();
+
+
+            _accountService.CheckOutBook(singleBook.Element("isbn").Value, singleBook.Element("title").Value,
+                singleBook.Element("checked_out_by").Value, singleBook.Element("due_back_date").Value);
+
+            singleBook.Document.Save(_xmlFilePath);
+        }
+
+        public void ReturnBook(string ISBN, string libraryCardNumber)
+        {
+            var doc = XDocument.Load(_xmlFilePath);
+
+            libraryCardNumber = libraryCardNumber ?? _accountStore.CurrentUser.LibraryCardNumber;
+
+            //changes the value of checked out by 
+            var singleBook = doc.Descendants("book").Where(x => x.Element("Checked_Out_By").Value == libraryCardNumber)
+                .SingleOrDefault(x => x.Element("isbn").Value == ISBN);
+
+            singleBook.Element("Checked_Out_Date").Value = null;
+            singleBook.Element("Due_Back_Date").Value = null;
+            singleBook.Element("Checked_Out_By").Value = null;
+
+            singleBook.Document.Save(_xmlFilePath);
+
+            _accountService.ReturnBook(ISBN, libraryCardNumber);
+        }
+
+        public void RenewBook(string ISBN, string libraryCardNumber)
+        {
+            var doc = XDocument.Load(_xmlFilePath);
+
+            libraryCardNumber = libraryCardNumber ?? _accountStore.CurrentUser.LibraryCardNumber;
+
+            var singleBook = doc.Descendants("book").Where(x => x.Element("Checked_Out_By").Value == libraryCardNumber)
+                .SingleOrDefault(x => x.Element("isbn").Value == ISBN);
+
+            var dueBackDate = Convert.ToDateTime(singleBook.Element("Due_Back_Date").Value).AddDays(7).ToString();
+
+            //TODO check how long a book is renewed for.
+            singleBook.Element("Due_Back_Date").Value = dueBackDate;
+
+            singleBook.Document.Save(_xmlFilePath);
+
+            _accountService.RenewBook(ISBN, libraryCardNumber, dueBackDate);
+        }
+
+        private List<Book> BuildBookListFromXml()
+        {
+            var doc = XDocument.Load(_xmlFilePath);
+            var bookSingle = doc.Descendants("book").Where(x => x.Element("Checked_Out_Date").Value == string.Empty)
+                .FirstOrDefault(x => x.Element("isbn").Value == "2");
+
+            var books = doc.Descendants("book").Select(x => new Book
             {
                 Title = x.Element("title").Value,
                 Author = x.Element("author").Value,
@@ -49,83 +141,12 @@ namespace Main
                 Price = x.Element("price").Value,
                 CheckedOutDate = x.Element("Checked_Out_Date").Value,
                 DueBackDate = x.Element("Due_Back_Date").Value,
-            }).ToList());
-            return books;
-        }
-
-        public void AddBook(Book newBook)
-        {
-            var doc = new XmlDocument();
-            doc.Load(XMLFilePath);
-
-        
-            var book = doc.CreateElement("Book");
-            var title = doc.CreateElement("title");
-            title.InnerText = newBook.Title;
-
-            var auth = doc.CreateElement("author");
-            auth.InnerText = newBook.Author;
-
-            var genre = doc.CreateElement("genre");
-            genre.InnerText = newBook.Genre;
-
-            var price = doc.CreateElement("price");
-            price.InnerText = newBook.Price;
-
-            var date = doc.CreateElement("publish_date");
-            date.InnerText = newBook.PublicationDate;
-
-            var description = doc.CreateElement("description");
-            description.InnerText = newBook.Summary;
-
-            var isbn = doc.CreateElement("isbn");
-            isbn.InnerText = newBook.Price;
-
-            var publisher = doc.CreateElement("publisher");
-            publisher.InnerText = newBook.Publisher;
-        
-            book.AppendChild(title);
-            book.AppendChild(auth);
-            book.AppendChild(genre);
-            book.AppendChild(price);
-            book.AppendChild(date);
-            book.AppendChild(description);
-
-            doc.DocumentElement.AppendChild(book);
-            doc.Save(XMLFilePath);
-        }
-
-        public ObservableCollection<Book> SearchBooks(string searchString)
-        {
-            var books = new ObservableCollection<Book>();
-            var doc = XDocument.Load(XMLFilePath);
-            
-            books = new ObservableCollection<Book>(doc.Descendants("book").Where(x =>
-                x.Element("author").Value.Contains(searchString) ||
-                x.Element("title").Value.Contains(searchString) ||
-                x.Element("isbn").Value.Contains(searchString)).Select(x => new Book
-            {
-                Title = x.Element("title").Value,
-                Author = x.Element("author").Value,
-                ISBN = x.Element("isbn").Value,
-                Publisher = x.Element("publisher").Value,
-                PublicationDate = x.Element("publish_date").Value,
-                Summary = x.Element("description").Value,
-                Genre = x.Element("genre").Value,
-                Price = x.Element("price").Value,
-                CheckedOutDate = x.Element("Checked_Out_Date").Value,
-                DueBackDate = x.Element("Due_Back_Date").Value
-            }).ToList());
+            }).ToList();
 
             foreach (var book in books)
-                book.AvailabilityCount = books.Where(x=>x.IsCheckedOut == false).Count(x => x.ISBN == book.ISBN);
-            
-            return new ObservableCollection<Book>(books.Distinct().ToList());
-        }
+                book.AvailabilityCount = books.Where(x => x.IsCheckedOut == false).Count(x => x.ISBN == book.ISBN);
 
-        public void CheckOutBook()
-        {
-            
+            return books.Distinct().ToList();
         }
     }
 }

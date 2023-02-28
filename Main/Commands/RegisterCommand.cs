@@ -1,4 +1,5 @@
 ﻿using Main.Servies;
+using Main.Stores;
 using Main.ViewModel;
 
 namespace Main.Commands
@@ -7,14 +8,16 @@ namespace Main.Commands
     {
         private readonly INavigationService _navigationService;
         private readonly RegisterViewModel _viewModel;
+        private readonly AccountStore _accountStore;
 
-        public RegisterCommand(RegisterViewModel registerViewModel, INavigationService navigationService)
+        public RegisterCommand(RegisterViewModel registerViewModel,AccountStore accountStore, INavigationService navigationService)
         {
             _viewModel = registerViewModel;
+            _accountStore = accountStore;
             _navigationService = navigationService;
         }
 
-        private AccountService _accountService => new AccountService();
+        private AccountService _accountService => new AccountService(_accountStore);
 
         public override void Execute(object parameter)
         {

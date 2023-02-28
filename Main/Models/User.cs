@@ -8,7 +8,7 @@ namespace Main.Models
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public int NumberOfBooksCheckedOut { get; set; }
+        public int NumberOfBooksCheckedOut => Books.Count;
         public List<Book> Books { get; set; }
     }
 }

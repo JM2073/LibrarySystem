@@ -25,5 +25,6 @@ namespace Main.Stores
         }
 
         public event Action CurrentAccountChanged;
+
     }
 }

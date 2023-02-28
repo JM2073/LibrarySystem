@@ -26,9 +26,9 @@ namespace Main
                 new SearchBarViewModel(s.GetRequiredService<SearchStore>(), CreateSearchNavigationService(s)));
             services.AddTransient(s => new LoginViewModel(s.GetRequiredService<AccountStore>(),
                 CreateAccountNavigationService(s), CreateRegisterNavigationService(s)));
-            services.AddTransient(s => new RegisterViewModel(CreateLoginNavigationService(s)));
+            services.AddTransient(s => new RegisterViewModel(CreateLoginNavigationService(s),s.GetRequiredService<AccountStore>()));
             services.AddTransient(s => new AccountViewModel(s.GetRequiredService<AccountStore>()));
-            services.AddTransient(s => new SearchViewModel(s.GetRequiredService<SearchStore>()));
+            services.AddTransient(s => new SearchViewModel(s.GetRequiredService<SearchStore>(),s.GetRequiredService<AccountStore>()));
             services.AddTransient<CheckInBookViewModel>();
             services.AddTransient<CheckOutBookViewModel>();
 

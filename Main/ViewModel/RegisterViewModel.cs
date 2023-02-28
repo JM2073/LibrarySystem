@@ -1,14 +1,18 @@
 ﻿using System.Windows.Input;
 using Main.Commands;
 using Main.Servies;
+using Main.Stores;
 
 namespace Main.ViewModel
 {
     public class RegisterViewModel : BaceViewModel
     {
-        public RegisterViewModel(INavigationService loginNavigationService)
+        private readonly AccountStore _accountStore;
+
+        public RegisterViewModel(INavigationService loginNavigationService, AccountStore accountStore)
         {
-            RegisterCommand = new RegisterCommand(this, loginNavigationService);
+            _accountStore = accountStore;
+            RegisterCommand = new RegisterCommand(this, _accountStore, loginNavigationService);
         }
 
         public ICommand RegisterCommand { get; }

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <catalog>
   <book id="bk101">
     <title>XML Developer's Guide foobar</title>
@@ -25,8 +25,8 @@
       of the world.</description>
     <isbn>2</isbn>
     <publisher></publisher>
-      <Checked_Out_Date>ss</Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date>ss</Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk103">
@@ -40,8 +40,8 @@
       foundation for a new society.</description>
     <isbn>3</isbn>
     <publisher></publisher>
-      <Checked_Out_Date>ss</Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date>ss</Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk104">
@@ -56,8 +56,8 @@
       Ascendant.</description>
     <isbn>4</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk105">
@@ -71,8 +71,8 @@
       Oberon's Legacy.</description>
     <isbn>5</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk106">
@@ -85,8 +85,8 @@
       conference, tempers fly as feathers get ruffled.</description>
     <isbn>6</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk107">
@@ -99,8 +99,8 @@
       thousand leagues beneath the sea.</description>
     <isbn>7</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk108">
@@ -113,8 +113,8 @@
       centipedes, scorpions  and other insects.</description>
     <isbn>8</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk109">
@@ -128,8 +128,8 @@
       of being quantum.</description>
     <isbn>9</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk110">
@@ -142,8 +142,8 @@
       detail in this deep programmer's reference.</description>
     <isbn>10</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk111">
@@ -157,8 +157,8 @@
       SAX and more.</description>
     <isbn>11</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk112">
@@ -173,8 +173,8 @@
       environment.</description>
     <isbn>12</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book>
@@ -186,10 +186,11 @@
     <description>TextBox</description>
     <isbn>13</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
-  </book>  <book id="bk101">
+  </book>
+  <book id="bk101">
     <title>XML Developer's Guide foobar</title>
     <author>Gambardella, Matthew</author>
     <publish_date>2000-10-01</publish_date>
@@ -199,9 +200,9 @@
       with XML.</description>
     <isbn>1</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
-  <Checked_Out_By></Checked_Out_By>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk102">
     <title>Midnight Rain</title>
@@ -214,9 +215,9 @@
       of the world.</description>
     <isbn>2</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
-    <Checked_Out_By></Checked_Out_By>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_By>someone something somehow</Checked_Out_By>
   </book>
   <book id="bk103">
     <author>Corets, Eva</author>
@@ -229,8 +230,8 @@
       foundation for a new society.</description>
     <isbn>3</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk104">
@@ -245,8 +246,8 @@
       Ascendant.</description>
     <isbn>4</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk105">
@@ -260,8 +261,8 @@
       Oberon's Legacy.</description>
     <isbn>5</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk106">
@@ -274,8 +275,8 @@
       conference, tempers fly as feathers get ruffled.</description>
     <isbn>6</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk107">
@@ -288,8 +289,8 @@
       thousand leagues beneath the sea.</description>
     <isbn>7</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk108">
@@ -302,8 +303,8 @@
       centipedes, scorpions  and other insects.</description>
     <isbn>8</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk109">
@@ -317,8 +318,8 @@
       of being quantum.</description>
     <isbn>9</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk110">
@@ -331,8 +332,8 @@
       detail in this deep programmer's reference.</description>
     <isbn>10</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk111">
@@ -346,8 +347,8 @@
       SAX and more.</description>
     <isbn>11</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book id="bk112">
@@ -362,8 +363,8 @@
       environment.</description>
     <isbn>12</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
   <book>
@@ -375,8 +376,8 @@
     <description>TextBox</description>
     <isbn>13</isbn>
     <publisher></publisher>
-      <Checked_Out_Date></Checked_Out_Date>
-      <Due_Back_Date></Due_Back_Date>
+    <Checked_Out_Date></Checked_Out_Date>
+    <Due_Back_Date></Due_Back_Date>
     <Checked_Out_By></Checked_Out_By>
   </book>
 </catalog>
