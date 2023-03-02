@@ -11,14 +11,14 @@
         <isbn>2</isbn>
         <title>Midnight Rain</title>
         <book_cost>35</book_cost>
-        <checked_out_by></checked_out_by>
+        <checked_out_date></checked_out_date>
         <due_back_date>01/03/2023</due_back_date>
       </book>
       <book id="bk104">
         <isbn>1</isbn>
         <title>Midnight Rain</title>
         <book_cost>50</book_cost>
-        <checked_out_by></checked_out_by>
+        <checked_out_date></checked_out_date>
         <due_back_date>01/05/2023</due_back_date>
       </book>
     </books_checked_out>
@@ -42,7 +42,7 @@
         <isbn>2</isbn>
         <title>Midnight Rain</title>
         <book_cost>20</book_cost>
-        <checked_out_by></checked_out_by>
+        <checked_out_date></checked_out_date>
         <due_back_date>01/04/2023</due_back_date>
       </book>
     </books_checked_out>
@@ -59,7 +59,7 @@
         <isbn>2</isbn>
         <title>Midnight Rain</title>
         <book_cost>45</book_cost>
-        <checked_out_by></checked_out_by>
+        <checked_out_date>01/01/2023</checked_out_date>
         <due_back_date>01/02/2023</due_back_date>
       </book>
     </books_checked_out>

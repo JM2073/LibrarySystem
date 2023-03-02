@@ -20,11 +20,11 @@
         <TextBlock Grid.Row="0" Grid.Column="0" Text="Checked out Books" Margin="15 10 0 0" />
         <Grid Grid.Row="0" Grid.Column="0" Margin="15 30 15 15">
             <Border BorderBrush="Black" BorderThickness="2">
-                <ListView ItemsSource="{Binding CheckOutBook}">
+                <ListView ItemsSource="{Binding CheckedOutBooks}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" />
-                            <GridViewColumn Header="Date Checked Out" DisplayMemberBinding="{Binding Title}" />
+                            <GridViewColumn Header="Date Checked Out" DisplayMemberBinding="{Binding CheckedOutDate}" />
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -35,12 +35,12 @@
         <TextBlock Grid.Row="0" Grid.Column="1" Text="Books Due Back" Margin="15 10 0 0" />
         <Grid Grid.Row="0" Grid.Column="1" Margin="15 30 15 15">
             <Border BorderBrush="Black" BorderThickness="2">
-                <ListView ItemsSource="{Binding CheckOutBook}">
+                <ListView ItemsSource="{Binding  DueBackBooks }">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" />
-                            <GridViewColumn Header="Date Due Back" DisplayMemberBinding="{Binding Title}" />
-                            <GridViewColumn Header="Days Remaining with book" DisplayMemberBinding="{Binding Title}" />
+                            <GridViewColumn Header="Date Due Back" DisplayMemberBinding="{Binding DueBackDate}" />
+                            <GridViewColumn Header="Days Remaining with book" DisplayMemberBinding="{Binding DueBackDate}" />
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -68,11 +68,12 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Border Grid.Row="0" BorderBrush="Black" BorderThickness="2">
-                <ListView ItemsSource="{Binding CheckOutBook}">
+                <ListView ItemsSource="{Binding OutstandingFees}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" />
-                            <GridViewColumn Header="Fee Cost" DisplayMemberBinding="{Binding Title}" />
+                            <GridViewColumn Header="Fine Amount" DisplayMemberBinding="{Binding FineAmount}" />
+                            <GridViewColumn Header="Reason" DisplayMemberBinding="{Binding Reason}" />
+                            <GridViewColumn Header="Pay By Date" DisplayMemberBinding="{Binding PayByDate}" />
                         </GridView>
                     </ListView.View>
                 </ListView>

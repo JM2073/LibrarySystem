@@ -37,18 +37,19 @@ namespace Main.Servies
 
             _accountStore.CurrentUser = new User
             {
-                LibraryCardNumber = singleUser.Element("librarycardnumber")?.Value,
+                LibraryCardNumber = singleUser.Element("library_card_number")?.Value,
                 Name = singleUser.Element("name")?.Value,
                 Email = singleUser.Element("email")?.Value,
-                PhoneNumber = singleUser.Element("phonenumber")?.Value,
+                PhoneNumber = singleUser.Element("phone_number")?.Value,
                 AccountType = (AccountType)int.Parse(singleUser.Element("account_type").Value),
-                Books = singleUser.Descendants("bookscheckedout").Elements().Select(x =>
+                Books = singleUser.Descendants("books_checked_out").Elements().Select(y =>
                     new Book
                     {
-                        ISBN = x.Element("isbn").Value,
-                        Title = x.Element("title").Value,
-                        CheckedOutDate = x.Element("checkedoutdate").Value,
-                        DueBackDate = x.Element("duebackdate").Value
+                        ISBN = y.Element("isbn").Value,
+                        Title = y.Element("title").Value,
+                        BookCost = y.Element("book_cost").Value,
+                        CheckedOutDate = y.Element("checked_out_date").Value,
+                        DueBackDate = y.Element("due_back_date").Value
                     }).ToList(),
                 Fines = singleUser.Descendants("fines").Elements().Select(x =>
                     new Fine
@@ -78,7 +79,7 @@ namespace Main.Servies
                         ISBN = y.Element("isbn").Value,
                         Title = y.Element("title").Value,
                         BookCost = y.Element("book_cost").Value,
-                        CheckedOutDate = y.Element("checked_out_by").Value,
+                        CheckedOutDate = y.Element("checked_out_date").Value,
                         DueBackDate = y.Element("due_back_date").Value
                     }).ToList(),
                 Fines = x.Descendants("fines").Elements().Select(y =>
