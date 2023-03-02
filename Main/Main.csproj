@@ -206,6 +206,8 @@
         <None Include="App.config" />
     </ItemGroup>
     <ItemGroup>
+        <Resource Include="bin\Debug\BookDetails.xml" />
+        <Resource Include="bin\Debug\UserDetails.xml" />
         <Resource Include="REFS.txt" />
     </ItemGroup>
     <ItemGroup>
@@ -218,6 +220,7 @@
         <Resource Include="XML\UserDetails.xml" />
     </ItemGroup>
     <ItemGroup>
+      <Content Include="bin\Debug\LogDetails.xml" />
       <Content Include="XML\LogDetails.xml" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

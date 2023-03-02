@@ -30,7 +30,7 @@
 
         <StackPanel Grid.Row="2">
             <Label Content="Email" />
-            <TextBox Height="23" Width="200" TextWrapping="Wrap" Text="{Binding Email}" />
+            <TextBox Height="23" Width="200" TextWrapping="Wrap" Text="{Binding Id}" />
 
             <Label Content="Password" />
             <PasswordBox Height="23" Width="200" PasswordChanged="PasswordBox_PasswordChanged" />

@@ -11,7 +11,7 @@ namespace Main.Servies
 {
     public class AccountService
     {
-        private readonly string _xmlUserFilePath = "D:\\Solutions\\LibrarySystem\\Main\\XML\\UserDetails.xml";
+        private readonly string _xmlUserFilePath = "UserDetails.xml";
 
         private readonly AccountStore _accountStore;
         private LogService _logService => new LogService();
@@ -24,12 +24,13 @@ namespace Main.Servies
             _userDoc = XDocument.Load(_xmlUserFilePath);
         }
 
-        public User GetUser(string librarycardnumber, string email)
+        public User GetUser(string librarycardnumber, string id)
         {
+            
             //gets a collection of all librarycardnumber numbers ,or emails if that is the login method, and then pulls the one one we are passing though, returning null if there are no matches. 
-            var singleUser = librarycardnumber != null
-                ? _userDoc.Descendants("librarycardnumber").SingleOrDefault(x => x.Value == librarycardnumber)?.Parent
-                : _userDoc.Descendants("email").SingleOrDefault(x => x.Value == email)?.Parent;
+            XElement singleUser = librarycardnumber != null
+                ? _userDoc.Root.Elements("user").SingleOrDefault(x => x.Value == librarycardnumber)
+                : _userDoc.Root.Elements("user").SingleOrDefault(x => x.Element("email").Value == id || x.Element("library_card_number").Value == id);
 
             //if the user dose not exist return null.
             if (singleUser == null)
@@ -42,7 +43,7 @@ namespace Main.Servies
                 Email = singleUser.Element("email")?.Value,
                 PhoneNumber = singleUser.Element("phone_number")?.Value,
                 AccountType = (AccountType)int.Parse(singleUser.Element("account_type").Value),
-                Books = singleUser.Descendants("books_checked_out").Elements().Select(y =>
+                Books = singleUser.Element("books_checked_out").Elements().Select(y =>
                     new Book
                     {
                         ISBN = y.Element("isbn").Value,
@@ -73,7 +74,7 @@ namespace Main.Servies
                 Email = x.Element("email")?.Value,
                 PhoneNumber = x.Element("phone_number")?.Value,
                 AccountType = (AccountType)int.Parse(x.Element("account_type").Value),
-                Books = x.Descendants("books_checked_out").Elements().Select(y =>
+                Books = x.Element("books_checked_out").Elements().Select(y =>
                     new Book
                     {
                         ISBN = y.Element("isbn").Value,
@@ -82,7 +83,7 @@ namespace Main.Servies
                         CheckedOutDate = y.Element("checked_out_date").Value,
                         DueBackDate = y.Element("due_back_date").Value
                     }).ToList(),
-                Fines = x.Descendants("fines").Elements().Select(y =>
+                Fines = x.Element("fines").Elements().Select(y =>
                     new Fine
                     {
                         FineAmount = double.Parse(y.Element("fine_amount").Value),
@@ -104,11 +105,9 @@ namespace Main.Servies
                     new XElement("name", user.Name),
                     new XElement("email", user.Email),
                     new XElement("phone_number", user.PhoneNumber),
-                    new XElement("account_type", user.AccountType.ToString()),
-                    new XElement("books_checked_out",
-                        new XElement("book")),
-                    new XElement("fines",
-                        new XElement("fine"))
+                    new XElement("account_type", user.AccountType.GetHashCode()),
+                    new XElement("books_checked_out"),
+                    new XElement("fines")
                 ));
 
             _userDoc.Save(_xmlUserFilePath);

@@ -26,7 +26,7 @@ namespace Main.Commands
             
             _accountService.AddUser(new User
             {
-                LibraryCardNumber = Guid.NewGuid().ToString(),
+                LibraryCardNumber = Guid.NewGuid().ToString().Remove(8),
                 Name = $"{_viewModel.FirstName} {_viewModel.LastName}",
                 PhoneNumber = _viewModel.PhoneNumber,
                 Email = _viewModel.Email,

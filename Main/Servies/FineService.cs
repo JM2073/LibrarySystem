@@ -8,7 +8,7 @@ namespace Main.Servies
 {
     public class FineService
     {
-        private readonly string _xmlUserFilePath = "D:\\Solutions\\LibrarySystem\\Main\\XML\\UserDetails.xml";
+        private readonly string _xmlUserFilePath = "UserDetails.xml";
 
         public void AddFine()
         {

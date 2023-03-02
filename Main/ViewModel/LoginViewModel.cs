@@ -18,7 +18,7 @@ namespace Main.ViewModel
         public ICommand NavigateRegisterCommand { get; }
         public ICommand LoginCommand { get; }
 
-        public string Email { get; set; }
+        public string Id { get; set; }
         public string Password { private get; set; }
     }
 }

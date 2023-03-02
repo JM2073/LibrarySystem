@@ -7,9 +7,9 @@ namespace Main.Servies
 {
     public class LogService
     {
-        private readonly string _xmlBookFilePath = "D:\\Solutions\\LibrarySystem\\Main\\XML\\BookDetails.xml";
-        private readonly string _xmlUserFilePath = "D:\\Solutions\\LibrarySystem\\Main\\XML\\UserDetails.xml";
-        private readonly string _xmlLogFilePath = "D:\\Solutions\\LibrarySystem\\Main\\XML\\LogDetails.xml";
+        private readonly string _xmlBookFilePath = "BookDetails.xml";
+        private readonly string _xmlUserFilePath = "UserDetails.xml";
+        private readonly string _xmlLogFilePath =  "LogDetails.xml";
 
         public XDocument _logDoc;
 

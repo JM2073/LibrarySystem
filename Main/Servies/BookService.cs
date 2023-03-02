@@ -12,8 +12,8 @@ namespace Main
 {
     public class BookService
     {
-        private readonly string _xmlBookFilePath = "D:\\Solutions\\LibrarySystem\\Main\\XML\\BookDetails.xml";
-        private readonly string _xmlUserFilePath = "D:\\Solutions\\LibrarySystem\\Main\\XML\\UserDetails.xml";
+        private readonly string _xmlBookFilePath = "BookDetails.xml";
+        private readonly string _xmlUserFilePath = "UserDetails.xml";
 
         private readonly AccountStore _accountStore;
         private XDocument _bookDoc;
@@ -173,7 +173,7 @@ namespace Main
             libraryCardNumber = libraryCardNumber ?? _accountStore.CurrentUser.LibraryCardNumber;
 
             var singleBook = _bookDoc.Descendants("book")
-                .Where(x => x.Element("Checked_Out_By").Value == libraryCardNumber)
+                .Where(x => x.Element("checked_out_by").Value == libraryCardNumber)
                 .SingleOrDefault(x => x.Element("isbn").Value == ISBN);
 
             var dueBackDate = Convert.ToDateTime(singleBook.Element("Due_Back_Date").Value).AddDays(7).ToString();

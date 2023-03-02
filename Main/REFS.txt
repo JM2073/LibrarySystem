@@ -2,3 +2,5 @@
 while trying to re-learn MVVM
 
 SingletonSean, 2021. Switching Views - WPF MVVM NAVIGATION TUTORIAL #1. YouTube. Available at: <https://www.youtube.com/watch?v=N26C_Cq-gAY> [Accessed 19 February 2023].
+
+https://stackoverflow.com/a/38734316
