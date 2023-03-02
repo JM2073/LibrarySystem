@@ -1,4 +1,5 @@
-﻿using Main.Stores;
+﻿using Main.Servies;
+using Main.Stores;
 
 namespace Main.ViewModel
 {
@@ -10,6 +11,7 @@ namespace Main.ViewModel
         {
             _accountStore = accountStore;
             _accountStore.CurrentAccountChanged += OnCurrentAccountChanged;
+
         }
 
         private BookService _bookService => new BookService(_accountStore);

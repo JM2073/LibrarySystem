@@ -18,9 +18,9 @@
                     <GridViewColumn Width="auto" Header="Author" DisplayMemberBinding="{Binding Author}" />
                     <GridViewColumn Width="auto" Header="Title" DisplayMemberBinding="{Binding Title}" />
                     <GridViewColumn Width="auto" Header="Genre" DisplayMemberBinding="{Binding Genre}" />
-                    <GridViewColumn Width="auto" Header="Price" DisplayMemberBinding="{Binding Price}" />
-                    <GridViewColumn Width="auto" Header="Publication Date" DisplayMemberBinding="{Binding PublicationDate}" />
-                    <GridViewColumn Width="auto" Header="Summary" DisplayMemberBinding="{Binding Summary}" />
+                    <GridViewColumn Width="auto" Header="Book Cost" DisplayMemberBinding="{Binding BookCost}" />
+                    <GridViewColumn Width="auto" Header="Publish Date" DisplayMemberBinding="{Binding PublishDate}" />
+                    <GridViewColumn Width="auto" Header="Summary" DisplayMemberBinding="{Binding Description}" />
                     <GridViewColumn Width="auto" Header="Availability Count" DisplayMemberBinding="{Binding AvailabilityCount}"/>
                 </GridView>
             </ListView.View>

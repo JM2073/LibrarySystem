@@ -1,4 +1,6 @@
-﻿using Main.Servies;
+﻿using System;
+using Main.Models;
+using Main.Servies;
 using Main.Stores;
 using Main.ViewModel;
 
@@ -21,19 +23,18 @@ namespace Main.Commands
 
         public override void Execute(object parameter)
         {
-            _accountService.AddUser($"{_viewModel.FirstName} {_viewModel.LastName}", _viewModel.Email,
-                _viewModel.PhoneNumber);
+            
+            _accountService.AddUser(new User
+            {
+                LibraryCardNumber = Guid.NewGuid().ToString(),
+                Name = $"{_viewModel.FirstName} {_viewModel.LastName}",
+                PhoneNumber = _viewModel.PhoneNumber,
+                Email = _viewModel.Email,
+                AccountType = AccountType.Member
+            });
 
             //TODO work in validation.
-            // if (sucess)
-            // {
-            //     MessageBox.Show("registration Successful\nplease login with your details");
-            //     _navigationService.Navigate();
-            // }
-            // else
-            // {
-            //     MessageBox.Show("There seems to be an issue.\nPlease try again.");
-            // }
+
             _navigationService.Navigate();
         }
     }

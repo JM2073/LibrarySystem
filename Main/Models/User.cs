@@ -9,6 +9,16 @@ namespace Main.Models
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public int NumberOfBooksCheckedOut => Books.Count;
+        public AccountType AccountType { get; set; }
         public List<Book> Books { get; set; }
+        public List<Fine> Fines { get; set; }
+        
     }
+    public enum AccountType
+    {
+        Librarian,
+        Member
+        
+    }
+    
 }

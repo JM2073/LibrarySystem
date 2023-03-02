@@ -5,47 +5,71 @@
     <name>John Smith</name>
     <email>johnsmith@email.com</email>
     <phone_number>555-555-5555</phone_number>
+    <account_type>1</account_type>
     <books_checked_out>
       <book id="bk102">
-        <isbn></isbn>
+        <isbn>2</isbn>
         <title>Midnight Rain</title>
+        <book_cost>35</book_cost>
         <checked_out_by></checked_out_by>
-        <due_back_date></due_back_date>
+        <due_back_date>01/03/2023</due_back_date>
       </book>
       <book id="bk104">
-        <isbn></isbn>
-        <title>sunset bulvard</title>
-        <due_back_date></due_back_date>
+        <isbn>1</isbn>
+        <title>Midnight Rain</title>
+        <book_cost>50</book_cost>
         <checked_out_by></checked_out_by>
+        <due_back_date>01/05/2023</due_back_date>
       </book>
     </books_checked_out>
+    <fines>
+      <fine>
+        <fine_amount>21</fine_amount>
+        <reason>Book Late Back</reason>
+        <pay_by_date>08/03/2023</pay_by_date>
+        <isbn>2</isbn>
+      </fine>
+    </fines>
   </user>
   <user>
     <library_card_number>dcaece6e-566f-4148-88c1-3e9aad88ec86</library_card_number>
     <name>Jane Doe</name>
     <email>janedoe@email.com</email>
     <phone_number>555-555-5556</phone_number>
+    <account_type>1</account_type>
     <books_checked_out>
       <book id="bk101">
-        <isbn></isbn>
+        <isbn>2</isbn>
         <title>Midnight Rain</title>
+        <book_cost>20</book_cost>
         <checked_out_by></checked_out_by>
-        <due_back_date></due_back_date>
+        <due_back_date>01/04/2023</due_back_date>
       </book>
     </books_checked_out>
+    <fines></fines>
   </user>
   <user>
     <library_card_number>01d49c54-1326-447b-a820-52cd3c53c9ff</library_card_number>
     <name>Johnathon Millard</name>
     <email>jm</email>
     <phone_number>555-555-5556</phone_number>
+    <account_type>0</account_type>
     <books_checked_out>
       <book id="bk101">
-        <isbn>4</isbn>
-        <title>Midnight Raina</title>
+        <isbn>2</isbn>
+        <title>Midnight Rain</title>
+        <book_cost>45</book_cost>
         <checked_out_by></checked_out_by>
-        <due_back_date></due_back_date>
+        <due_back_date>01/02/2023</due_back_date>
       </book>
     </books_checked_out>
+    <fines>
+      <fine>
+        <fine_amount>6.75</fine_amount>
+        <reason>Book Late Back</reason>
+        <pay_by_date>08/03/2023</pay_by_date>
+        <isbn>2</isbn>
+      </fine>
+    </fines>
   </user>
 </users>

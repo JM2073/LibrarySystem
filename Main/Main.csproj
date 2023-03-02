@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -44,38 +44,38 @@
         <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=7.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
             <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.7.0.0\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
         </Reference>
-        <Reference Include="System"/>
-        <Reference Include="System.Data"/>
+        <Reference Include="System" />
+        <Reference Include="System.Data" />
         <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
             <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
         </Reference>
         <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
             <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
         </Reference>
-        <Reference Include="System.Xml"/>
-        <Reference Include="Microsoft.CSharp"/>
-        <Reference Include="System.Core"/>
-        <Reference Include="System.Xml.Linq"/>
-        <Reference Include="System.Data.DataSetExtensions"/>
-        <Reference Include="System.Net.Http"/>
+        <Reference Include="System.Xml" />
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Xml.Linq" />
+        <Reference Include="System.Data.DataSetExtensions" />
+        <Reference Include="System.Net.Http" />
         <Reference Include="System.Xaml">
             <RequiredTargetFramework>4.0</RequiredTargetFramework>
         </Reference>
-        <Reference Include="WindowsBase"/>
-        <Reference Include="PresentationCore"/>
-        <Reference Include="PresentationFramework"/>
+        <Reference Include="WindowsBase" />
+        <Reference Include="PresentationCore" />
+        <Reference Include="PresentationFramework" />
     </ItemGroup>
     <ItemGroup>
         <ApplicationDefinition Include="App.xaml">
             <Generator>MSBuild:Compile</Generator>
             <SubType>Designer</SubType>
         </ApplicationDefinition>
-        <Compile Include="Commands\CommandBace.cs"/>
-        <Compile Include="Commands\LoginCommand.cs"/>
-        <Compile Include="Commands\LogoutCommand.cs"/>
-        <Compile Include="Commands\NavigateCommand.cs"/>
-        <Compile Include="Commands\RegisterCommand.cs"/>
-        <Compile Include="Commands\SearchCommand.cs"/>
+        <Compile Include="Commands\CommandBace.cs" />
+        <Compile Include="Commands\LoginCommand.cs" />
+        <Compile Include="Commands\LogoutCommand.cs" />
+        <Compile Include="Commands\NavigateCommand.cs" />
+        <Compile Include="Commands\RegisterCommand.cs" />
+        <Compile Include="Commands\SearchCommand.cs" />
         <Compile Include="Components\Layout.xaml.cs">
             <DependentUpon>Layout.xaml</DependentUpon>
         </Compile>
@@ -85,26 +85,31 @@
         <Compile Include="Components\SearchBar.xaml.cs">
             <DependentUpon>SearchBar.xaml</DependentUpon>
         </Compile>
-        <Compile Include="Models\Book.cs"/>
-        <Compile Include="Models\User.cs"/>
-        <Compile Include="Servies\AccountService.cs"/>
-        <Compile Include="Servies\INavigationService.cs"/>
-        <Compile Include="Servies\LayoutNavigationService.cs"/>
-        <Compile Include="Servies\NavigationService.cs"/>
-        <Compile Include="Stores\NavigationStore.cs"/>
-        <Compile Include="Stores\AccountStore.cs"/>
-        <Compile Include="Stores\SearchStore.cs"/>
-        <Compile Include="ViewModel\AccountViewModel.cs"/>
-        <Compile Include="ViewModel\BaceViewModel.cs"/>
-        <Compile Include="ViewModel\CheckInBookViewModel.cs"/>
-        <Compile Include="ViewModel\CheckOutBookViewModel.cs"/>
-        <Compile Include="ViewModel\LayoutViewModel.cs"/>
-        <Compile Include="ViewModel\LoginViewModel.cs"/>
-        <Compile Include="ViewModel\MainViewModel.cs"/>
-        <Compile Include="ViewModel\NavigationBarViewModel.cs"/>
-        <Compile Include="ViewModel\RegisterViewModel.cs"/>
-        <Compile Include="ViewModel\SearchBarViewModel.cs"/>
-        <Compile Include="ViewModel\SearchViewModel.cs"/>
+        <Compile Include="Models\Book.cs" />
+        <Compile Include="Models\Fine.cs" />
+        <Compile Include="Models\Log.cs" />
+        <Compile Include="Models\User.cs" />
+        <Compile Include="Servies\AccountService.cs" />
+        <Compile Include="Servies\FineService.cs" />
+        <Compile Include="Servies\INavigationService.cs" />
+        <Compile Include="Servies\LayoutNavigationService.cs" />
+        <Compile Include="Servies\LogService.cs" />
+        <Compile Include="Servies\NavigationService.cs" />
+        <Compile Include="Servies\ReportService.cs" />
+        <Compile Include="Stores\NavigationStore.cs" />
+        <Compile Include="Stores\AccountStore.cs" />
+        <Compile Include="Stores\SearchStore.cs" />
+        <Compile Include="ViewModel\AccountViewModel.cs" />
+        <Compile Include="ViewModel\BaceViewModel.cs" />
+        <Compile Include="ViewModel\CheckInBookViewModel.cs" />
+        <Compile Include="ViewModel\CheckOutBookViewModel.cs" />
+        <Compile Include="ViewModel\LayoutViewModel.cs" />
+        <Compile Include="ViewModel\LoginViewModel.cs" />
+        <Compile Include="ViewModel\MainViewModel.cs" />
+        <Compile Include="ViewModel\NavigationBarViewModel.cs" />
+        <Compile Include="ViewModel\RegisterViewModel.cs" />
+        <Compile Include="ViewModel\SearchBarViewModel.cs" />
+        <Compile Include="ViewModel\SearchViewModel.cs" />
         <Compile Include="Views\AccountView.xaml.cs">
             <DependentUpon>AccountView.xaml</DependentUpon>
         </Compile>
@@ -143,7 +148,7 @@
             <DependentUpon>App.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Include="Servies\BookService.cs"/>
+        <Compile Include="Servies\BookService.cs" />
         <Compile Include="MainWindow.xaml.cs">
             <DependentUpon>MainWindow.xaml</DependentUpon>
             <SubType>Code</SubType>
@@ -191,26 +196,29 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Resources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-        <None Include="packages.config"/>
+        <None Include="packages.config" />
         <None Include="Properties\Settings.settings">
             <Generator>SettingsSingleFileGenerator</Generator>
             <LastGenOutput>Settings.Designer.cs</LastGenOutput>
         </None>
     </ItemGroup>
     <ItemGroup>
-        <None Include="App.config"/>
+        <None Include="App.config" />
     </ItemGroup>
     <ItemGroup>
-        <Resource Include="REFS.txt"/>
+        <Resource Include="REFS.txt" />
     </ItemGroup>
     <ItemGroup>
-        <Resource Include="NOTES.txt"/>
+        <Resource Include="NOTES.txt" />
     </ItemGroup>
     <ItemGroup>
-        <Resource Include="XML\BookDetails.xml"/>
+        <Resource Include="XML\BookDetails.xml" />
     </ItemGroup>
     <ItemGroup>
-        <Resource Include="XML\UserDetails.xml"/>
+        <Resource Include="XML\UserDetails.xml" />
     </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    <ItemGroup>
+      <Content Include="XML\LogDetails.xml" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -22,8 +22,8 @@ namespace Main
             services.AddSingleton(s => CreateLoginNavigationService(s));
 
             services.AddTransient(s => CreateNavigationBarViewModel(s));
-            services.AddTransient(s =>
-                new SearchBarViewModel(s.GetRequiredService<SearchStore>(), CreateSearchNavigationService(s)));
+            services.AddTransient(s => new SearchBarViewModel(s.GetRequiredService<SearchStore>(), 
+                CreateSearchNavigationService(s)));
             services.AddTransient(s => new LoginViewModel(s.GetRequiredService<AccountStore>(),
                 CreateAccountNavigationService(s), CreateRegisterNavigationService(s)));
             services.AddTransient(s => new RegisterViewModel(CreateLoginNavigationService(s),s.GetRequiredService<AccountStore>()));
@@ -48,6 +48,9 @@ namespace Main
             var initialNavigationService = _serviceProvider.GetRequiredService<INavigationService>();
             initialNavigationService.Navigate();
 
+            var fineService = new FineService();
+
+            fineService.CheckFines();
 
             MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
 
