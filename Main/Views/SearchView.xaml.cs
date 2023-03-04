@@ -3,6 +3,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using Main.Models;
 using Main.ViewModel;
 
 namespace Main.Views
@@ -19,8 +20,8 @@ namespace Main.Views
 
         private void ChangeText(object sender, RoutedEventArgs e)
         {
-            SearchViewModel model = (sender as Button).DataContext as SearchViewModel;
-            model.DynamicText = (new Random().Next(0, 100).ToString());
+            var _vm = (SearchViewModel)this.DataContext;
+            // _vm.CheckOutBook(((sender as Button).DataContext as Book).ISBN);
         }
     }
 }

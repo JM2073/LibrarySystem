@@ -6,3 +6,5 @@ SingletonSean, 2021. Switching Views - WPF MVVM NAVIGATION TUTORIAL #1. YouTube.
 https://stackoverflow.com/a/38734316
 
 https://stackoverflow.com/questions/3046003/adding-a-button-to-a-wpf-datagrid   "02/03/2023 17:02:40"
+
+Kumar, P. (2013) WPF ICommand in MVVM, www.c-sharpcorner.com. Available at: https://www.c-sharpcorner.com/UploadFile/e06010/wpf-icommand-in-mvvm/ (Accessed: 3 March 2023).

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
+using Main.Commands;
 using Main.Models;
 using Main.Stores;
 
@@ -14,6 +16,9 @@ namespace Main.ViewModel
         private BookService _bookService => new BookService(_accountStore);
         private readonly ObservableCollection<Book> _books;
         public IEnumerable<Book> Books => _books;
+        
+        public ICommand CheckOutBookCommand { get; }
+        
         public string SearchResultCountString { get; set; }
         public SearchViewModel(SearchStore searchStore, AccountStore accountStore)
         {
@@ -24,6 +29,8 @@ namespace Main.ViewModel
             
             SearchResultCountString = $"SHOWING '{_books.Count}' RESULTS ";
             SearchResultCountString += searchStore.SearchString != null ? $"FILTERING RESULT BY '{searchStore.SearchString}'" : string.Empty ;
+
+            CheckOutBookCommand = new CheckOutBookCommand(_accountStore);
         }
         
         protected String _dynamicText;
@@ -45,6 +52,5 @@ namespace Main.ViewModel
                 temp(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-      
     }
 }

@@ -13,9 +13,10 @@
 
         <Label Grid.Row="0" Content="{Binding SearchResultCountString}" />
         
-        <ListView Grid.Row="1" Margin="0 20 0 0 " ItemsSource="{Binding Books}">
+        <ListView x:Name="lstSerchBooks" Grid.Row="1" Margin="0 20 0 0 " ItemsSource="{Binding Books}">
             <ListView.View>
                 <GridView>
+                    <GridViewColumn Width="auto" Header="ISBN" DisplayMemberBinding="{Binding ISBN}" />
                     <GridViewColumn Width="auto" Header="Author" DisplayMemberBinding="{Binding Author}" />
                     <GridViewColumn Width="auto" Header="Title" DisplayMemberBinding="{Binding Title}" />
                     <GridViewColumn Width="auto" Header="Genre" DisplayMemberBinding="{Binding Genre}" />
@@ -26,7 +27,7 @@
                     <GridViewColumn Width="auto" Header="Check Out">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Click="ChangeText" Content="Something"/>
+                                <Button Command="{Binding Path=CheckOutBookCommand}" CommandParameter="{Binding ElementName=lstSerchBooks, Path=SelectedItem.ISBN}" Content="Something"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

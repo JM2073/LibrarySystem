@@ -70,6 +70,7 @@
             <Generator>MSBuild:Compile</Generator>
             <SubType>Designer</SubType>
         </ApplicationDefinition>
+        <Compile Include="Commands\CheckOutBookCommand.cs" />
         <Compile Include="Commands\CommandBace.cs" />
         <Compile Include="Commands\LoginCommand.cs" />
         <Compile Include="Commands\LogoutCommand.cs" />
