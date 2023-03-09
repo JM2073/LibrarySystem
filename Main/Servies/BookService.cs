@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
@@ -36,14 +37,14 @@ namespace Main
         {
             _bookDoc.Element("catalog").Add(
                 new XElement("book",
+                    new XElement("isbn", newBook.ISBN),
                     new XElement("title", newBook.Title),
                     new XElement("author", newBook.Author),
                     new XElement("genre", newBook.Genre),
-                    new XElement("book_cost", newBook.BookCost),
                     new XElement("publish_date", newBook.PublishDate),
-                    new XElement("description", newBook.Description),
-                    new XElement("isbn", newBook.ISBN),
-                    new XElement("publisher", newBook.Publisher)));
+                    new XElement("publisher", newBook.Publisher),
+                    new XElement("book_cost", newBook.BookCost),
+                    new XElement("description", newBook.Description)));
 
             _bookDoc.Save(_xmlBookFilePath);
 
@@ -84,7 +85,7 @@ namespace Main
 
         public void DeleteBook(string ISBN)
         {
-            var bookCollection = _bookDoc.Descendants("book").Where(x => x.Element("Checked_Out_By").Value == null)
+            var bookCollection = _bookDoc.Descendants("book").Where(x => x.Element("checked_out_by").Value == null)
                 .Where(x => x.Element("isbn").Value == ISBN).ToList();
 
             foreach (var singleBook in bookCollection)
@@ -114,16 +115,17 @@ namespace Main
         public void CheckOutBook(string ISBN)
         {
             var singleBook = _bookDoc.Descendants("book")
-                .Where(x => x.Element("Checked_Out_Date").Value == string.Empty)
+                .Where(x => x.Element("checked_out_date").Value == string.Empty)
                 .FirstOrDefault(x => x.Element("isbn").Value == ISBN);
+            
             //changes the value of checked out by 
-            singleBook.Element("Checked_Out_By").Value = _accountStore.CurrentUser.LibraryCardNumber;
+            singleBook.Element("checked_out_by").Value = _accountStore.CurrentUser.LibraryCardNumber;
 
             //changes the value of checked out date 
-            singleBook.Element("Checked_Out_Date").Value = DateTime.Now.ToString();
+            singleBook.Element("checked_out_date").Value = DateTime.Now.ToString();
 
             //changes the value of due back date, TODO find out how long the default lenght a book can be out for.
-            singleBook.Element("Due_Back_Date").Value = DateTime.Now.AddDays(14).ToString();
+            singleBook.Element("due_back_date").Value = DateTime.Now.AddDays(14).ToString();
 
             var userDoc = XDocument.Load(_xmlUserFilePath);
 
@@ -133,13 +135,14 @@ namespace Main
                 .Add(new XElement("book",
                     new XElement("isbn", singleBook.Element("isbn").Value),
                     new XElement("title", singleBook.Element("title").Value),
-                    new XElement("checked_out_by", singleBook.Element("checked_out_by").Value),
+                    new XElement("book_cost", singleBook.Element("book_cost").Value),
+                    new XElement("checked_out_date", singleBook.Element("checked_out_date").Value),
                     new XElement("due_back_date", singleBook.Element("due_back_date").Value)));
 
             userDoc.Save(_xmlUserFilePath);
 
             singleBook.Document.Save(_xmlBookFilePath);
-
+            
             _logService.BookLog(ISBN, _accountStore.CurrentUser.LibraryCardNumber,
                 $"book checked out by {_accountStore.CurrentUser.Name}", "check_out_logs");
         }
@@ -150,12 +153,12 @@ namespace Main
 
             //changes the value of checked out by 
             var singleBook = _bookDoc.Descendants("book")
-                .Where(x => x.Element("Checked_Out_By").Value == libraryCardNumber)
+                .Where(x => x.Element("checked_out_by").Value == libraryCardNumber)
                 .SingleOrDefault(x => x.Element("isbn").Value == ISBN);
 
-            singleBook.Element("Checked_Out_Date").Value = null;
-            singleBook.Element("Due_Back_Date").Value = null;
-            singleBook.Element("Checked_Out_By").Value = null;
+            singleBook.Element("checked_out_date").Value = null;
+            singleBook.Element("due_back_date").Value = null;
+            singleBook.Element("checked_out_by").Value = null;
 
             singleBook.Document.Save(_xmlBookFilePath);
 
@@ -176,10 +179,10 @@ namespace Main
                 .Where(x => x.Element("checked_out_by").Value == libraryCardNumber)
                 .SingleOrDefault(x => x.Element("isbn").Value == ISBN);
 
-            var dueBackDate = Convert.ToDateTime(singleBook.Element("Due_Back_Date").Value).AddDays(7).ToString();
+            var dueBackDate = Convert.ToDateTime(singleBook.Element("due_back_date").Value).AddDays(7).ToString();
 
             //TODO check how long a book is renewed for.
-            singleBook.Element("Due_Back_Date").Value = dueBackDate;
+            singleBook.Element("due_back_date").Value = dueBackDate;
 
             singleBook.Document.Save(_xmlBookFilePath);
 
@@ -206,8 +209,8 @@ namespace Main
                 Description = x.Element("description").Value,
                 Genre = x.Element("genre").Value,
                 BookCost = x.Element("book_cost").Value,
-                CheckedOutDate = x.Element("Checked_Out_Date").Value,
-                DueBackDate = x.Element("Due_Back_Date").Value
+                CheckedOutDate = x.Element("checked_out_date").Value,
+                DueBackDate = x.Element("due_back_date").Value
             }).ToList();
 
             foreach (var book in books)

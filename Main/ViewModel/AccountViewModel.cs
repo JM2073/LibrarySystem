@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Main.Models;
 using Main.Servies;
 using Main.Stores;
@@ -23,9 +24,9 @@ namespace Main.ViewModel
         {
             _accountStore = accountStore;
             _accountStore.CurrentAccountChanged += OnCurrentAccountChanged;
-            _checkedOutBooks = new ObservableCollection<Book>(_accountStore.CurrentUser.Books);
-            _dueBackBooks = new ObservableCollection<Book>(_accountStore.CurrentUser.Books);
-            _outstandingFees = new ObservableCollection<Fine>(_accountStore.CurrentUser.Fines);
+            _checkedOutBooks = _accountStore.CurrentUser.Books;
+            _dueBackBooks = _accountStore.CurrentUser.Books;
+            _outstandingFees = _accountStore.CurrentUser.Fines;
         }
 
         private BookService _bookService => new BookService(_accountStore);

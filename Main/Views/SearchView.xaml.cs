@@ -18,10 +18,10 @@ namespace Main.Views
             InitializeComponent();
         }
 
-        private void ChangeText(object sender, RoutedEventArgs e)
+        private void CheckOutBook(object sender, RoutedEventArgs e)
         {
             var _vm = (SearchViewModel)this.DataContext;
-            // _vm.CheckOutBook(((sender as Button).DataContext as Book).ISBN);
+            _vm.CheckOutBook(((sender as Button).DataContext as Book).ISBN);
         }
     }
 }

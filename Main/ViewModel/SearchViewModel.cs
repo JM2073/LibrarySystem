@@ -16,9 +16,6 @@ namespace Main.ViewModel
         private BookService _bookService => new BookService(_accountStore);
         private readonly ObservableCollection<Book> _books;
         public IEnumerable<Book> Books => _books;
-        
-        public ICommand CheckOutBookCommand { get; }
-        
         public string SearchResultCountString { get; set; }
         public SearchViewModel(SearchStore searchStore, AccountStore accountStore)
         {
@@ -29,28 +26,11 @@ namespace Main.ViewModel
             
             SearchResultCountString = $"SHOWING '{_books.Count}' RESULTS ";
             SearchResultCountString += searchStore.SearchString != null ? $"FILTERING RESULT BY '{searchStore.SearchString}'" : string.Empty ;
-
-            CheckOutBookCommand = new CheckOutBookCommand(_accountStore);
-        }
-        
-        protected String _dynamicText;
-        public String DynamicText
-        {
-            get { return _dynamicText; }
-            set { _dynamicText = value;
-                RaisePropertyChanged("DynamicText");
-                MessageBox.Show("Some Crap");
-            }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void RaisePropertyChanged(String propertyName)
+        public void CheckOutBook(string isbn)
         {
-            PropertyChangedEventHandler temp = PropertyChanged;
-            if (temp != null)
-            {
-                temp(this, new PropertyChangedEventArgs(propertyName));
-            }
+            _bookService.CheckOutBook(isbn);
         }
     }
 }

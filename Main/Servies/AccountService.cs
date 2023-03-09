@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Shapes;
@@ -36,62 +37,16 @@ namespace Main.Servies
             if (singleUser == null)
                 return null;
 
-            _accountStore.CurrentUser = new User
-            {
-                LibraryCardNumber = singleUser.Element("library_card_number")?.Value,
-                Name = singleUser.Element("name")?.Value,
-                Email = singleUser.Element("email")?.Value,
-                PhoneNumber = singleUser.Element("phone_number")?.Value,
-                AccountType = (AccountType)int.Parse(singleUser.Element("account_type").Value),
-                Books = singleUser.Element("books_checked_out").Elements().Select(y =>
-                    new Book
-                    {
-                        ISBN = y.Element("isbn").Value,
-                        Title = y.Element("title").Value,
-                        BookCost = y.Element("book_cost").Value,
-                        CheckedOutDate = y.Element("checked_out_date").Value,
-                        DueBackDate = y.Element("due_back_date").Value
-                    }).ToList(),
-                Fines = singleUser.Descendants("fines").Elements().Select(x =>
-                    new Fine
-                    {
-                        FineAmount = double.Parse(x.Element("fine_amount").Value),
-                        Reason = x.Element("reason").Value,
-                        PayByDate = DateTime.Parse(x.Element("pay_by_date").Value),
-                        ISBN = x.Element("isbn").Value
-                    }).ToList()
-            };
+            _accountStore.CurrentUser = BuildUserFromXml(singleUser);
 
             return _accountStore.CurrentUser;
         }
 
+        
+
         public List<User> GetAllUsers()
         {
-            var users = _userDoc.Descendants("user").Select(x => new User
-            {
-                LibraryCardNumber = x.Element("library_card_number")?.Value,
-                Name = x.Element("name")?.Value,
-                Email = x.Element("email")?.Value,
-                PhoneNumber = x.Element("phone_number")?.Value,
-                AccountType = (AccountType)int.Parse(x.Element("account_type").Value),
-                Books = x.Element("books_checked_out").Elements().Select(y =>
-                    new Book
-                    {
-                        ISBN = y.Element("isbn").Value,
-                        Title = y.Element("title").Value,
-                        BookCost = y.Element("book_cost").Value,
-                        CheckedOutDate = y.Element("checked_out_date").Value,
-                        DueBackDate = y.Element("due_back_date").Value
-                    }).ToList(),
-                Fines = x.Element("fines").Elements().Select(y =>
-                    new Fine
-                    {
-                        FineAmount = double.Parse(y.Element("fine_amount").Value),
-                        Reason = y.Element("reason").Value,
-                        PayByDate = DateTime.Parse(y.Element("pay_by_date").Value),
-                        ISBN = y.Element("isbn").Value
-                    }).ToList()
-            }).ToList();
+            var users = _userDoc.Descendants("user").Select(BuildUserFromXml).ToList();
 
             return users;
         }
@@ -141,6 +96,35 @@ namespace Main.Servies
 
             _logService.AccountLog(string.Empty, libraryCardNumber, "Changing account details.\nAccount Deleted",
                 "edit_account_logs");
+        }
+        
+        private User BuildUserFromXml(XElement singleUser)
+        {
+            return new User
+            {
+                LibraryCardNumber = singleUser.Element("library_card_number")?.Value,
+                Name = singleUser.Element("name")?.Value,
+                Email = singleUser.Element("email")?.Value,
+                PhoneNumber = singleUser.Element("phone_number")?.Value,
+                AccountType = (AccountType)int.Parse(singleUser.Element("account_type").Value),
+                Books = new ObservableCollection<Book>(singleUser.Element("books_checked_out").Elements().Select(y =>
+                    new Book
+                    {
+                        ISBN = y.Element("isbn").Value,
+                        Title = y.Element("title").Value,
+                        BookCost = y.Element("book_cost").Value,
+                        CheckedOutDate = y.Element("checked_out_date").Value,
+                        DueBackDate = y.Element("due_back_date").Value
+                    }).ToList()),
+                Fines = new ObservableCollection<Fine>(singleUser.Descendants("fines").Elements().Select(x =>
+                    new Fine
+                    {
+                        FineAmount = double.Parse(x.Element("fine_amount").Value),
+                        Reason = x.Element("reason").Value,
+                        PayByDate = DateTime.Parse(x.Element("pay_by_date").Value),
+                        ISBN = x.Element("isbn").Value
+                    }).ToList())
+            };
         }
     }
 }
