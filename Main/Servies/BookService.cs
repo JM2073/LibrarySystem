@@ -122,10 +122,10 @@ namespace Main
             singleBook.Element("checked_out_by").Value = _accountStore.CurrentUser.LibraryCardNumber;
 
             //changes the value of checked out date 
-            singleBook.Element("checked_out_date").Value = DateTime.Now.ToString();
+            singleBook.Element("checked_out_date").Value = DateTime.Now.ToShortDateString();
 
             //changes the value of due back date, TODO find out how long the default lenght a book can be out for.
-            singleBook.Element("due_back_date").Value = DateTime.Now.AddDays(14).ToString();
+            singleBook.Element("due_back_date").Value = DateTime.Now.AddDays(21).ToShortDateString();
 
             var userDoc = XDocument.Load(_xmlUserFilePath);
 
@@ -179,7 +179,7 @@ namespace Main
                 .Where(x => x.Element("checked_out_by").Value == libraryCardNumber)
                 .SingleOrDefault(x => x.Element("isbn").Value == ISBN);
 
-            var dueBackDate = Convert.ToDateTime(singleBook.Element("due_back_date").Value).AddDays(7).ToString();
+            var dueBackDate = Convert.ToDateTime(singleBook.Element("due_back_date").Value).AddDays(7).ToShortDateString();
 
             //TODO check how long a book is renewed for.
             singleBook.Element("due_back_date").Value = dueBackDate;

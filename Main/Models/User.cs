@@ -11,10 +11,7 @@ namespace Main.Models
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public int NumberOfBooksCheckedOut => Books.Count;
         public AccountType AccountType { get; set; }
-        public ObservableCollection<Book> Books { get; set; }
-        public ObservableCollection<Fine> Fines { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         

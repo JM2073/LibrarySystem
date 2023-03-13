@@ -25,6 +25,7 @@
                         <GridView>
                             <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" />
                             <GridViewColumn Header="Date Checked Out" DisplayMemberBinding="{Binding CheckedOutDate}" />
+                            <GridViewColumn Header="Date Due Back" DisplayMemberBinding="{Binding DueBackDate}" />
                         </GridView>
                     </ListView.View>
                 </ListView>
