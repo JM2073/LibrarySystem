@@ -89,13 +89,6 @@ namespace Main.ViewModel
             OnPropertyChange(nameof(Email));
         }
 
-        public override void Dispose()
-        {
-            _accountStore.CurrentAccountChanged -= OnCurrentAccountChanged;
-
-            base.Dispose();
-        }
-
         public void CheckInBook(string isbn)
         {
             _bookService.CheckInBook(isbn, _accountStore.CurrentUser.LibraryCardNumber);
@@ -107,6 +100,20 @@ namespace Main.ViewModel
         {
             _fineService.PayFine(isbn, _accountStore.CurrentUser.LibraryCardNumber);
             ReplaceOutstandingFeesCollection();
+        }
+
+        public void RenewBook(string isbn)
+        {
+            _bookService.RenewBook(isbn,_accountStore.CurrentUser.LibraryCardNumber);
+            ReplaceCheckedOutBooksCollection();
+            ReplaceDueBackBooksCollection();
+        }
+        
+        public override void Dispose()
+        {
+            _accountStore.CurrentAccountChanged -= OnCurrentAccountChanged;
+      
+            base.Dispose();
         }
     }
 }

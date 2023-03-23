@@ -51,8 +51,11 @@ namespace Main
             var fineService = new FineService(new AccountStore());
             fineService.CheckFines();
 
-            // var logService = new LogService();
-            // logService.InitialLogs();
+            if (MessageBox.Show("GENERATE INITIAL LOGS?", "TEST", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                 var logService = new LogService();
+                 logService.InitialLogs();
+            }
             
             MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
 

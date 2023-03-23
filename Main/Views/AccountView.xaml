@@ -57,6 +57,13 @@
                                         <Button Click="CheckInBook" Content="Check Back In"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
+                            </GridViewColumn>          
+                            <GridViewColumn Width="auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="RenewBook" Content="Renew Book"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                         </GridView>
                     </ListView.View>

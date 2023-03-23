@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Main.Stores;
 using Main.ViewModel;
 
@@ -20,8 +21,17 @@ namespace Main.Commands
         
         public override void Execute(object parameter)
         {
-            bool success = _bookService.CheckOutBook(_vm.BookIsbn);
-            MessageBox.Show(success ? "Book successfully Checked Out" : "book not found, please try again.");
+            bool success = false;
+            try
+            {
+                success = _bookService.CheckOutBook(_vm.BookIsbn);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            if(success)
+            MessageBox.Show("Book successfully Checked Out");
         }
     }
 }

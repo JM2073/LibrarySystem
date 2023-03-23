@@ -50,7 +50,18 @@ namespace Main.ViewModel
 
         public void CheckOutBook(string isbn)
         {
-            MessageBox.Show(_bookService.CheckOutBook(isbn) ? "book checked out" : "these has been an error, please try again.");
+            bool success = false;
+            try
+            {
+                success = _bookService.CheckOutBook(isbn);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            
+            if(success) 
+                MessageBox.Show( "book checked out");
             
             var booksCollection = _searchStore.SearchString != null
                 ? _bookService.SearchBooks(_searchStore.SearchString)

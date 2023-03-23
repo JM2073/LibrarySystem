@@ -27,5 +27,11 @@ namespace Main.Views
             var _vm = (AccountViewModel)this.DataContext;
             _vm.PayFine(((sender as Button).DataContext as Fine).ISBN);
         }
+
+        private void RenewBook(object sender, RoutedEventArgs e)
+        {
+            var _vm = (AccountViewModel)this.DataContext;
+            _vm.RenewBook(((sender as Button).DataContext as Book).ISBN);
+        }
     }
 }
