@@ -2,22 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Main.Stores;
 
 namespace Main.Servies
 {
     public class LogService
     {
-        private readonly string _xmlBookFilePath = "BookDetails.xml";
-        private readonly string _xmlUserFilePath = "UserDetails.xml";
         private readonly string _xmlLogFilePath =  "LogDetails.xml";
-
         public XDocument _logDoc;
 
         public LogService()
         {
             _logDoc = XDocument.Load(_xmlLogFilePath);
         }
-
 
         public void BookLog(string isbn, string libraryCardNumber, string LogDescription, string logPath)
         {
@@ -30,7 +27,7 @@ namespace Main.Servies
         public void AccountLog(string isbn, string libraryCardNumber, string LogDescription, string logPath)
         {
             var logDocPath = _logDoc.Descendants("account_log")
-                .SingleOrDefault(x => x.Element("library_card_numbe").Value == libraryCardNumber)
+                .SingleOrDefault(x => x.Element("library_card_number").Value == libraryCardNumber)
                 .Element(logPath);
 
             AddLog(isbn, libraryCardNumber, LogDescription, logDocPath);
@@ -57,11 +54,12 @@ namespace Main.Servies
                     new XElement("name", name),
                     new XElement("fines_logs"),
                     new XElement("edit_account_logs",
-                        new XElement("date", DateTime.Now),
-                        new XElement("isbn"),
-                        new XElement("library_card_number", libraryCardNumber),
-                        new XElement("description",
-                            $"new account added to the system with the name '{name}' and the library card number '{libraryCardNumber}'"))));
+                        new XElement("log",
+                            new XElement("date", DateTime.Now.ToString()),
+                            new XElement("isbn"),
+                            new XElement("library_card_number", libraryCardNumber),
+                            new XElement("description",
+                                $"new account added to the system with the name '{name}' and the library card number '{libraryCardNumber}'")))));
 
             _logDoc.Save(_xmlLogFilePath);
         }
@@ -76,11 +74,12 @@ namespace Main.Servies
                     new XElement("check_in_logs"),
                     new XElement("renew_book_logs"),
                     new XElement("edit_book_logs",
-                        new XElement("date", DateTime.Now),
-                        new XElement("isbn", isbn),
-                        new XElement("library_card_number"),
-                        new XElement("description",
-                            $"new book added to the system with the title '{title}' and the isbn {isbn}"))));
+                        new XElement("log",
+                            new XElement("date", DateTime.Now.ToString()),
+                            new XElement("isbn", isbn),
+                            new XElement("library_card_number"),
+                            new XElement("description",
+                              $"new book added to the system with the title '{title}' and the isbn {isbn}")))));
 
             _logDoc.Save(_xmlLogFilePath);
         }
@@ -89,12 +88,31 @@ namespace Main.Servies
         {
             logPath.Add(
                 new XElement("log",
-                    new XElement("date", DateTime.Now.ToShortDateString()),
+                    new XElement("date", DateTime.Now.ToString()),
                     new XElement("isbn", isbn),
                     new XElement("library_card_number", libraryCardNumber),
                     new XElement("description", logDescription)));
 
             logPath.Document.Save(_xmlLogFilePath);
+        }
+
+        public void InitialLogs()
+        {
+            var us = new AccountService(new AccountStore());
+            var users= us.GetAllUsers();
+
+            foreach (var user in users)
+            {
+                InitialAccountLog(user.LibraryCardNumber,user.Name);
+            }
+
+            var bs = new BookService(new AccountStore());
+            var books = bs.GetAllBooks();
+
+            foreach (var book in books)
+            {
+                InitialBookLog(book.ISBN,book.Title);
+            }
         }
     }
 }

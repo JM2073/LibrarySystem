@@ -10,11 +10,14 @@ namespace Main.ViewModel
         private readonly AccountStore _accountStore;
 
         public NavigationBarViewModel(AccountStore accountStore, INavigationService loginNavigationService,
-            INavigationService accountNavigationService)
+            INavigationService accountNavigationService, INavigationService checkOutBooksNavigationService, 
+            INavigationService checkInBooksNavigationService)
         {
             _accountStore = accountStore;
 
             NavigateAccountCommand = new NavigateCommand(accountNavigationService);
+            NavigateCheckOutBookCommand = new NavigateCommand(checkOutBooksNavigationService);
+            NavigateCheckInBookCommand = new NavigateCommand(checkInBooksNavigationService);
             LogoutCommand = new LogoutCommand(_accountStore, loginNavigationService);
 
             _accountStore.CurrentAccountChanged += OnCurrentAccountCHanged;

@@ -14,27 +14,68 @@ namespace Main.ViewModel
         private readonly AccountStore _accountStore;
 
         private AccountService _AccountService => new AccountService(_accountStore);
+        private FineService _fineService => new FineService(_accountStore);
         
         #region Collections
 
-        private readonly ObservableCollection<Book> _checkedOutBooks;
-        public IEnumerable<Book> CheckedOutBooks => _checkedOutBooks;  
-        
-        private readonly ObservableCollection<Book> _dueBackBooks;
-        public IEnumerable<Book> DueBackBooks => _dueBackBooks;        
-        
-        private readonly ObservableCollection<Fine> _outstandingFees;
-        public IEnumerable<Fine> OutstandingFees => _outstandingFees;
+        // private readonly ObservableCollection<Book> _checkedOutBooks;
+        // public IEnumerable<Book> CheckedOutBooks => _checkedOutBooks;  
+        // private readonly ObservableCollection<Book> _dueBackBooks;
+        // public IEnumerable<Book> DueBackBooks => _dueBackBooks;        
+        // private readonly ObservableCollection<Fine> _outstandingFees;
+        // public IEnumerable<Fine> OutstandingFees => _outstandingFees;
 
+        private ObservableCollection<Book> _checkedOutBooks;
+        public ObservableCollection<Book> CheckedOutBooks
+        {
+            get { return _checkedOutBooks; }
+            set
+            {
+                _checkedOutBooks = value;
+                OnPropertyChange(nameof(CheckedOutBooks));
+            }
+        }
+        private ObservableCollection<Book>  _dueBackBooks;
+        public ObservableCollection<Book> DueBackBooks
+        {
+            get { return  _dueBackBooks; }
+            set
+            {
+                _dueBackBooks = value;
+                OnPropertyChange(nameof(DueBackBooks));
+            }
+        }
+        private ObservableCollection<Fine>  _outstandingFees;
+        public ObservableCollection<Fine> OutstandingFees
+        {
+            get { return  _outstandingFees; }
+            set
+            {
+                _outstandingFees = value;
+                OnPropertyChange(nameof(OutstandingFees));
+            }
+        }
+        public void ReplaceCheckedOutBooksCollection()
+        {
+            CheckedOutBooks = _AccountService.GetCheckedOutBooks(_accountStore.CurrentUser.LibraryCardNumber);
+        }       
+        public void ReplaceDueBackBooksCollection()
+        {
+            DueBackBooks = _AccountService.GetDueBackBooks(_accountStore.CurrentUser.LibraryCardNumber);
+        }
+        public void ReplaceOutstandingFeesCollection()
+        {
+            OutstandingFees = _AccountService.GetFines(_accountStore.CurrentUser.LibraryCardNumber);
+        }
         #endregion
         public AccountViewModel(AccountStore accountStore)
         {
             _accountStore = accountStore;
             _accountStore.CurrentAccountChanged += OnCurrentAccountChanged;
-
-            _checkedOutBooks = _AccountService.GetCheckedOutBooks();
-            _dueBackBooks = _AccountService.GetDueBackBooks();
-            _outstandingFees = _AccountService.GetFines();
+            
+            ReplaceCheckedOutBooksCollection();
+            ReplaceDueBackBooksCollection();
+            ReplaceOutstandingFeesCollection();
         }
 
         private BookService _bookService => new BookService(_accountStore);
@@ -53,6 +94,19 @@ namespace Main.ViewModel
             _accountStore.CurrentAccountChanged -= OnCurrentAccountChanged;
 
             base.Dispose();
+        }
+
+        public void CheckInBook(string isbn)
+        {
+            _bookService.CheckInBook(isbn, _accountStore.CurrentUser.LibraryCardNumber);
+            ReplaceCheckedOutBooksCollection();
+            ReplaceDueBackBooksCollection();
+        }
+
+        public void PayFine(string isbn)
+        {
+            _fineService.PayFine(isbn, _accountStore.CurrentUser.LibraryCardNumber);
+            ReplaceOutstandingFeesCollection();
         }
     }
 }

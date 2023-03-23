@@ -18,12 +18,14 @@ namespace Main
 
         private readonly AccountStore _accountStore;
         private XDocument _bookDoc;
+        private XDocument _userDoc;
         private LogService _logService => new LogService();
 
         public BookService(AccountStore accountStore)
         {
             _accountStore = accountStore;
             _bookDoc = XDocument.Load(_xmlBookFilePath);
+            _userDoc = XDocument.Load(_xmlUserFilePath);
         }
 
         public ObservableCollection<Book> GetAllBooks()
@@ -69,9 +71,8 @@ namespace Main
                 singleBook.Document.Save(_xmlBookFilePath);
             }
 
-            var userDoc = XDocument.Load(_xmlUserFilePath);
             var userBookCollection =
-                userDoc.Descendants("book").Where(x => x.Element("isbn").Value == book.ISBN).ToList();
+                _userDoc.Descendants("book").Where(x => x.Element("isbn").Value == book.ISBN).ToList();
 
             foreach (var singleBook in userBookCollection)
             {
@@ -112,12 +113,15 @@ namespace Main
             return new ObservableCollection<Book>(books);
         }
 
-        public void CheckOutBook(string ISBN)
+        public bool CheckOutBook(string ISBN)
         {
             var singleBook = _bookDoc.Descendants("book")
                 .Where(x => x.Element("checked_out_date").Value == string.Empty)
                 .FirstOrDefault(x => x.Element("isbn").Value == ISBN);
             
+            if (singleBook == null)
+                return false;
+
             //changes the value of checked out by 
             singleBook.Element("checked_out_by").Value = _accountStore.CurrentUser.LibraryCardNumber;
 
@@ -127,9 +131,7 @@ namespace Main
             //changes the value of due back date, TODO find out how long the default lenght a book can be out for.
             singleBook.Element("due_back_date").Value = DateTime.Now.AddDays(21).ToShortDateString();
 
-            var userDoc = XDocument.Load(_xmlUserFilePath);
-
-            userDoc.Descendants("user")
+            _userDoc.Descendants("user")
                 .SingleOrDefault(x => x.Element("email").Value == _accountStore.CurrentUser.Email)
                 .Element("books_checked_out")
                 .Add(new XElement("book",
@@ -139,36 +141,51 @@ namespace Main
                     new XElement("checked_out_date", singleBook.Element("checked_out_date").Value),
                     new XElement("due_back_date", singleBook.Element("due_back_date").Value)));
 
-            userDoc.Save(_xmlUserFilePath);
+            _userDoc.Save(_xmlUserFilePath);
 
             singleBook.Document.Save(_xmlBookFilePath);
-            
+
             _logService.BookLog(ISBN, _accountStore.CurrentUser.LibraryCardNumber,
                 $"book checked out by {_accountStore.CurrentUser.Name}", "check_out_logs");
+
+            return true;
         }
 
-        public void ReturnBook(string ISBN, string libraryCardNumber)
+        public bool CheckInBook(string ISBN, string libraryCardNumber)
         {
             libraryCardNumber = libraryCardNumber ?? _accountStore.CurrentUser.LibraryCardNumber;
 
-            //changes the value of checked out by 
+            var singleUser = _userDoc.Descendants("user").SingleOrDefault(x => x.Element("library_card_number").Value == libraryCardNumber);
+            
+            //get the book trying to be checked in 
             var singleBook = _bookDoc.Descendants("book")
                 .Where(x => x.Element("checked_out_by").Value == libraryCardNumber)
                 .SingleOrDefault(x => x.Element("isbn").Value == ISBN);
 
-            singleBook.Element("checked_out_date").Value = null;
-            singleBook.Element("due_back_date").Value = null;
-            singleBook.Element("checked_out_by").Value = null;
+            
+            //if the book dose not exist then return false
+            if (singleBook == null)
+                return false;
+
+            if()
+            
+            
+            //wipe the data for it being checked out.
+            singleBook.Element("checked_out_date").Value = string.Empty;
+            singleBook.Element("due_back_date").Value = string.Empty;
+            singleBook.Element("checked_out_by").Value = string.Empty;
 
             singleBook.Document.Save(_xmlBookFilePath);
 
-            var userDoc = XDocument.Load(_xmlUserFilePath);
-            userDoc.Descendants("user").SingleOrDefault(x => x.Element("email").Value == libraryCardNumber)
-                .Element("books_checked_out").Elements("book").Where(x => x.Element("isbn").Value == ISBN).Remove();
-            userDoc.Save(_xmlUserFilePath);
+            //clean up user data so that its not in there checked out list.
+            singleUser.Element("books_checked_out").Elements("book").Where(x => x.Element("isbn").Value == ISBN).Remove();
+            _userDoc.Save(_xmlUserFilePath);
 
             _logService.BookLog(ISBN, libraryCardNumber, $"book checked back in by {_accountStore.CurrentUser.Name}",
                 "check_in_logs");
+            
+            //the book was successfully checked in, return true
+            return true;
         }
 
         public void RenewBook(string ISBN, string libraryCardNumber)
@@ -179,19 +196,19 @@ namespace Main
                 .Where(x => x.Element("checked_out_by").Value == libraryCardNumber)
                 .SingleOrDefault(x => x.Element("isbn").Value == ISBN);
 
-            var dueBackDate = Convert.ToDateTime(singleBook.Element("due_back_date").Value).AddDays(7).ToShortDateString();
+            var dueBackDate = Convert.ToDateTime(singleBook.Element("due_back_date").Value).AddDays(7)
+                .ToShortDateString();
 
             //TODO check how long a book is renewed for.
             singleBook.Element("due_back_date").Value = dueBackDate;
 
             singleBook.Document.Save(_xmlBookFilePath);
 
-            var userDoc = XDocument.Load(_xmlUserFilePath);
-            userDoc.Descendants("user").SingleOrDefault(x => x.Element("email").Value == libraryCardNumber)
+            _userDoc.Descendants("user").SingleOrDefault(x => x.Element("email").Value == libraryCardNumber)
                 .Element("books_checked_out").Elements("book").Single(x => x.Element("isbn").Value == ISBN)
                 .Element("due_back_date").Value = dueBackDate;
 
-            userDoc.Save(_xmlUserFilePath);
+            _userDoc.Save(_xmlUserFilePath);
 
             _logService.BookLog(ISBN, libraryCardNumber, $"book checkout renewed by {_accountStore.CurrentUser.Name}",
                 "renew_book_logs");

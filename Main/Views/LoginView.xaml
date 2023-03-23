@@ -17,7 +17,18 @@
             <Setter Property="HorizontalContentAlignment" Value="Center" />
         </Style>
     </UserControl.Resources>
-    <Grid>
+    <Grid Background="Bisque">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+    <Grid Margin="1" Grid.Row="1" Grid.Column="1" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
@@ -29,17 +40,16 @@
         <Label Grid.Row="1" FontSize="25" Content="Login" />
 
         <StackPanel Grid.Row="2">
-            <Label Content="Email" />
-            <TextBox Height="23" Width="200" TextWrapping="Wrap" Text="{Binding Id}" />
-
-            <Label Content="Password" />
-            <PasswordBox Height="23" Width="200" PasswordChanged="PasswordBox_PasswordChanged" />
-
+            <Label Content="Email / Library Card Number" />
+            <TextBox Height="23" Width="250" TextWrapping="Wrap" Text="{Binding Id}" />
         </StackPanel>
         <StackPanel Grid.Row="3">
-            <Button Content="Login" Margin="0 20 0 10" Command="{Binding LoginCommand}" />
-            <Button Content="Register" Margin="0 10 0 20 " Command="{Binding NavigateRegisterCommand}" />
+            <Button Content="Login" Margin="5" Command="{Binding LoginCommand}" />
+            <Button Content="Register" Margin="5" Command="{Binding NavigateRegisterCommand}" />
         </StackPanel>
 
+     
     </Grid>
+    </Grid>
+
 </UserControl>

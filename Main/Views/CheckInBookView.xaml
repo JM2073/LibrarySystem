@@ -5,5 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              d:DesignHeight="1080" d:DesignWidth="1920">
-    <Grid />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <Label> Please scan your book inorder to check it in.</Label>
+            <TextBox ToolTip="Please type in your books barcode or scan your book with the scanner" Text="{Binding BookIsbn}"></TextBox>
+            <Button Content="Check In" Command="{Binding CheckInCommand}"></Button>
+        </StackPanel>
+    </Grid>
 </UserControl>

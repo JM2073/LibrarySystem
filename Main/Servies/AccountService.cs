@@ -91,9 +91,9 @@ namespace Main.Servies
                 "edit_account_logs");
         }
 
-        public ObservableCollection<Book> GetCheckedOutBooks()
+        public ObservableCollection<Book> GetCheckedOutBooks(string libraryCardNumber)
         {
-            var user = GetXmlUser(_accountStore.CurrentUser.LibraryCardNumber);
+            var user = GetXmlUser(libraryCardNumber);
 
             return new ObservableCollection<Book>(user.Descendants("book").Select(x => new Book
             {
@@ -104,9 +104,9 @@ namespace Main.Servies
             }));
             
         }
-        public ObservableCollection<Book> GetDueBackBooks()
+        public ObservableCollection<Book> GetDueBackBooks(string libraryCardNumber)
         {
-            var user = GetXmlUser(_accountStore.CurrentUser.LibraryCardNumber);
+            var user = GetXmlUser(libraryCardNumber);
 
             return new ObservableCollection<Book>(user.Descendants("book").Where(x=> DateTime.Parse(x.Element("due_back_date").Value).Date <= DateTime.Now.AddDays(7).Date).Select(x => new Book
             {
@@ -118,10 +118,13 @@ namespace Main.Servies
             
         }
 
-        public ObservableCollection<Fine> GetFines()
+        public ObservableCollection<Fine> GetFines(string libraryCardNumber)
         {
-            var user = GetXmlUser(_accountStore.CurrentUser.LibraryCardNumber);
+            var user = GetXmlUser(libraryCardNumber);
 
+            if (!user.Descendants("fine").Elements().Any())
+                return new ObservableCollection<Fine>();
+            
             return new ObservableCollection<Fine>(user.Descendants("fine").Select(x => new Fine
             {
                 FineAmount = double.Parse(x.Element("fine_amount")?.Value ?? "0"),

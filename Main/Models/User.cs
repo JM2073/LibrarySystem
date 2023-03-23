@@ -7,11 +7,67 @@ namespace Main.Models
 {
     public class User : INotifyPropertyChanged
     {
-        public string LibraryCardNumber { get; set; }
-        public string Name { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
-        public AccountType AccountType { get; set; }
+        private string _libraryCardNumber;
+        private string _name;
+        private string _phoneNumber;
+        private string _email;
+        private AccountType _accountType;
+
+        public string LibraryCardNumber
+        {
+            get => _libraryCardNumber;
+            set
+            {
+                if (value == _libraryCardNumber) return;
+                _libraryCardNumber = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (value == _name) return;
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string PhoneNumber
+        {
+            get => _phoneNumber;
+            set
+            {
+                if (value == _phoneNumber) return;
+                _phoneNumber = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Email
+        {
+            get => _email;
+            set
+            {
+                if (value == _email) return;
+                _email = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public AccountType AccountType
+        {
+            get => _accountType;
+            set
+            {
+                if (value == _accountType) return;
+                _accountType = value;
+                OnPropertyChanged();
+            }
+        }
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
         

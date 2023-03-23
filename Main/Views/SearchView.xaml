@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:vm="clr-namespace:Main.Commands"  
              mc:Ignorable="d"
              d:DesignHeight="1080" d:DesignWidth="1920">
     <Grid>
@@ -17,7 +16,7 @@
         <ListView x:Name="lstSerchBooks" Grid.Row="1" Margin="0 20 0 0 " ItemsSource="{Binding Books}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="auto" Header="ISBN" DisplayMemberBinding="{Binding ISBN}" />
+                    <GridViewColumn Width="0" Header="" DisplayMemberBinding="{Binding ISBN}" />
                     <GridViewColumn Width="auto" Header="Author" DisplayMemberBinding="{Binding Author}" />
                     <GridViewColumn Width="auto" Header="Title" DisplayMemberBinding="{Binding Title}" />
                     <GridViewColumn Width="auto" Header="Genre" DisplayMemberBinding="{Binding Genre}" />

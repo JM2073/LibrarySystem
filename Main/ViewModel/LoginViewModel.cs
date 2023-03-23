@@ -19,6 +19,5 @@ namespace Main.ViewModel
         public ICommand LoginCommand { get; }
 
         public string Id { get; set; }
-        public string Password { private get; set; }
     }
 }
