@@ -7,12 +7,9 @@ namespace Main.ViewModel
 {
     public class RegisterViewModel : BaceViewModel
     {
-        private readonly AccountStore _accountStore;
-
         public RegisterViewModel(INavigationService loginNavigationService, AccountStore accountStore)
         {
-            _accountStore = accountStore;
-            RegisterCommand = new RegisterCommand(this, _accountStore, loginNavigationService);
+            RegisterCommand = new RegisterCommand(this, accountStore, loginNavigationService);
         }
 
         public ICommand RegisterCommand { get; }

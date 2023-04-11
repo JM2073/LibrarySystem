@@ -19,12 +19,12 @@ namespace Main.Commands
             _navigationService = navigationService;
         }
 
-        private AccountService _accountService => new AccountService(_accountStore);
+        private AccountService AccountService => new AccountService(_accountStore);
 
         public override void Execute(object parameter)
         {
             
-            _accountService.AddUser(new User
+            AccountService.AddUser(new User
             {
                 LibraryCardNumber = Guid.NewGuid().ToString().Remove(8),
                 Name = $"{_viewModel.FirstName} {_viewModel.LastName}",

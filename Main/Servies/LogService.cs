@@ -9,28 +9,28 @@ namespace Main.Servies
     public class LogService
     {
         private readonly string _xmlLogFilePath =  "LogDetails.xml";
-        public XDocument _logDoc;
+        private readonly XDocument _logDoc;
 
         public LogService()
         {
             _logDoc = XDocument.Load(_xmlLogFilePath);
         }
 
-        public void BookLog(string isbn, string libraryCardNumber, string LogDescription, string logPath)
+        public void BookLog(string isbn, string libraryCardNumber, string logDescription, string logPath)
         {
             var logDocPath = _logDoc.Descendants("book_log").SingleOrDefault(x => x.Element("isbn").Value == isbn)
                 .Element(logPath);
 
-            AddLog(isbn, libraryCardNumber, LogDescription, logDocPath);
+            AddLog(isbn, libraryCardNumber, logDescription, logDocPath);
         }
 
-        public void AccountLog(string isbn, string libraryCardNumber, string LogDescription, string logPath)
+        public void AccountLog(string isbn, string libraryCardNumber, string logDescription, string logPath)
         {
             var logDocPath = _logDoc.Descendants("account_log")
                 .SingleOrDefault(x => x.Element("library_card_number").Value == libraryCardNumber)
                 .Element(logPath);
 
-            AddLog(isbn, libraryCardNumber, LogDescription, logDocPath);
+            AddLog(isbn, libraryCardNumber, logDescription, logDocPath);
         }
 
 
@@ -111,7 +111,7 @@ namespace Main.Servies
 
             foreach (var book in books)
             {
-                InitialBookLog(book.ISBN,book.Title);
+                InitialBookLog(book.Isbn,book.Title);
             }
         }
     }

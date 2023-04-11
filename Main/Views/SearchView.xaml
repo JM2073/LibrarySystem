@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Main.Models"
              mc:Ignorable="d"
              d:DesignHeight="1080" d:DesignWidth="1920">
     <Grid>
@@ -13,17 +14,23 @@
 
         <Label Grid.Row="0" Content="{Binding SearchResultCountString}" />
         
-        <ListView x:Name="lstSerchBooks" Grid.Row="1" Margin="0 20 0 0 " ItemsSource="{Binding Books}">
+        <ListView Grid.Row="1" Margin="0 20 0 0 " ItemsSource="{Binding Books}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="0" Header="" DisplayMemberBinding="{Binding ISBN}" />
-                    <GridViewColumn Width="auto" Header="Author" DisplayMemberBinding="{Binding Author}" />
-                    <GridViewColumn Width="auto" Header="Title" DisplayMemberBinding="{Binding Title}" />
-                    <GridViewColumn Width="auto" Header="Genre" DisplayMemberBinding="{Binding Genre}" />
-                    <GridViewColumn Width="auto" Header="Book Cost" DisplayMemberBinding="{Binding BookCost}" />
-                    <GridViewColumn Width="auto" Header="Publish Date" DisplayMemberBinding="{Binding PublishDate}" />
-                    <GridViewColumn Width="auto" Header="Summary" DisplayMemberBinding="{Binding Description}" />
-                    <GridViewColumn Width="auto" Header="Availability Count" DisplayMemberBinding="{Binding AvailabilityCount}"/>
+                    <GridViewColumn Width="0" Header="" DisplayMemberBinding="{Binding  Path=(local:Book.Isbn)}"/>
+                    <GridViewColumn Width="auto" Header="Author" DisplayMemberBinding="{Binding  Path=(local:Book.Author)}" />
+                    <GridViewColumn Width="auto" Header="Title" DisplayMemberBinding="{Binding  Path=(local:Book.Title)}" />
+                    <GridViewColumn Width="auto" Header="Genre" DisplayMemberBinding="{Binding  Path=(local:Book.Genre)}" />
+                    <GridViewColumn Width="auto" Header="Book Cost" DisplayMemberBinding="{Binding  Path=(local:Book.BookCost)}" />
+                    <GridViewColumn Width="auto" Header="Publish Date" DisplayMemberBinding="{Binding  Path=(local:Book.PublishDate)}" />
+                    <GridViewColumn Width="800" Header="Summary">
+                       <GridViewColumn.CellTemplate>
+                         <DataTemplate>
+                                <TextBlock Width="auto" Height="auto" Text="{Binding Path=(local:Book.Description)}" TextWrapping="Wrap"/>
+                         </DataTemplate>
+                      </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="auto" Header="Availability Count" DisplayMemberBinding="{Binding  Path=(local:Book.AvailabilityCount)}"/>
                     <GridViewColumn Width="auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>

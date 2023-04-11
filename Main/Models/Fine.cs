@@ -7,6 +7,6 @@ namespace Main.Models
         public double FineAmount { get; set; }
         public string Reason { get; set; }
         public DateTime PayByDate { get; set; }
-        public string ISBN { get; set; }
+        public string Isbn { get; set; }
     }
 }

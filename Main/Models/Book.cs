@@ -42,7 +42,7 @@ namespace Main.Models
             }
         }
 
-        public string ISBN
+        public string Isbn
         {
             get => _isbn;
             set
@@ -166,7 +166,7 @@ namespace Main.Models
             if (ReferenceEquals(this, book)) return true;
 
             //Check whether the products' properties are equal.
-            return ISBN.Equals(book.ISBN) && Title.Equals(book.Title);
+            return Isbn.Equals(book.Isbn) && Title.Equals(book.Title);
         }
 
         // If Equals() returns true for a pair of objects
@@ -175,13 +175,13 @@ namespace Main.Models
         public override int GetHashCode()
         {
             //Get hash code for the Name field if it is not null.
-            int hashBookISBN = ISBN == null ? 0 : ISBN.GetHashCode();
+            int hashBookIsbn = Isbn == null ? 0 : Isbn.GetHashCode();
 
             //Get hash code for the Code field.
             int hashBookTitle = Title == null ? 0 : Title.GetHashCode();
 
             //Calculate the hash code for the product.
-            return hashBookISBN ^ hashBookTitle;
+            return hashBookIsbn ^ hashBookTitle;
         }
 
         #endregion

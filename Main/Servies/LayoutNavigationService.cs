@@ -7,7 +7,7 @@ namespace Main.Servies
     public class LayoutNavigationService<TViewModel> : INavigationService where TViewModel : BaceViewModel
     {
         private readonly Func<NavigationBarViewModel> _createNavigationBarViewModel;
-        private readonly Func<SearchBarViewModel> _CreateSearchBarViewModel;
+        private readonly Func<SearchBarViewModel> _createSearchBarViewModel;
         private readonly Func<TViewModel> _createViewModel;
         private readonly NavigationStore _navigationStore;
 
@@ -18,13 +18,13 @@ namespace Main.Servies
             _navigationStore = navigationStore;
             _createViewModel = createViewModel;
             _createNavigationBarViewModel = createNavigationBarViewModel;
-            _CreateSearchBarViewModel = createSearchBarViewModel;
+            _createSearchBarViewModel = createSearchBarViewModel;
         }
 
         public void Navigate()
         {
             _navigationStore.CurrentViewModel = new LayoutViewModel(_createNavigationBarViewModel(),
-                _CreateSearchBarViewModel(), _createViewModel());
+                _createSearchBarViewModel(), _createViewModel());
         }
     }
 }

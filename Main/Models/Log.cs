@@ -4,9 +4,9 @@ namespace Main.Models
 {
     public class Log
     {
-        public DateTime date { get; set; }
-        public string ISBN { get; set; }
-        public string libraryCardNumber { get; set; }
+        public DateTime Date { get; set; }
+        public string Isbn { get; set; }
+        public string LibraryCardNumber { get; set; }
         public string Description { get; set; }
     }
 

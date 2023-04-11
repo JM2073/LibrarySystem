@@ -1,7 +1,4 @@
-﻿
-
-using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using Main.Models;
 using Main.ViewModel;
@@ -20,8 +17,8 @@ namespace Main.Views
 
         private void CheckOutBook(object sender, RoutedEventArgs e)
         {
-            var _vm = (SearchViewModel)this.DataContext;
-            _vm.CheckOutBook(((sender as Button).DataContext as Book).ISBN);
+            var vm = (SearchViewModel)this.DataContext;
+            vm.CheckOutBook(((sender as Button).DataContext as Book).Isbn);
         }
     }
 }

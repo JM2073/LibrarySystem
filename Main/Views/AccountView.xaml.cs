@@ -18,20 +18,20 @@ namespace Main.Views
 
         private void CheckInBook(object sender, RoutedEventArgs e)
         {
-            var _vm = (AccountViewModel)this.DataContext;
-            _vm.CheckInBook(((sender as Button).DataContext as Book).ISBN);
+            var vm = (AccountViewModel)this.DataContext;
+            vm.CheckInBook(((sender as Button).DataContext as Book).Isbn);
         }
 
         private void PayFine(object sender, RoutedEventArgs e)
         {
-            var _vm = (AccountViewModel)this.DataContext;
-            _vm.PayFine(((sender as Button).DataContext as Fine).ISBN);
+            var vm = (AccountViewModel)this.DataContext;
+            vm.PayFine(((sender as Button).DataContext as Fine).Isbn);
         }
 
         private void RenewBook(object sender, RoutedEventArgs e)
         {
-            var _vm = (AccountViewModel)this.DataContext;
-            _vm.RenewBook(((sender as Button).DataContext as Book).ISBN);
+            var vm = (AccountViewModel)this.DataContext;
+            vm.RenewBook(((sender as Button).DataContext as Book).Isbn);
         }
     }
 }

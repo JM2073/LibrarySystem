@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Windows;
-using System.Xml;
 using System.Xml.Linq;
 using Main.Models;
-using Main.Servies;
 using Main.Stores;
 
-namespace Main
+namespace Main.Servies
 {
     public class BookService
     {
@@ -18,9 +14,9 @@ namespace Main
         private readonly string _xmlUserFilePath = "UserDetails.xml";
 
         private readonly AccountStore _accountStore;
-        private XDocument _bookDoc;
-        private XDocument _userDoc;
-        private LogService _logService => new LogService();
+        private readonly XDocument _bookDoc;
+        private readonly XDocument _userDoc;
+        private static LogService LogService => new LogService();
 
         public BookService(AccountStore accountStore)
         {
@@ -40,7 +36,7 @@ namespace Main
         {
             _bookDoc.Element("catalog").Add(
                 new XElement("book",
-                    new XElement("isbn", newBook.ISBN),
+                    new XElement("isbn", newBook.Isbn),
                     new XElement("title", newBook.Title),
                     new XElement("author", newBook.Author),
                     new XElement("genre", newBook.Genre),
@@ -51,13 +47,13 @@ namespace Main
 
             _bookDoc.Save(_xmlBookFilePath);
 
-            _logService.InitialBookLog(newBook.ISBN, newBook.Title);
+            LogService.InitialBookLog(newBook.Isbn, newBook.Title);
         }
 
         public void EditBooks(Book book)
         {
             var bookBookCollection =
-                _bookDoc.Descendants("book").Where(x => x.Element("isbn").Value == book.ISBN).ToList();
+                _bookDoc.Descendants("book").Where(x => x.Element("isbn").Value == book.Isbn).ToList();
 
             foreach (var singleBook in bookBookCollection)
             {
@@ -73,7 +69,7 @@ namespace Main
             }
 
             var userBookCollection =
-                _userDoc.Descendants("book").Where(x => x.Element("isbn").Value == book.ISBN).ToList();
+                _userDoc.Descendants("book").Where(x => x.Element("isbn").Value == book.Isbn).ToList();
 
             foreach (var singleBook in userBookCollection)
             {
@@ -81,14 +77,14 @@ namespace Main
                 singleBook.Document.Save(_xmlUserFilePath);
             }
 
-            _logService.BookLog(book.ISBN, string.Empty, "Changing book details.\nEdited book details",
+            LogService.BookLog(book.Isbn, string.Empty, "Changing book details.\nEdited book details",
                 "edit_book_logs");
         }
 
-        public void DeleteBook(string ISBN)
+        public void DeleteBook(string isbn)
         {
             var bookCollection = _bookDoc.Descendants("book").Where(x => x.Element("checked_out_by").Value == null)
-                .Where(x => x.Element("isbn").Value == ISBN).ToList();
+                .Where(x => x.Element("isbn").Value == isbn).ToList();
 
             foreach (var singleBook in bookCollection)
             {
@@ -96,7 +92,7 @@ namespace Main
                 singleBook.Document.Save(_xmlBookFilePath);
             }
 
-            _logService.BookLog(ISBN, string.Empty, "Changing book details.\nEdited book details", "edit_book_logs");
+            LogService.BookLog(isbn, string.Empty, "Changing book details.\nEdited book details", "edit_book_logs");
         }
 
         public ObservableCollection<Book> SearchBooks(string searchString)
@@ -108,17 +104,17 @@ namespace Main
             books = books.Where(x =>
                 x.Author.ToLower().Contains(searchString.ToLower()) ||
                 x.Title.ToLower().Contains(searchString.ToLower()) ||
-                x.ISBN.ToLower().Contains(searchString.ToLower())).ToList();
+                x.Isbn.ToLower().Contains(searchString.ToLower())).ToList();
 
             //returns filtered down results
             return new ObservableCollection<Book>(books);
         }
 
-        public bool CheckOutBook(string ISBN)
+        public bool CheckOutBook(string isbn)
         {
             var singleBook = _bookDoc.Descendants("book")
                 .Where(x => x.Element("checked_out_date").Value == string.Empty)
-                .FirstOrDefault(x => x.Element("isbn").Value == ISBN);
+                .FirstOrDefault(x => x.Element("isbn").Value == isbn);
             
             var singleUser = _userDoc.Descendants("user")
                 .SingleOrDefault(x => x.Element("email").Value == _accountStore.CurrentUser.Email);
@@ -151,12 +147,12 @@ namespace Main
 
             singleBook.Document.Save(_xmlBookFilePath);
 
-            _logService.BookLog(ISBN, _accountStore.CurrentUser.LibraryCardNumber,
+            LogService.BookLog(isbn, _accountStore.CurrentUser.LibraryCardNumber,
                 $"book checked out by {_accountStore.CurrentUser.Name}", "check_out_logs");
             return true;
         }
 
-        public bool CheckInBook(string ISBN, string libraryCardNumber)
+        public bool CheckInBook(string isbn, string libraryCardNumber)
         {
             libraryCardNumber = libraryCardNumber ?? _accountStore.CurrentUser.LibraryCardNumber;
 
@@ -165,7 +161,7 @@ namespace Main
             //get the book trying to be checked in 
             var singleBook = _bookDoc.Descendants("book")
                 .Where(x => x.Element("checked_out_by").Value == libraryCardNumber)
-                .FirstOrDefault(x => x.Element("isbn").Value == ISBN);
+                .FirstOrDefault(x => x.Element("isbn").Value == isbn);
 
             
             //if the book dose not exist then return false
@@ -180,23 +176,23 @@ namespace Main
             singleBook.Document.Save(_xmlBookFilePath);
 
             //clean up user data so that its not in there checked out list.
-            singleUser.Element("books_checked_out").Elements("book").Where(x => x.Element("isbn").Value == ISBN).Remove();
+            singleUser.Element("books_checked_out").Elements("book").Where(x => x.Element("isbn").Value == isbn).Remove();
             _userDoc.Save(_xmlUserFilePath);
 
-            _logService.BookLog(ISBN, libraryCardNumber, $"book checked back in by {_accountStore.CurrentUser.Name}",
+            LogService.BookLog(isbn, libraryCardNumber, $"book checked back in by {_accountStore.CurrentUser.Name}",
                 "check_in_logs");
             
             //the book was successfully checked in, return true
             return true;
         }
 
-        public void RenewBook(string ISBN, string libraryCardNumber)
+        public void RenewBook(string isbn, string libraryCardNumber)
         {
             libraryCardNumber = libraryCardNumber ?? _accountStore.CurrentUser.LibraryCardNumber;
 
             var singleBook = _bookDoc.Descendants("book")
                 .Where(x => x.Element("checked_out_by").Value == libraryCardNumber)
-                .SingleOrDefault(x => x.Element("isbn").Value == ISBN);
+                .SingleOrDefault(x => x.Element("isbn").Value == isbn);
 
             var dueBackDate = Convert.ToDateTime(singleBook.Element("due_back_date").Value).AddDays(7)
                 .ToShortDateString();
@@ -207,12 +203,12 @@ namespace Main
             singleBook.Document.Save(_xmlBookFilePath);
 
             _userDoc.Descendants("user").SingleOrDefault(x => x.Element("library_card_number").Value == libraryCardNumber)
-                .Element("books_checked_out").Elements().Single(x => x.Element("isbn").Value == ISBN)
+                .Element("books_checked_out").Elements().Single(x => x.Element("isbn").Value == isbn)
                 .Element("due_back_date").Value = dueBackDate;
 
             _userDoc.Save(_xmlUserFilePath);
 
-            _logService.BookLog(ISBN, libraryCardNumber, $"book checkout renewed by {_accountStore.CurrentUser.Name}",
+            LogService.BookLog(isbn, libraryCardNumber, $"book checkout renewed by {_accountStore.CurrentUser.Name}",
                 "renew_book_logs");
         }
 
@@ -222,7 +218,7 @@ namespace Main
             {
                 Title = x.Element("title").Value,
                 Author = x.Element("author").Value,
-                ISBN = x.Element("isbn").Value,
+                Isbn = x.Element("isbn").Value,
                 Publisher = x.Element("publisher").Value,
                 PublishDate = x.Element("publish_date").Value,
                 Description = x.Element("description").Value,
@@ -233,7 +229,7 @@ namespace Main
             }).ToList();
 
             foreach (var book in books)
-                book.AvailabilityCount = books.Where(x => x.IsCheckedOut == false).Count(x => x.ISBN == book.ISBN);
+                book.AvailabilityCount = books.Where(x => x.IsCheckedOut == false).Count(x => x.Isbn == book.Isbn);
 
             return books.Distinct().ToList();
         }

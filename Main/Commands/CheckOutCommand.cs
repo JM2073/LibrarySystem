@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Main.Servies;
 using Main.Stores;
 using Main.ViewModel;
 
@@ -7,13 +8,11 @@ namespace Main.Commands
 {
     public class CheckOutCommand : CommandBace
     {
-        private readonly AccountStore _accountStore;
         private readonly CheckOutBookViewModel _vm;
 
         private readonly BookService _bookService;
         public CheckOutCommand(AccountStore accountStore ,CheckOutBookViewModel vm)
         {
-            _accountStore = accountStore;
             _vm = vm;
 
             _bookService = new BookService(accountStore);
@@ -22,6 +21,7 @@ namespace Main.Commands
         public override void Execute(object parameter)
         {
             bool success = false;
+            
             try
             {
                 success = _bookService.CheckOutBook(_vm.BookIsbn);
@@ -30,8 +30,9 @@ namespace Main.Commands
             {
                 MessageBox.Show(e.Message);
             }
+            
             if(success)
-            MessageBox.Show("Book successfully Checked Out");
+                MessageBox.Show("Book successfully Checked Out");
         }
     }
 }

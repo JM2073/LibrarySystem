@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using System.Xml.Linq;
 using Main.Models;
 using Main.Stores;
@@ -10,7 +9,6 @@ namespace Main.Servies
 {
     public class FineService
     {
-        private readonly AccountService _accountService;
         private readonly AccountStore _accountStore;
         private readonly LogService _logService;
         private readonly XDocument _userDoc;
@@ -19,23 +17,25 @@ namespace Main.Servies
         public FineService(AccountStore accountStore)
         {
             _accountStore = accountStore;
-            _accountService = new AccountService(_accountStore);
             _userDoc = XDocument.Load(_xmlUserFilePath);
             _logService = new LogService();
         }
 
         public void AddFine()
         {
+            throw new NotImplementedException();
             //TODO add addfine, that a librarian can mange
         }
 
         public void EditFine()
         {
             //TODO add EditFine, that a librarian can mange
+            throw new NotImplementedException();
         }
 
         public void DeleteFine()
         {
+            throw new NotImplementedException();
             //TODO add DeleteFine, that a librarian can mange
         }
 
@@ -51,12 +51,14 @@ namespace Main.Servies
         public List<Fine> GetAllFines()
         {
             //TODO add to return all files for all people.
+            throw new NotImplementedException();
             return new List<Fine>();
         }
 
         public List<Fine> GetUserFines()
         {
             //TODO add to return all fines for one user
+            throw new NotImplementedException();
             return new List<Fine>();
         }
 

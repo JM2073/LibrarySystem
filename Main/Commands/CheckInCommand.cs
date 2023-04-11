@@ -23,7 +23,13 @@ namespace Main.Commands
         
         public override void Execute(object parameter)
         {
-            bool FineCheckSucess = _fineService.CheckForFine(_vm.BookIsbn,_accountStore.CurrentUser.LibraryCardNumber);
+            bool fineCheck = _fineService.CheckForFine(_vm.BookIsbn,_accountStore.CurrentUser.LibraryCardNumber);
+
+            if (fineCheck)
+            {
+                MessageBox.Show("Please Pay the books Fine before checking it back in.");
+                return;
+            }
             
             bool success = _bookService.CheckInBook(_vm.BookIsbn,_accountStore.CurrentUser.LibraryCardNumber);
             MessageBox.Show(success ? "Book successfully Checked in" : "Check in Failed, please try again.");

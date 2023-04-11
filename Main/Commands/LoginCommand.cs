@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Main.Models;
 using Main.Servies;
 using Main.Stores;
 using Main.ViewModel;
@@ -19,12 +18,12 @@ namespace Main.Commands
             _navigationService = navigationService;
         }
 
-        private AccountService _accountService => new AccountService(_accountStore);
+        private AccountService AccountService => new AccountService(_accountStore);
 
         public override void Execute(object parameter)
         {
             //TODO: pass either the library card number or email to get the user.
-            _accountService.GetUser(null, _viewModel.Id);
+            AccountService.GetUser(null, _viewModel.Id);
 
             if (_accountStore.CurrentUser == null)
             {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Collections.ObjectModel;
 using Main.Models;
 using Main.Servies;
 using Main.Stores;
@@ -13,8 +9,8 @@ namespace Main.ViewModel
     {
         private readonly AccountStore _accountStore;
 
-        private AccountService _AccountService => new AccountService(_accountStore);
-        private FineService _fineService => new FineService(_accountStore);
+        private AccountService AccountService => new AccountService(_accountStore);
+        private FineService FineService => new FineService(_accountStore);
         
         #region Collections
 
@@ -57,15 +53,15 @@ namespace Main.ViewModel
         }
         public void ReplaceCheckedOutBooksCollection()
         {
-            CheckedOutBooks = _AccountService.GetCheckedOutBooks(_accountStore.CurrentUser.LibraryCardNumber);
+            CheckedOutBooks = AccountService.GetCheckedOutBooks(_accountStore.CurrentUser.LibraryCardNumber);
         }       
         public void ReplaceDueBackBooksCollection()
         {
-            DueBackBooks = _AccountService.GetDueBackBooks(_accountStore.CurrentUser.LibraryCardNumber);
+            DueBackBooks = AccountService.GetDueBackBooks(_accountStore.CurrentUser.LibraryCardNumber);
         }
         public void ReplaceOutstandingFeesCollection()
         {
-            OutstandingFees = _AccountService.GetFines(_accountStore.CurrentUser.LibraryCardNumber);
+            OutstandingFees = AccountService.GetFines(_accountStore.CurrentUser.LibraryCardNumber);
         }
         #endregion
         public AccountViewModel(AccountStore accountStore)
@@ -78,7 +74,7 @@ namespace Main.ViewModel
             ReplaceOutstandingFeesCollection();
         }
 
-        private BookService _bookService => new BookService(_accountStore);
+        private BookService BookService => new BookService(_accountStore);
 
         public string Name => _accountStore.CurrentUser?.Name;
         public string Email => _accountStore.CurrentUser?.Email;
@@ -91,20 +87,20 @@ namespace Main.ViewModel
 
         public void CheckInBook(string isbn)
         {
-            _bookService.CheckInBook(isbn, _accountStore.CurrentUser.LibraryCardNumber);
+            BookService.CheckInBook(isbn, _accountStore.CurrentUser.LibraryCardNumber);
             ReplaceCheckedOutBooksCollection();
             ReplaceDueBackBooksCollection();
         }
 
         public void PayFine(string isbn)
         {
-            _fineService.PayFine(isbn, _accountStore.CurrentUser.LibraryCardNumber);
+            FineService.PayFine(isbn, _accountStore.CurrentUser.LibraryCardNumber);
             ReplaceOutstandingFeesCollection();
         }
 
         public void RenewBook(string isbn)
         {
-            _bookService.RenewBook(isbn,_accountStore.CurrentUser.LibraryCardNumber);
+            BookService.RenewBook(isbn,_accountStore.CurrentUser.LibraryCardNumber);
             ReplaceCheckedOutBooksCollection();
             ReplaceDueBackBooksCollection();
         }

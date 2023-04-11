@@ -4,18 +4,17 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Input;
-using Main.Commands;
 using Main.Models;
+using Main.Servies;
 using Main.Stores;
 
 namespace Main.ViewModel
 {
-    public class SearchViewModel : BaceViewModel, INotifyPropertyChanged
+    public class SearchViewModel : BaceViewModel
     {
         private readonly SearchStore _searchStore;
         private readonly AccountStore _accountStore;
-        private BookService _bookService => new BookService(_accountStore);
+        private BookService BookService => new BookService(_accountStore);
 
         private ObservableCollection<Book> _books;
         public ObservableCollection<Book> Books
@@ -39,8 +38,8 @@ namespace Main.ViewModel
             _accountStore = accountStore;
 
             var booksCollection = _searchStore.SearchString != null
-                ? _bookService.SearchBooks(_searchStore.SearchString)
-                : _bookService.GetAllBooks();
+                ? BookService.SearchBooks(_searchStore.SearchString)
+                : BookService.GetAllBooks();
 
             ReplaceCollection(booksCollection);
 
@@ -53,7 +52,7 @@ namespace Main.ViewModel
             bool success = false;
             try
             {
-                success = _bookService.CheckOutBook(isbn);
+                success = BookService.CheckOutBook(isbn);
             }
             catch (Exception e)
             {
@@ -64,8 +63,8 @@ namespace Main.ViewModel
                 MessageBox.Show( "book checked out");
             
             var booksCollection = _searchStore.SearchString != null
-                ? _bookService.SearchBooks(_searchStore.SearchString)
-                : _bookService.GetAllBooks();
+                ? BookService.SearchBooks(_searchStore.SearchString)
+                : BookService.GetAllBooks();
 
             ReplaceCollection(booksCollection);
         }

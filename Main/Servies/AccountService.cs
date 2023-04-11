@@ -21,7 +21,7 @@ namespace Main.Servies
             _userDoc = XDocument.Load(_xmlUserFilePath);
         }
 
-        private LogService _logService => new LogService();
+        private LogService LogService => new LogService();
 
         public User GetUser(string librarycardnumber, string email)
         {
@@ -61,7 +61,7 @@ namespace Main.Servies
 
             _userDoc.Save(_xmlUserFilePath);
 
-            _logService.InitialAccountLog(user.LibraryCardNumber, user.Name);
+            LogService.InitialAccountLog(user.LibraryCardNumber, user.Name);
         }
 
         public void EditUser(User user)
@@ -76,7 +76,7 @@ namespace Main.Servies
             singleUser.Document.Save(_xmlUserFilePath);
 
 
-            _logService.AccountLog(string.Empty, user.LibraryCardNumber,
+            LogService.AccountLog(string.Empty, user.LibraryCardNumber,
                 "Changing account details.\nEdited Account details", "edit_account_logs");
         }
 
@@ -87,7 +87,7 @@ namespace Main.Servies
 
             _userDoc.Save(_xmlUserFilePath);
 
-            _logService.AccountLog(string.Empty, libraryCardNumber, "Changing account details.\nAccount Deleted",
+            LogService.AccountLog(string.Empty, libraryCardNumber, "Changing account details.\nAccount Deleted",
                 "edit_account_logs");
         }
 
@@ -98,7 +98,7 @@ namespace Main.Servies
             return new ObservableCollection<Book>(user.Descendants("book").Select(x => new Book
             {
                 Title = x.Element("title").Value,
-                ISBN = x.Element("isbn").Value,
+                Isbn = x.Element("isbn").Value,
                 CheckedOutDate = x.Element("checked_out_date").Value,
                 DueBackDate = x.Element("due_back_date").Value
             }));
@@ -111,7 +111,7 @@ namespace Main.Servies
             return new ObservableCollection<Book>(user.Descendants("book").Where(x=> DateTime.Parse(x.Element("due_back_date").Value).Date <= DateTime.Now.AddDays(7).Date).Select(x => new Book
             {
                 Title = x.Element("title").Value,
-                ISBN = x.Element("isbn").Value,
+                Isbn = x.Element("isbn").Value,
                 CheckedOutDate = x.Element("checked_out_date").Value,
                 DueBackDate = x.Element("due_back_date").Value
             }));
@@ -130,7 +130,7 @@ namespace Main.Servies
                 FineAmount = double.Parse(x.Element("fine_amount")?.Value ?? "0"),
                 Reason = x.Element("reason").Value,
                 PayByDate = DateTime.Parse(x.Element("pay_by_date")?.Value),
-                ISBN = x.Element("isbn").Value
+                Isbn = x.Element("isbn").Value
             }));
             
         }
