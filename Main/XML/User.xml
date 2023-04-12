@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<users>
+  <user>
+    <library_card_number>3537ec73-ef63-459d-9ab2-0e3ac48272b9</library_card_number>
+    <name>John Smith</name>
+    <email>johnsmith@email.com</email>
+    <phone_number>555-555-5555</phone_number>
+    <account_type>1</account_type>
+    <books_checked_out></books_checked_out>
+    <fines></fines>
+  </user>
+  <user>
+    <library_card_number>dcaece6e-566f-4148-88c1-3e9aad88ec86</library_card_number>
+    <name>Jane Doe</name>
+    <email>janedoe@email.com</email>
+    <phone_number>555-555-5556</phone_number>
+    <account_type>1</account_type>
+    <books_checked_out></books_checked_out>
+    <fines></fines>
+  </user>
+  <user>
+    <library_card_number>01d49c54-1326-447b-a820-52cd3c53c9ffe</library_card_number>
+    <name>Johnathon Millard</name>
+    <email>jm</email>
+    <phone_number>555-555-5556</phone_number>
+    <account_type>0</account_type>
+    <books_checked_out />
+    <fines />
+  </user>
+</users>

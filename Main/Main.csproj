@@ -150,6 +150,9 @@
     <Compile Include="Views\SearchView.xaml.cs">
       <DependentUpon>SearchView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="XML\DbSet.cs" />
+    <Compile Include="XML\LibraryContext.cs" />
+    <Compile Include="XML\XmlContext.cs" />
     <Page Include="Components\Layout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -231,19 +234,15 @@
     <Resource Include="bin\Debug\BookDetails.xml" />
     <Resource Include="bin\Debug\UserDetails.xml" />
     <Resource Include="REFS.txt" />
+    <Resource Include="XML\Book.xml" />
+    <Resource Include="XML\User.xml" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="NOTES.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="XML\BookDetails.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="XML\UserDetails.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="bin\Debug\LogDetails.xml" />
-    <Content Include="XML\LogDetails.xml" />
+    <Content Include="XML\Log.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
