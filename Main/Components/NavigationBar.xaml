@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              Background="BurlyWood"
+             Width="200"
              d:DesignHeight="1080" d:DesignWidth="200">
-
     <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
 
     <Grid Margin="20 10">
@@ -19,9 +20,13 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-
-        <Button Grid.Row="0" Content="Account Management" Command="{Binding NavigateAccountCommand}" />
-
+        
+        <StackPanel Grid.Row="0">
+            <Button Height="50" Content="My Library" Command="{Binding NavigateAccountCommand}" />
+            <Button Width="130" Content="Edit Account Details" Visibility="{Binding IsUserEditVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Button Width="130" Content="View All Users" Visibility="{Binding IsAllUsersVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </StackPanel>
+        
         <Button Grid.Row="1" Content="Check Book In" Command="{Binding NavigateCheckInBookCommand}" />
         <Button Grid.Row="2" Content="Check Book Out" Command="{Binding NavigateCheckOutBookCommand}" />
         <Button Grid.Row="4" Content="Logout" Command="{Binding LogoutCommand}" />

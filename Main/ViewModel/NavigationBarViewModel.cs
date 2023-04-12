@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using Main.Commands;
+using Main.Models;
 using Main.Servies;
 using Main.Stores;
 
@@ -9,11 +10,27 @@ namespace Main.ViewModel
     {
         private readonly AccountStore _accountStore;
 
+        public bool IsUserEditVisible { get; set; }
+        public bool IsAllUsersVisible { get; set; }
+
         public NavigationBarViewModel(AccountStore accountStore, INavigationService loginNavigationService,
             INavigationService accountNavigationService, INavigationService checkOutBooksNavigationService, 
             INavigationService checkInBooksNavigationService)
         {
             _accountStore = accountStore;
+            IsAllUsersVisible = false;
+            IsUserEditVisible = false;
+            switch (accountStore.CurrentUser.AccountType)
+            {
+                case AccountType.Librarian:
+                    IsAllUsersVisible = true;
+                    IsUserEditVisible = true;
+                    break;
+                case AccountType.Member:
+                    IsUserEditVisible = true;
+                    break;
+            }
+
 
             NavigateAccountCommand = new NavigateCommand(accountNavigationService);
             NavigateCheckOutBookCommand = new NavigateCommand(checkOutBooksNavigationService);

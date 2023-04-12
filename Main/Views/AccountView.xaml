@@ -20,68 +20,63 @@
         <TextBlock Grid.Row="0" Grid.Column="0" Text="Checked out Books" Margin="15 10 0 0" />
         <Grid Grid.Row="0" Grid.Column="0" Margin="15 30 15 15">
             <Border BorderBrush="Black" BorderThickness="2">
-                <ListView ItemsSource="{Binding CheckedOutBooks}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="0" DisplayMemberBinding="{Binding ISBN}" />
-                            <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" />
-                            <GridViewColumn Header="Date Checked Out" DisplayMemberBinding="{Binding CheckedOutDate}" />
-                            <GridViewColumn Header="Date Due Back" DisplayMemberBinding="{Binding DueBackDate}" />
-                            <GridViewColumn Width="auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Click="CheckInBook" Content="Check Back In"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </Border>
+                <DataGrid ItemsSource="{Binding CheckedOutBooks}" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Visibility="Hidden" Binding="{Binding ISBN}"/>
+                        <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*"/>
+
+                        <DataGridTextColumn Header="Date Checked Out" Binding="{Binding CheckedOutDate}" />
+                        <DataGridTextColumn Header="Date Due Back" Binding="{Binding DueBackDate}" />
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="CheckInBook" Content="Check Back In"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+         </Border>
 
         </Grid>
 
         <TextBlock Grid.Row="0" Grid.Column="1" Text="Books Due Back" Margin="15 10 0 0" />
         <Grid Grid.Row="0" Grid.Column="1" Margin="15 30 15 15">
             <Border BorderBrush="Black" BorderThickness="2">
-                <ListView ItemsSource="{Binding  DueBackBooks }">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="0" DisplayMemberBinding="{Binding ISBN}" />
-                            <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" />
-                            <GridViewColumn Header="Date Due Back" DisplayMemberBinding="{Binding DueBackDate}" />
-                            <GridViewColumn Header="Days Remaining with book" DisplayMemberBinding="{Binding DueBackDate}" />
-                            <GridViewColumn Width="auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Click="CheckInBook" Content="Check Back In"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>          
-                            <GridViewColumn Width="auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Click="RenewBook" Content="Renew Book"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                <DataGrid ItemsSource="{Binding DueBackBooks}" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Visibility="Hidden" Binding="{Binding ISBN}"/>
+                        <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*"/>
+                        <DataGridTextColumn Header="Date Due Back" Binding="{Binding DueBackDate}" />
+                        <DataGridTextColumn Header="Days Remaining with book" Binding="{Binding DueBackDate}" />
+                        <DataGridTemplateColumn Width="auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="CheckInBook" Content="Check Back In"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>          
+                        <DataGridTemplateColumn Width="auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="RenewBook" Content="Renew Book"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </Border>
         </Grid>
 
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Reserved" Margin="15 10 0 0" />
         <Grid Grid.Row="1" Grid.Column="0" Margin="15 30 15 15">
             <Border BorderBrush="Black" BorderThickness="2">
-                <ListView ItemsSource="{Binding CheckOutBook}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" />
-                            <GridViewColumn Header="Date Book Next Available" DisplayMemberBinding="{Binding Title}" />
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                <DataGrid ItemsSource="{Binding CheckOutBook}" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*" />
+                        <DataGridTextColumn Header="Date Book Next Available" Binding="{Binding Title}" />
+                    </DataGrid.Columns>
+                </DataGrid>
             </Border>
         </Grid>
 
@@ -92,23 +87,21 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Border Grid.Row="0" BorderBrush="Black" BorderThickness="2">
-                <ListView ItemsSource="{Binding OutstandingFees}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="0" DisplayMemberBinding="{Binding ISBN}" />
-                            <GridViewColumn Header="Fine Amount" DisplayMemberBinding="{Binding FineAmount}" />
-                            <GridViewColumn Header="Reason" DisplayMemberBinding="{Binding Reason}" />
-                            <GridViewColumn Header="Pay By Date" DisplayMemberBinding="{Binding PayByDate}" />
-                            <GridViewColumn Width="auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Click="PayFine" Content="Pay Fine"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                <DataGrid ItemsSource="{Binding OutstandingFees}" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding ISBN}" Visibility="Collapsed"/>
+                        <DataGridTextColumn Header="Fine Amount" Binding="{Binding FineAmount}"/>
+                        <DataGridTextColumn Header="Reason" Binding="{Binding Reason}" Width="*"/>
+                        <DataGridTextColumn Header="Pay By Date" Binding="{Binding PayByDate}"/>
+                        <DataGridTemplateColumn Width="auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="PayFine" Content="Pay Fine"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </Border>
             <Button Grid.Row="1" Content="Settle Remaining Fees" />
         </Grid>

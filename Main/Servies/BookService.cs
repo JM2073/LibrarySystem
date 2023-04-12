@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Xml.Linq;
 using Main.Models;
 using Main.Stores;
@@ -16,7 +17,8 @@ namespace Main.Servies
         private readonly AccountStore _accountStore;
         private readonly XDocument _bookDoc;
         private readonly XDocument _userDoc;
-        private static LogService LogService => new LogService();
+        private LogService LogService => new LogService();
+        private FineService FineService => new FineService(_accountStore);
 
         public BookService(AccountStore accountStore)
         {
@@ -115,15 +117,16 @@ namespace Main.Servies
             var singleBook = _bookDoc.Descendants("book")
                 .Where(x => x.Element("checked_out_date").Value == string.Empty)
                 .FirstOrDefault(x => x.Element("isbn").Value == isbn);
-            
+
             var singleUser = _userDoc.Descendants("user")
                 .SingleOrDefault(x => x.Element("email").Value == _accountStore.CurrentUser.Email);
 
             if (singleBook == null)
                 throw new Exception("Book non");
 
-            if (singleUser.Elements("books_checked_out").Elements().Any(x => x.Element("isbn").Value == singleBook.Element("isbn").Value))
-               throw new Exception("You already have this book checked out.\nplease return your current book first.");
+            if (singleUser.Elements("books_checked_out").Elements()
+                .Any(x => x.Element("isbn").Value == singleBook.Element("isbn").Value))
+                throw new Exception("You already have this book checked out.\nplease return your current book first.");
 
             //changes the value of checked out by 
             singleBook.Element("checked_out_by").Value = _accountStore.CurrentUser.LibraryCardNumber;
@@ -152,44 +155,50 @@ namespace Main.Servies
             return true;
         }
 
-        public bool CheckInBook(string isbn, string libraryCardNumber)
+        public void CheckInBook(string isbn, string libraryCardNumber)
         {
             libraryCardNumber = libraryCardNumber ?? _accountStore.CurrentUser.LibraryCardNumber;
 
-            var singleUser = _userDoc.Descendants("user").SingleOrDefault(x => x.Element("library_card_number").Value == libraryCardNumber);
-            
+            if (FineService.CheckForFine(isbn, libraryCardNumber))
+                throw new Exception("you have existing fines for this book. please pay the fines before checking the book back in.");
+
+            var singleUser = _userDoc.Descendants("user")
+                .SingleOrDefault(x => x.Element("library_card_number").Value == libraryCardNumber);
+
             //get the book trying to be checked in 
             var singleBook = _bookDoc.Descendants("book")
                 .Where(x => x.Element("checked_out_by").Value == libraryCardNumber)
                 .FirstOrDefault(x => x.Element("isbn").Value == isbn);
 
-            
+
             //if the book dose not exist then return false
             if (singleBook == null)
-                return false;
-            
+                throw new Exception("Book not found, please check your barcode then try again.");
+
             //wipe the data for it being checked out.
             singleBook.Element("checked_out_date").Value = string.Empty;
             singleBook.Element("due_back_date").Value = string.Empty;
             singleBook.Element("checked_out_by").Value = string.Empty;
 
-            singleBook.Document.Save(_xmlBookFilePath);
 
             //clean up user data so that its not in there checked out list.
-            singleUser.Element("books_checked_out").Elements("book").Where(x => x.Element("isbn").Value == isbn).Remove();
-            _userDoc.Save(_xmlUserFilePath);
+            singleUser.Element("books_checked_out").Elements("book").Where(x => x.Element("isbn").Value == isbn)
+                .Remove();
 
             LogService.BookLog(isbn, libraryCardNumber, $"book checked back in by {_accountStore.CurrentUser.Name}",
                 "check_in_logs");
-            
-            //the book was successfully checked in, return true
-            return true;
+
+            _bookDoc.Save(_xmlBookFilePath);
+            _userDoc.Save(_xmlUserFilePath);
         }
 
         public void RenewBook(string isbn, string libraryCardNumber)
         {
             libraryCardNumber = libraryCardNumber ?? _accountStore.CurrentUser.LibraryCardNumber;
-
+            
+            if (FineService.CheckForFine(isbn, libraryCardNumber))
+                throw new Exception("there are existing fines for this book. please make sure the fines are paid before checking in the book.");
+            
             var singleBook = _bookDoc.Descendants("book")
                 .Where(x => x.Element("checked_out_by").Value == libraryCardNumber)
                 .SingleOrDefault(x => x.Element("isbn").Value == isbn);
@@ -200,16 +209,17 @@ namespace Main.Servies
             //TODO check how long a book is renewed for.
             singleBook.Element("due_back_date").Value = dueBackDate;
 
-            singleBook.Document.Save(_xmlBookFilePath);
 
-            _userDoc.Descendants("user").SingleOrDefault(x => x.Element("library_card_number").Value == libraryCardNumber)
+            _userDoc.Descendants("user")
+                .SingleOrDefault(x => x.Element("library_card_number").Value == libraryCardNumber)
                 .Element("books_checked_out").Elements().Single(x => x.Element("isbn").Value == isbn)
                 .Element("due_back_date").Value = dueBackDate;
 
-            _userDoc.Save(_xmlUserFilePath);
-
             LogService.BookLog(isbn, libraryCardNumber, $"book checkout renewed by {_accountStore.CurrentUser.Name}",
                 "renew_book_logs");
+
+            _userDoc.Save(_xmlUserFilePath);
+            _bookDoc.Save(_xmlBookFilePath);
         }
 
         private List<Book> BuildBookListFromXml()

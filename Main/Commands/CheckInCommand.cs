@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Main.Servies;
 using Main.Stores;
 using Main.ViewModel;
@@ -23,16 +24,17 @@ namespace Main.Commands
         
         public override void Execute(object parameter)
         {
-            bool fineCheck = _fineService.CheckForFine(_vm.BookIsbn,_accountStore.CurrentUser.LibraryCardNumber);
-
-            if (fineCheck)
+            try
             {
-                MessageBox.Show("Please Pay the books Fine before checking it back in.");
+               _bookService.CheckInBook(_vm.BookIsbn,_accountStore.CurrentUser.LibraryCardNumber);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                Console.WriteLine(e);
                 return;
             }
-            
-            bool success = _bookService.CheckInBook(_vm.BookIsbn,_accountStore.CurrentUser.LibraryCardNumber);
-            MessageBox.Show(success ? "Book successfully Checked in" : "Check in Failed, please try again.");
+            MessageBox.Show("Book successfully Checked in");
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Windows;
 using Main.Models;
 using Main.Servies;
 using Main.Stores;
@@ -87,7 +89,16 @@ namespace Main.ViewModel
 
         public void CheckInBook(string isbn)
         {
-            BookService.CheckInBook(isbn, _accountStore.CurrentUser.LibraryCardNumber);
+            try
+            {
+                BookService.CheckInBook(isbn, _accountStore.CurrentUser.LibraryCardNumber);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                Console.WriteLine(e);
+                return;
+            }
             ReplaceCheckedOutBooksCollection();
             ReplaceDueBackBooksCollection();
         }
@@ -100,7 +111,19 @@ namespace Main.ViewModel
 
         public void RenewBook(string isbn)
         {
-            BookService.RenewBook(isbn,_accountStore.CurrentUser.LibraryCardNumber);
+            try
+            {
+
+                BookService.RenewBook(isbn,_accountStore.CurrentUser.LibraryCardNumber);
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                Console.WriteLine(e);
+                return;
+            }
+
             ReplaceCheckedOutBooksCollection();
             ReplaceDueBackBooksCollection();
         }

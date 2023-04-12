@@ -6,17 +6,13 @@
              mc:Ignorable="d"
              d:DesignHeight="1080" d:DesignWidth="1920"
              Background="White">
-    <UserControl.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Width" Value="200" />
-            <Setter Property="Height" Value="32" />
-        </Style>
-        <Style TargetType="Label">
-            <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="FontSize" Value="18" />
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-        </Style>
-    </UserControl.Resources>
+    <!-- <UserControl.Resources> -->
+    <!--     <Style TargetType="Label"> -->
+    <!--         <Setter Property="FontWeight" Value="Bold" /> -->
+    <!--         <Setter Property="FontSize" Value="18" /> -->
+    <!--         <Setter Property="HorizontalContentAlignment" Value="Center" /> -->
+    <!--     </Style> -->
+    <!-- </UserControl.Resources> -->
     <Grid Background="Bisque">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -39,10 +35,10 @@
         <Label Grid.Row="0" FontSize="25" Content="Welcome to Library Bookings Co." />
         <Label Grid.Row="1" FontSize="25" Content="Login" />
 
-        <StackPanel Grid.Row="2">
+        <WrapPanel Grid.Row="2">
             <Label Content="Email / Library Card Number" />
             <TextBox Height="23" Width="250" TextWrapping="Wrap" Text="{Binding Id}" />
-        </StackPanel>
+        </WrapPanel>
         <StackPanel Grid.Row="3">
             <Button Content="Login" Margin="5" Command="{Binding LoginCommand}" />
             <Button Content="Register" Margin="5" Command="{Binding NavigateRegisterCommand}" />

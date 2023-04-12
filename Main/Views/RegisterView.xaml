@@ -7,21 +7,22 @@
              d:DesignHeight="1080" d:DesignWidth="1920"
              Background="White">
     <UserControl.Resources>
-        <Style TargetType="Label">
+        <Style TargetType="Label"  BasedOn="{StaticResource {x:Type Label}}" >
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="FontSize" Value="18" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
         </Style>
-        <Style TargetType="TextBox">
+        <Style TargetType="TextBox"  BasedOn="{StaticResource {x:Type TextBox}}" >
             <Setter Property="Width" Value="200" />
             <Setter Property="Height" Value="23" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
-        <Style TargetType="Button">
+        <Style TargetType="Button"  BasedOn="{StaticResource {x:Type Button}}" >
             <Setter Property="Width" Value="200" />
             <Setter Property="Height" Value="32" />
+            
         </Style>
-
+    
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>

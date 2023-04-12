@@ -14,33 +14,62 @@
 
         <Label Grid.Row="0" Content="{Binding SearchResultCountString}" />
         
-        <ListView Grid.Row="1" Margin="0 20 0 0 " ItemsSource="{Binding Books}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Width="0" Header="" DisplayMemberBinding="{Binding  Path=(local:Book.Isbn)}"/>
-                    <GridViewColumn Width="auto" Header="Author" DisplayMemberBinding="{Binding  Path=(local:Book.Author)}" />
-                    <GridViewColumn Width="auto" Header="Title" DisplayMemberBinding="{Binding  Path=(local:Book.Title)}" />
-                    <GridViewColumn Width="auto" Header="Genre" DisplayMemberBinding="{Binding  Path=(local:Book.Genre)}" />
-                    <GridViewColumn Width="auto" Header="Book Cost" DisplayMemberBinding="{Binding  Path=(local:Book.BookCost)}" />
-                    <GridViewColumn Width="auto" Header="Publish Date" DisplayMemberBinding="{Binding  Path=(local:Book.PublishDate)}" />
-                    <GridViewColumn Width="800" Header="Summary">
-                       <GridViewColumn.CellTemplate>
-                         <DataTemplate>
-                                <TextBlock Width="auto" Height="auto" Text="{Binding Path=(local:Book.Description)}" TextWrapping="Wrap"/>
-                         </DataTemplate>
-                      </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Width="auto" Header="Availability Count" DisplayMemberBinding="{Binding  Path=(local:Book.AvailabilityCount)}"/>
-                    <GridViewColumn Width="auto">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Click="CheckOutBook" Content="Check out Book"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Books}" IsReadOnly="True" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Author" Binding="{Binding Author}" SortMemberPath="Author"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" SortMemberPath="Title"/>
+                <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" SortMemberPath="Genre"/>
+                <DataGridTextColumn Header="Book Cost" Binding="{Binding BookCost}" SortMemberPath="BookCost"/>
+                <DataGridTextColumn Header="Publish Date" Binding="{Binding PublishDate}" SortMemberPath="PublishDate"/>
+                <DataGridTextColumn Header="Availability Count" Binding="{Binding AvailabilityCount}" SortMemberPath="AvailabilityCount"/>
+                <DataGridTextColumn Header="Summary" Binding="{Binding Description}" Width="*" SortMemberPath="Description">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="CheckOutBook" Content="Check out Book"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <!-- <ListView Grid.Row="1" Margin="0 20 0 0 " ItemsSource="{Binding Books}"> -->
+        <!--     <ListView.ItemContainerStyle> -->
+        <!--         <Style TargetType="ListViewItem"> -->
+        <!--             <Setter Property="MinHeight" Value="100"/> -->
+        <!--         </Style> -->
+        <!--     </ListView.ItemContainerStyle> -->
+        <!--     <ListView.View> -->
+        <!--         <GridView> -->
+        <!--             <GridViewColumn Width="0" Header="" DisplayMemberBinding="{Binding  Path=(local:Book.Isbn)}"/> -->
+        <!--             <GridViewColumn Width="auto" Header="Author" DisplayMemberBinding="{Binding  Path=(local:Book.Author)}" /> -->
+        <!--             <GridViewColumn Width="auto" Header="Title" DisplayMemberBinding="{Binding  Path=(local:Book.Title)}" /> -->
+        <!--             <GridViewColumn Width="auto" Header="Genre" DisplayMemberBinding="{Binding  Path=(local:Book.Genre)}" /> -->
+        <!--             <GridViewColumn Width="auto" Header="Book Cost" DisplayMemberBinding="{Binding  Path=(local:Book.BookCost)}" /> -->
+        <!--             <GridViewColumn Width="auto" Header="Publish Date" DisplayMemberBinding="{Binding  Path=(local:Book.PublishDate)}" /> -->
+        <!--             <GridViewColumn Width="700" Header="Summary"> -->
+        <!--                <GridViewColumn.CellTemplate> -->
+        <!--                  <DataTemplate> -->
+        <!--                         <TextBlock Width="auto" Height="auto" Text="{Binding Path=(local:Book.Description)}" TextWrapping="Wrap"/> -->
+        <!--                  </DataTemplate> -->
+        <!--               </GridViewColumn.CellTemplate> -->
+        <!--             </GridViewColumn> -->
+        <!--             <GridViewColumn Width="auto" Header="Availability Count" DisplayMemberBinding="{Binding  Path=(local:Book.AvailabilityCount)}"/> -->
+        <!--             <GridViewColumn Width="auto"> -->
+        <!--                 <GridViewColumn.CellTemplate> -->
+        <!--                     <DataTemplate> -->
+        <!--                         <Button Click="CheckOutBook" Content="Check out Book"/> -->
+        <!--                     </DataTemplate> -->
+        <!--                 </GridViewColumn.CellTemplate> -->
+        <!--             </GridViewColumn> -->
+        <!--         </GridView> -->
+        <!--     </ListView.View> -->
+        <!-- </ListView> -->
 
     </Grid>
 </UserControl>
