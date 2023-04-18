@@ -37,6 +37,18 @@ namespace Main.Servies
             return _accountStore.CurrentUser;
         }
 
+        public User GetUserDetails(string librarycardnumber, string email)
+        {
+            //gets a collection of all librarycardnumber numbers ,or emails if that is the login method, and then pulls the one one we are passing though, returning null if there are no matches. 
+            var singleUser = GetXmlUser(librarycardnumber, email);
+
+            //if the user dose not exist return null.
+            if (singleUser == null)
+                return null;
+
+            return BuildUserFromXml(singleUser);
+        }
+
 
         public List<User> GetAllUsers()
         {
@@ -102,20 +114,21 @@ namespace Main.Servies
                 CheckedOutDate = x.Element("checked_out_date").Value,
                 DueBackDate = x.Element("due_back_date").Value
             }));
-            
         }
+
         public ObservableCollection<Book> GetDueBackBooks(string libraryCardNumber)
         {
             var user = GetXmlUser(libraryCardNumber);
 
-            return new ObservableCollection<Book>(user.Descendants("book").Where(x=> DateTime.Parse(x.Element("due_back_date").Value).Date <= DateTime.Now.AddDays(7).Date).Select(x => new Book
-            {
-                Title = x.Element("title").Value,
-                Isbn = x.Element("isbn").Value,
-                CheckedOutDate = x.Element("checked_out_date").Value,
-                DueBackDate = x.Element("due_back_date").Value
-            }));
-            
+            return new ObservableCollection<Book>(user.Descendants("book")
+                .Where(x => DateTime.Parse(x.Element("due_back_date").Value).Date <= DateTime.Now.AddDays(7).Date)
+                .Select(x => new Book
+                {
+                    Title = x.Element("title").Value,
+                    Isbn = x.Element("isbn").Value,
+                    CheckedOutDate = x.Element("checked_out_date").Value,
+                    DueBackDate = x.Element("due_back_date").Value
+                }));
         }
 
         public ObservableCollection<Fine> GetFines(string libraryCardNumber)
@@ -124,15 +137,15 @@ namespace Main.Servies
 
             if (!user.Descendants("fine").Elements().Any())
                 return new ObservableCollection<Fine>();
-            
+
             return new ObservableCollection<Fine>(user.Descendants("fine").Select(x => new Fine
             {
                 FineAmount = double.Parse(x.Element("fine_amount")?.Value ?? "0"),
                 Reason = x.Element("reason").Value,
+                BookTitle = x.Element("book_title").Value,
                 PayByDate = DateTime.Parse(x.Element("pay_by_date")?.Value),
                 Isbn = x.Element("isbn").Value
             }));
-            
         }
 
         private User BuildUserFromXml(XElement singleUser)
@@ -154,9 +167,9 @@ namespace Main.Servies
 
         private XElement GetXmlUser(string lcn, string email)
         {
-            return string.IsNullOrEmpty(lcn)
-                ? _userDoc.Root.Elements("user").SingleOrDefault(x => x.Element("email").Value == email)
-                : _userDoc.Root.Elements("user").SingleOrDefault(x => x.Element("library_card_number").Value == lcn);
+            return _userDoc.Root
+                .Elements("user")
+                .SingleOrDefault(x => x.Element("email").Value == email || x.Element("library_card_number").Value == lcn);
         }
     }
 }

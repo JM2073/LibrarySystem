@@ -13,13 +13,17 @@ namespace Main.ViewModel
         public bool IsUserEditVisible { get; set; }
         public bool IsAllUsersVisible { get; set; }
 
+        public string lbUserName { get; set; }
+
         public NavigationBarViewModel(AccountStore accountStore, INavigationService loginNavigationService,
-            INavigationService accountNavigationService, INavigationService checkOutBooksNavigationService, 
-            INavigationService checkInBooksNavigationService)
+            INavigationService accountNavigationService, INavigationService checkOutBooksNavigationService,
+            INavigationService checkInBooksNavigationService, INavigationService editAccountDetailsService,
+            INavigationService viewAllUsersService)
         {
             _accountStore = accountStore;
             IsAllUsersVisible = false;
             IsUserEditVisible = false;
+            
             switch (accountStore.CurrentUser.AccountType)
             {
                 case AccountType.Librarian:
@@ -31,7 +35,11 @@ namespace Main.ViewModel
                     break;
             }
 
+            lbUserName = accountStore.CurrentUser.Name;
 
+            NavigateEditAccountDetailsCommand = new NavigateCommand(editAccountDetailsService);
+            NavigateViewAllUsersCommand = new NavigateCommand(viewAllUsersService);
+            
             NavigateAccountCommand = new NavigateCommand(accountNavigationService);
             NavigateCheckOutBookCommand = new NavigateCommand(checkOutBooksNavigationService);
             NavigateCheckInBookCommand = new NavigateCommand(checkInBooksNavigationService);
@@ -39,6 +47,10 @@ namespace Main.ViewModel
 
             _accountStore.CurrentAccountChanged += OnCurrentAccountCHanged;
         }
+
+        public ICommand NavigateViewAllUsersCommand { get; }
+
+        public ICommand NavigateEditAccountDetailsCommand { get;}
 
         public ICommand NavigateAccountCommand { get; }
         public ICommand NavigateCheckInBookCommand { get; }

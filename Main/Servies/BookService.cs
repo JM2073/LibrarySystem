@@ -143,6 +143,7 @@ namespace Main.Servies
                     new XElement("isbn", singleBook.Element("isbn").Value),
                     new XElement("title", singleBook.Element("title").Value),
                     new XElement("book_cost", singleBook.Element("book_cost").Value),
+                    new XElement("has_been_renewed"),
                     new XElement("checked_out_date", singleBook.Element("checked_out_date").Value),
                     new XElement("due_back_date", singleBook.Element("due_back_date").Value)));
 
@@ -160,7 +161,8 @@ namespace Main.Servies
             libraryCardNumber = libraryCardNumber ?? _accountStore.CurrentUser.LibraryCardNumber;
 
             if (FineService.CheckForFine(isbn, libraryCardNumber))
-                throw new Exception("you have existing fines for this book. please pay the fines before checking the book back in.");
+                throw new Exception(
+                    "you have existing fines for this book. please pay the fines before checking the book back in.");
 
             var singleUser = _userDoc.Descendants("user")
                 .SingleOrDefault(x => x.Element("library_card_number").Value == libraryCardNumber);
@@ -195,10 +197,19 @@ namespace Main.Servies
         public void RenewBook(string isbn, string libraryCardNumber)
         {
             libraryCardNumber = libraryCardNumber ?? _accountStore.CurrentUser.LibraryCardNumber;
-            
+
+            var usersBook = _userDoc.Descendants("user")
+                .SingleOrDefault(x => x.Element("library_card_number").Value == libraryCardNumber)
+                .Element("books_checked_out").Elements().Single(x => x.Element("isbn").Value == isbn);
+
             if (FineService.CheckForFine(isbn, libraryCardNumber))
-                throw new Exception("there are existing fines for this book. please make sure the fines are paid before checking in the book.");
-            
+                throw new Exception(
+                    "there are existing fines for this book. please make sure the fines are paid before checking in the book.");
+
+            if (usersBook.Element("has_been_renewed").Value == "True")
+                throw new Exception(
+                    "This book has already been renewed, please contact a librarian about your options.");
+
             var singleBook = _bookDoc.Descendants("book")
                 .Where(x => x.Element("checked_out_by").Value == libraryCardNumber)
                 .SingleOrDefault(x => x.Element("isbn").Value == isbn);
@@ -210,10 +221,8 @@ namespace Main.Servies
             singleBook.Element("due_back_date").Value = dueBackDate;
 
 
-            _userDoc.Descendants("user")
-                .SingleOrDefault(x => x.Element("library_card_number").Value == libraryCardNumber)
-                .Element("books_checked_out").Elements().Single(x => x.Element("isbn").Value == isbn)
-                .Element("due_back_date").Value = dueBackDate;
+            usersBook.Element("due_back_date").Value = dueBackDate;
+            usersBook.Element("has_been_renewed").Value = "True";
 
             LogService.BookLog(isbn, libraryCardNumber, $"book checkout renewed by {_accountStore.CurrentUser.Name}",
                 "renew_book_logs");

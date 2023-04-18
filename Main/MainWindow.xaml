@@ -14,27 +14,47 @@
     <Grid>
         <ContentControl Content="{Binding CurrentViewModel}">
             <ContentControl.Resources>
+                
                 <DataTemplate DataType="{x:Type viewmodels:LayoutViewModel}">
                     <components:Layout />
                 </DataTemplate>
+                
                 <DataTemplate DataType="{x:Type viewmodels:LoginViewModel}">
                     <views:LoginView />
                 </DataTemplate>
+                
                 <DataTemplate DataType="{x:Type viewmodels:RegisterViewModel}">
                     <views:RegisterView />
                 </DataTemplate>
+
                 <DataTemplate DataType="{x:Type viewmodels:AccountViewModel}">
                     <views:AccountView />
                 </DataTemplate>
+
                 <DataTemplate DataType="{x:Type viewmodels:SearchViewModel}">
                     <views:SearchView />
                 </DataTemplate>
+
                 <DataTemplate DataType="{x:Type viewmodels:CheckInBookViewModel}">
                     <views:CheckInBookView />
                 </DataTemplate>
+                
                 <DataTemplate DataType="{x:Type viewmodels:CheckOutBookViewModel}">
                     <views:CheckOutBookView />
                 </DataTemplate>
+                
+                <DataTemplate DataType="{x:Type viewmodels:AllUsersViewModel}">
+                    <views:AllUsersView />
+                </DataTemplate>
+                
+                <DataTemplate DataType="{x:Type viewmodels:EditUserViewModel}">
+                    <views:EditUserView />
+                </DataTemplate>
+                
+                <DataTemplate DataType="{x:Type viewmodels:AddUserViewModel}">
+                    <views:AddUserView />
+                </DataTemplate>
+                
             </ContentControl.Resources>
         </ContentControl>
     </Grid>

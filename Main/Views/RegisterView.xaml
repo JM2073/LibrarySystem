@@ -44,6 +44,6 @@
             <TextBox Text="{Binding PhoneNumber}" />
         </StackPanel>
        
-        <Button Grid.Row="2" Content="Submit" Command="{Binding RegisterCommand}" />
+        <Button Grid.Row="2" Content="Submit" Command="{Binding FclickRegisterCommand}" />
     </Grid>
 </UserControl>
