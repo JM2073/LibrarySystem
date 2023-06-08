@@ -68,62 +68,84 @@ namespace LibrarySystem.WPF.Servies
 
         public void EditBooks(Book book)
         {
-            var bookBookCollection =
-                _bookDoc.Descendants("book").Where(x => x.Element("isbn").Value == book.Isbn).ToList();
-
-            foreach (var singleBook in bookBookCollection)
+            using (var _db = _dbContextFactory.CreateDbContext())
             {
-                singleBook.Element("title").Value = book.Title;
-                singleBook.Element("author").Value = book.Author;
-                singleBook.Element("genre").Value = book.Genre;
-                singleBook.Element("book_cost").Value = book.BookCost;
-                singleBook.Element("publish_date").Value = book.PublishDate;
-                singleBook.Element("description").Value = book.Description;
-                singleBook.Element("publisher").Value = book.Publisher;
-
-                singleBook.Document.Save(_xmlBookFilePath);
+                var bookList = _db.Books.Where(x=>x.Isbn == book.Isbn).ToList();
+                
+                foreach (var bookSingle in bookList)
+                {
+                    bookSingle.Title = book.Title;
+                    bookSingle.Author=book.Author;
+                    bookSingle.Genre=book.Genre;
+                    bookSingle.BookCost=book.BookCost;
+                    bookSingle.PublishDate=book.PublishDate;
+                    bookSingle.Description=book.Description;
+                    bookSingle.Publisher=book.Publisher;
+                }
+                
+                _db.SaveChanges();
             }
 
-            var userBookCollection =
-                _userDoc.Descendants("book").Where(x => x.Element("isbn").Value == book.Isbn).ToList();
+            //DBCHANGE
+            // var bookBookCollection =
+            //     _bookDoc.Descendants("book").Where(x => x.Element("isbn").Value == book.Isbn).ToList();
+            //
+            // foreach (var singleBook in bookBookCollection)
+            // {
+            //     singleBook.Element("title").Value = book.Title;
+            //     singleBook.Element("author").Value = book.Author;
+            //     singleBook.Element("genre").Value = book.Genre;
+            //     singleBook.Element("book_cost").Value = book.BookCost;
+            //     singleBook.Element("publish_date").Value = book.PublishDate;
+            //     singleBook.Element("description").Value = book.Description;
+            //     singleBook.Element("publisher").Value = book.Publisher;
+            //
+            //     singleBook.Document.Save(_xmlBookFilePath);
+            // }
 
-            foreach (var singleBook in userBookCollection)
-            {
-                singleBook.Element("title").Value = book.Title;
-                singleBook.Document.Save(_xmlUserFilePath);
-            }
-
+            //DBCHANGE pass in ID instead
             LogService.BookLog(book.Isbn, string.Empty, "Changing book details.\nEdited book details",
                 "edit_book_logs");
         }
 
         public void DeleteBook(string isbn)
         {
-            var bookCollection = _bookDoc.Descendants("book").Where(x => x.Element("checked_out_by").Value == null)
-                .Where(x => x.Element("isbn").Value == isbn).ToList();
-
-            foreach (var singleBook in bookCollection)
+            
+            using (var _db = _dbContextFactory.CreateDbContext())
             {
-                singleBook.Remove();
-                singleBook.Document.Save(_xmlBookFilePath);
+                var bookList = _db.Books.Where(x=>x.Isbn == isbn).ToList();
+                
+                foreach (var bookSingle in bookList)
+                    _db.Books.Remove(bookSingle);
+                
+                _db.SaveChanges();
             }
+           
+            //DBCHANGE
+            // var bookCollection = _bookDoc.Descendants("book").Where(x => x.Element("checked_out_by").Value == null)
+            //     .Where(x => x.Element("isbn").Value == isbn).ToList();
+            //
+            // foreach (var singleBook in bookCollection)
+            // {
+            //     singleBook.Remove();
+            //     singleBook.Document.Save(_xmlBookFilePath);
+            // }
 
+            //DBCHANGE pass though the Id instead of the ISBN
             LogService.BookLog(isbn, string.Empty, "Changing book details.\nEdited book details", "edit_book_logs");
         }
 
         public ObservableCollection<Book> SearchBooks(string searchString)
         {
-            //gets the collection of books
-            var books = BuildBookListFromXml();
+            using (var _db = _dbContextFactory.CreateDbContext())
+            {
+                var books = _db.Books.Where(x =>
+                    x.Author.ToLower().Contains(searchString.ToLower()) ||
+                    x.Title.ToLower().Contains(searchString.ToLower()) ||
+                    x.Isbn.ToLower().Contains(searchString.ToLower())).ToList();
 
-            //filters down the collection to only display results that match the search term
-            books = books.Where(x =>
-                x.Author.ToLower().Contains(searchString.ToLower()) ||
-                x.Title.ToLower().Contains(searchString.ToLower()) ||
-                x.Isbn.ToLower().Contains(searchString.ToLower())).ToList();
-
-            //returns filtered down results
-            return new ObservableCollection<Book>(books);
+                return new ObservableCollection<Book>(books);
+            }
         }
 
         public bool CheckOutBook(string isbn)
