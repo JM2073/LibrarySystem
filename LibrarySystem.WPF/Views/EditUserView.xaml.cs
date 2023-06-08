@@ -20,8 +20,9 @@ namespace LibrarySystem.WPF.Views
 
         private void PayFine(object sender, RoutedEventArgs e)
         {
+            /*
             var vm = (EditUserViewModel)this.DataContext;
-            vm.PayFine(((sender as Button).DataContext as Fine).Isbn);
+            vm.PayFine(((sender as Button).DataContext as Fine).Isbn);*/
         }
 
         private void RenewBook(object sender, RoutedEventArgs e)

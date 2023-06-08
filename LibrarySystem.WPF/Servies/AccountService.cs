@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml.Linq;
-using LibrarySystem.WPF.Models;
+using LibrarySystem.Domain.Models;
 using LibrarySystem.WPF.Stores;
 
 namespace LibrarySystem.WPF.Servies
@@ -60,16 +60,20 @@ namespace LibrarySystem.WPF.Servies
 
         public void AddUser(User user)
         {
-            _userDoc.Element("users").Add(
-                new XElement("user",
-                    new XElement("library_card_number", user.LibraryCardNumber),
-                    new XElement("name", user.Name),
-                    new XElement("email", user.Email),
-                    new XElement("phone_number", user.PhoneNumber),
-                    new XElement("account_type", user.AccountType.GetHashCode()),
-                    new XElement("books_checked_out"),
-                    new XElement("fines")
-                ));
+            //DBCHANGE
+            
+            
+            
+            // _userDoc.Element("users").Add(
+            //     new XElement("user",
+            //         new XElement("library_card_number", user.LibraryCardNumber),
+            //         new XElement("name", user.Name),
+            //         new XElement("email", user.Email),
+            //         new XElement("phone_number", user.PhoneNumber),
+            //         new XElement("account_type", user.AccountType.GetHashCode()),
+            //         new XElement("books_checked_out"),
+            //         new XElement("fines")
+            //     ));
 
             _userDoc.Save(_xmlUserFilePath);
 
@@ -142,9 +146,9 @@ namespace LibrarySystem.WPF.Servies
             {
                 FineAmount = double.Parse(x.Element("fine_amount")?.Value ?? "0"),
                 Reason = x.Element("reason").Value,
-                BookTitle = x.Element("book_title").Value,
+                //DBCHANGE BookTitle = x.Element("book_title").Value,
                 PayByDate = DateTime.Parse(x.Element("pay_by_date")?.Value),
-                Isbn = x.Element("isbn").Value
+                //DBCHANGE Isbn = x.Element("isbn").Value
             }));
         }
 

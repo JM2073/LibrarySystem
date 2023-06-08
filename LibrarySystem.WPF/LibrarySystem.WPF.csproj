@@ -8,8 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="MahApps.Metro" Version="2.4.9"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0"/>
+        <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -49,14 +49,15 @@
         <Content Include="XML\UserDetails.xml">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <None Remove="XML\LogDetails.xml"/>
+        <None Remove="XML\LogDetails.xml" />
         <Content Include="XML\LogDetails.xml">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\LibrarySystem.Domain\LibrarySystem.Domain.csproj"/>
+      <ProjectReference Include="..\LibrarySystem.Domain\LibrarySystem.Domain.csproj" />
+      <ProjectReference Include="..\LibrarySystem.EntityFramework\LibrarySystem.EntityFramework.csproj" />
     </ItemGroup>
 
 </Project>

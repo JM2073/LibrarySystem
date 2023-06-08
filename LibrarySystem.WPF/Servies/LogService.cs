@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using LibrarySystem.EntityFramework;
 using LibrarySystem.WPF.Stores;
 
 namespace LibrarySystem.WPF.Servies
@@ -106,7 +107,7 @@ namespace LibrarySystem.WPF.Servies
                 InitialAccountLog(user.LibraryCardNumber,user.Name);
             }
 
-            var bs = new BookService(new AccountStore());
+            var bs = new BookService(new AccountStore(),new LibraryDBContextFactory());
             var books = bs.GetAllBooks();
 
             foreach (var book in books)

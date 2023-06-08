@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 using LibrarySystem.WPF.Commands;
-using LibrarySystem.WPF.Models;
+using LibrarySystem.Domain.Models;
 using LibrarySystem.WPF.Servies;
 using LibrarySystem.WPF.Stores;
 

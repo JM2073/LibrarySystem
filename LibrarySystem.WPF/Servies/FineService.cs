@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using LibrarySystem.WPF.Models;
+using LibrarySystem.Domain.Models;
 using LibrarySystem.WPF.Stores;
 
 namespace LibrarySystem.WPF.Servies

@@ -1,5 +1,5 @@
 ﻿using System;
-using LibrarySystem.WPF.Models;
+using LibrarySystem.Domain.Models;
 
 namespace LibrarySystem.WPF.Stores
 {

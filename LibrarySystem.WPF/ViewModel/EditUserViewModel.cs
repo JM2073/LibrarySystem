@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows;
-using LibrarySystem.WPF.Models;
+using LibrarySystem.Domain.Models;
 using LibrarySystem.WPF.Servies;
 using LibrarySystem.WPF.Stores;
 

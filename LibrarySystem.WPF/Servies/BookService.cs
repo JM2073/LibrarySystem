@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml.Linq;
-using LibrarySystem.WPF.Models;
+using LibrarySystem.Domain;
+using LibrarySystem.Domain.Models;
+using LibrarySystem.EntityFramework;
 using LibrarySystem.WPF.Stores;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibrarySystem.WPF.Servies
 {
@@ -16,12 +19,15 @@ namespace LibrarySystem.WPF.Servies
         private readonly AccountStore _accountStore;
         private readonly XDocument _bookDoc;
         private readonly XDocument _userDoc;
+        private LibraryDBContextFactory _dbContextFactory;
+
         private LogService LogService => new LogService();
         private FineService FineService => new FineService(_accountStore);
 
-        public BookService(AccountStore accountStore)
+        public BookService(AccountStore accountStore, LibraryDBContextFactory dbContextFactory)
         {
             _accountStore = accountStore;
+            _dbContextFactory = dbContextFactory;
             _bookDoc = XDocument.Load(_xmlBookFilePath);
             _userDoc = XDocument.Load(_xmlUserFilePath);
         }
@@ -35,19 +41,28 @@ namespace LibrarySystem.WPF.Servies
 
         public void AddBook(Book newBook)
         {
-            _bookDoc.Element("catalog").Add(
-                new XElement("book",
-                    new XElement("isbn", newBook.Isbn),
-                    new XElement("title", newBook.Title),
-                    new XElement("author", newBook.Author),
-                    new XElement("genre", newBook.Genre),
-                    new XElement("publish_date", newBook.PublishDate),
-                    new XElement("publisher", newBook.Publisher),
-                    new XElement("book_cost", newBook.BookCost),
-                    new XElement("description", newBook.Description)));
+            //DBCHANGE
+            using (LibraryDbContext context = _dbContextFactory.CreateDbContext())
+            {
+                context.Books.Add(newBook);
 
-            _bookDoc.Save(_xmlBookFilePath);
+                context.SaveChanges();
+            }
 
+            // _bookDoc.Element("catalog").Add(
+            //     new XElement("book",
+            //         new XElement("isbn", newBook.Isbn),
+            //         new XElement("title", newBook.Title),
+            //         new XElement("author", newBook.Author),
+            //         new XElement("genre", newBook.Genre),
+            //         new XElement("publish_date", newBook.PublishDate),
+            //         new XElement("publisher", newBook.Publisher),
+            //         new XElement("book_cost", newBook.BookCost),
+            //         new XElement("description", newBook.Description)));
+            //
+            // _bookDoc.Save(_xmlBookFilePath);
+
+            //DBCHANGE pass though Book Id instead.
             LogService.InitialBookLog(newBook.Isbn, newBook.Title);
         }
 
@@ -246,8 +261,9 @@ namespace LibrarySystem.WPF.Servies
                 DueBackDate = x.Element("due_back_date").Value
             }).ToList();
 
-            foreach (var book in books)
-                book.AvailabilityCount = books.Where(x => x.IsCheckedOut == false).Count(x => x.Isbn == book.Isbn);
+            //DBCHANGE Count of avalble 
+            // foreach (var book in books)
+            //     book.AvailabilityCount = books.Where(x => x.IsCheckedOut == false).Count(x => x.Isbn == book.Isbn);
 
             return books.Distinct().ToList();
         }

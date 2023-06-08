@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Windows;
+using LibrarySystem.EntityFramework;
 using LibrarySystem.WPF.Servies;
 using LibrarySystem.WPF.Stores;
 using LibrarySystem.WPF.ViewModel;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -11,6 +14,7 @@ namespace LibrarySystem.WPF
  public partial class App
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly LibraryDBContextFactory _dbContextFactory;
 
         public App()
         {
@@ -36,6 +40,7 @@ namespace LibrarySystem.WPF
             services.AddTransient(s => new AllUsersViewModel(s.GetRequiredService<AccountStore>(), CreateEditAccountDetailsNavigationService(s)));
             services.AddTransient(s => new AddUserViewModel(s.GetRequiredService<AccountStore>()));
             services.AddTransient(s => new EditUserViewModel(s.GetRequiredService<AccountStore>()));
+
             
             services.AddSingleton<MainViewModel>();
             services.AddSingleton(s => new MainWindow
@@ -47,6 +52,8 @@ namespace LibrarySystem.WPF
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            using (LibraryDbContext context = _dbContextFactory.CreateDbContext())
+                context.Database.Migrate();   
             
             var initialNavigationService = _serviceProvider.GetRequiredService<INavigationService>();
             initialNavigationService.Navigate();

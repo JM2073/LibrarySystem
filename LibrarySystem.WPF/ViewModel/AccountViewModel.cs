@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows;
-using LibrarySystem.WPF.Models;
+using LibrarySystem.Domain.Models;
+using LibrarySystem.EntityFramework;
 using LibrarySystem.WPF.Servies;
 using LibrarySystem.WPF.Stores;
 
@@ -10,7 +11,8 @@ namespace LibrarySystem.WPF.ViewModel
     public class AccountViewModel : BaceViewModel
     {
         private readonly AccountStore _accountStore;
-
+        
+        private LibraryDBContextFactory _libraryDBContextFactory;
         private AccountService AccountService => new AccountService(_accountStore);
         private FineService FineService => new FineService(_accountStore);
         
@@ -44,6 +46,8 @@ namespace LibrarySystem.WPF.ViewModel
             }
         }
         private ObservableCollection<Fine>  _outstandingFees;
+        private LibraryDBContextFactory _librrayDBContextFactory;
+
         public ObservableCollection<Fine> OutstandingFees
         {
             get { return  _outstandingFees; }
@@ -66,9 +70,10 @@ namespace LibrarySystem.WPF.ViewModel
             OutstandingFees = AccountService.GetFines(_accountStore.CurrentUser.LibraryCardNumber);
         }
         #endregion
-        public AccountViewModel(AccountStore accountStore)
+        public AccountViewModel(AccountStore accountStore, LibraryDBContextFactory librrayDbContextFactory)
         {
             _accountStore = accountStore;
+            _librrayDBContextFactory = librrayDbContextFactory;
             _accountStore.CurrentAccountChanged += OnCurrentAccountChanged;
             
             ReplaceCheckedOutBooksCollection();
@@ -76,7 +81,7 @@ namespace LibrarySystem.WPF.ViewModel
             ReplaceOutstandingFeesCollection();
         }
 
-        private BookService BookService => new BookService(_accountStore);
+        private BookService BookService => new BookService(_accountStore, _librrayDBContextFactory);
 
         public string Name => _accountStore.CurrentUser?.Name;
         public string Email => _accountStore.CurrentUser?.Email;

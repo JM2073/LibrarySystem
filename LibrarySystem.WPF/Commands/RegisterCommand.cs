@@ -1,5 +1,5 @@
 ﻿using System;
-using LibrarySystem.WPF.Models;
+using LibrarySystem.Domain.Models;
 using LibrarySystem.WPF.Servies;
 using LibrarySystem.WPF.Stores;
 using LibrarySystem.WPF.ViewModel;
