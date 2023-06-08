@@ -32,7 +32,10 @@ namespace Main
             services.AddTransient(s => new SearchViewModel(s.GetRequiredService<SearchStore>(), s.GetRequiredService<AccountStore>()));
             services.AddTransient(s => new CheckInBookViewModel(s.GetRequiredService<AccountStore>()));
             services.AddTransient(s => new CheckOutBookViewModel(s.GetRequiredService<AccountStore>()));
-         
+            services.AddTransient(s => new AllUsersViewModel(s.GetRequiredService<AccountStore>(), CreateEditAccountDetailsNavigationService(s)));
+            services.AddTransient(s => new AddUserViewModel(s.GetRequiredService<AccountStore>()));
+            services.AddTransient(s => new EditUserViewModel(s.GetRequiredService<AccountStore>()));
+            
             services.AddSingleton<MainViewModel>();
             services.AddSingleton(s => new MainWindow
             {
@@ -94,7 +97,9 @@ namespace Main
                 CreateLoginNavigationService(serviceProvider),
                 CreateAccountNavigationService(serviceProvider),
                 CreateCheckedOutBooksNavigationService(serviceProvider),
-                CreateCheckedInBooksNavigationService(serviceProvider));
+                CreateCheckedInBooksNavigationService(serviceProvider),
+                CreateEditAccountDetailsNavigationService(serviceProvider),
+                CreateViewAllUsersNavigationService(serviceProvider));
         }
         
         private INavigationService CreateAccountNavigationService(IServiceProvider serviceProvider)
@@ -131,6 +136,22 @@ namespace Main
                 () => serviceProvider.GetRequiredService<NavigationBarViewModel>(),
                 () => serviceProvider.GetRequiredService<SearchBarViewModel>());
         }
-        #endregion
+        private INavigationService CreateEditAccountDetailsNavigationService(IServiceProvider serviceProvider)
+        {
+            return new LayoutNavigationService<EditUserViewModel>(
+                serviceProvider.GetRequiredService<NavigationStore>(),
+                () => serviceProvider.GetRequiredService<EditUserViewModel>(),
+                () => serviceProvider.GetRequiredService<NavigationBarViewModel>(),
+                () => serviceProvider.GetRequiredService<SearchBarViewModel>());
+        }
+        private INavigationService CreateViewAllUsersNavigationService(IServiceProvider serviceProvider)
+        {
+            return new LayoutNavigationService<AllUsersViewModel>(
+                serviceProvider.GetRequiredService<NavigationStore>(),
+                () => serviceProvider.GetRequiredService<AllUsersViewModel>(),
+                () => serviceProvider.GetRequiredService<NavigationBarViewModel>(),
+                () => serviceProvider.GetRequiredService<SearchBarViewModel>());
+        }
+     #endregion
     }
 }

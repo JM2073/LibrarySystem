@@ -52,14 +52,12 @@ namespace Main.Servies
         {
             //TODO add to return all files for all people.
             throw new NotImplementedException();
-            return new List<Fine>();
         }
 
         public List<Fine> GetUserFines()
         {
             //TODO add to return all fines for one user
             throw new NotImplementedException();
-            return new List<Fine>();
         }
 
         /// <summary>
@@ -93,6 +91,7 @@ namespace Main.Servies
                                 new XElement("fine",
                                     new XElement("fine_amount", fineCost),
                                     new XElement("reason", "Book Late Back"),
+                                    new XElement("book_title",singleBook.Element("title").Value),
                                     new XElement("pay_by_date", payByDate),
                                     new XElement("isbn", singleBook.Element("isbn").Value)));
                             singleUser.Document.Save(_xmlUserFilePath);

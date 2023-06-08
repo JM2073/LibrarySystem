@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<users>
+    <user>
+        <library_card_number>3537ec73-ef63-459d-9ab2-0e3ac48272b9</library_card_number>
+        <name>John Smith</name>
+        <email>johnsmith@email.com</email>
+        <phone_number>555-555-5555</phone_number>
+        <account_type>1</account_type>
+        <books_checked_out></books_checked_out>
+        <fines></fines>
+    </user>
+    <user>
+        <library_card_number>dcaece6e-566f-4148-88c1-3e9aad88ec86</library_card_number>
+        <name>Jane Doe</name>
+        <email>janedoe@email.com</email>
+        <phone_number>555-555-5556</phone_number>
+        <account_type>1</account_type>
+        <books_checked_out></books_checked_out>
+        <fines></fines>
+    </user>
+    <user>
+        <library_card_number>01d49c54-1326-447b-a820-52cd3c53c9ffe</library_card_number>
+        <name>Johnathon Millard</name>
+        <email>jm</email>
+        <phone_number>555-555-5556</phone_number>
+        <account_type>0</account_type>
+        <books_checked_out>
+
+        </books_checked_out>
+        <fines/>
+    </user>
+    <user>
+        <library_card_number>9e184a0a-35c8-4dc4-a4c4-2152424c2336</library_card_number>
+        <name>Michael Johnson</name>
+        <email>mjohnson@mail.com</email>
+        <phone_number>555-555-0147</phone_number>
+        <account_type>1</account_type>
+        <books_checked_out/>
+        <fines/>
+    </user>
+    <user>
+        <library_card_number>43a4db92-7a0f-41d8-bc00-f3a3eeff2ba2</library_card_number>
+        <name>Emily Rodriguez</name>
+        <email>erodriguez@mail.com</email>
+        <phone_number>555-555-8684</phone_number>
+        <account_type>1</account_type>
+        <books_checked_out/>
+        <fines/>
+    </user>
+    <user>
+        <library_card_number>68a0a924-98c7-4e3a-9c2d-10f93868c6f3</library_card_number>
+        <name>William Wilson</name>
+        <email>wwilson@mail.com</email>
+        <phone_number>555-555-5697</phone_number>
+        <account_type>1</account_type>
+        <books_checked_out/>
+        <fines/>
+    </user>
+    <user>
+        <library_card_number>89df7f47-9cfc-4328-82b5-7c5af5e472e5</library_card_number>
+        <name>Samantha Garcia</name>
+        <email>sgarcia@mail.com</email>
+        <phone_number>555-555-6608</phone_number>
+        <account_type>1</account_type>
+        <books_checked_out/>
+        <fines/>
+    </user>
+    <user>
+        <library_card_number>417163f5-fab2-4155-8c5b-aaebe5c5fc75</library_card_number>
+        <name>David Martinez</name>
+        <email>dmartinez@mail.com</email>
+        <phone_number>555-555-9132</phone_number>
+        <account_type>1</account_type>
+        <books_checked_out/>
+        <fines/>
+    </user>
+    <user>
+        <library_card_number>ce9684c7-4a6c-4fb7-bbe2-9a1b8f6c0dc1</library_card_number>
+        <name>Ashley Perez</name>
+        <email>aperez@mail.com</email>
+        <phone_number>555-555-3751</phone_number>
+        <account_type>1</account_type>
+        <books_checked_out/>
+        <fines/>
+    </user>
+    <user>
+        <library_card_number>5f5fb65d-9a9a-48df-91c5-4480da2382b2</library_card_number>
+        <name>Robert Lee</name>
+        <email>rlee@mail.com</email>
+        <phone_number>555-555-9017</phone_number>
+        <account_type>1</account_type>
+        <books_checked_out/>
+        <fines/>
+    </user>
+</users>

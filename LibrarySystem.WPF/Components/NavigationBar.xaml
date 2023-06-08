@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="LibrarySystem.WPF.Components.NavigationBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             Background="BurlyWood"
+             Width="200"
+             d:DesignHeight="1080" d:DesignWidth="200">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+
+    <Grid Margin="20 10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <Label> WELCOME TO THE LIBRARY,</Label>
+            <Label HorizontalContentAlignment="Center" Content="{Binding lbUserName}"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1">
+            <Button Height="50" Content="My Library" Command="{Binding NavigateAccountCommand}" />
+            <Button Width="130" Content="Edit Account Details" Command="{Binding NavigateEditAccountDetailsCommand}" Visibility="{Binding IsUserEditVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Button Width="130" Content="View All Users" Command="{Binding NavigateViewAllUsersCommand}" Visibility="{Binding IsAllUsersVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </StackPanel>
+        
+        <Button Grid.Row="2" Content="Check Book In" Command="{Binding NavigateCheckInBookCommand}" />
+        <Button Grid.Row="3" Content="Check Book Out" Command="{Binding NavigateCheckOutBookCommand}" />
+        <Button Grid.Row="5" Content="Logout" Command="{Binding LogoutCommand}" />
+
+        <TextBlock TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="6"
+                   FontSize="14">
+            <Run Text="Library System" /><LineBreak /><Run Text="LOGO HERE" />
+        </TextBlock>
+
+    </Grid>
+</UserControl>

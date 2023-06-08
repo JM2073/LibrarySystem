@@ -17,6 +17,8 @@ namespace Main.Stores
             }
         }
 
+        public string EditUserId { get; set; }
+        
         public bool IsLoggedIn => CurrentUser != null;
 
         public void LogOut()

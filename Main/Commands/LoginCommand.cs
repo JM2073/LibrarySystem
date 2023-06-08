@@ -23,7 +23,7 @@ namespace Main.Commands
         public override void Execute(object parameter)
         {
             //TODO: pass either the library card number or email to get the user.
-            AccountService.GetUser(null, _viewModel.Id);
+            AccountService.GetUser(_viewModel.Id, _viewModel.Id);
 
             if (_accountStore.CurrentUser == null)
             {

@@ -13,7 +13,8 @@
 
     <Grid Margin="20 10">
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
@@ -21,17 +22,22 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         
-        <StackPanel Grid.Row="0">
-            <Button Height="50" Content="My Library" Command="{Binding NavigateAccountCommand}" />
-            <Button Width="130" Content="Edit Account Details" Visibility="{Binding IsUserEditVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            <Button Width="130" Content="View All Users" Visibility="{Binding IsAllUsersVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <Label> WELCOME TO THE LIBRARY,</Label>
+            <Label HorizontalContentAlignment="Center" Content="{Binding lbUserName}"/>
         </StackPanel>
         
-        <Button Grid.Row="1" Content="Check Book In" Command="{Binding NavigateCheckInBookCommand}" />
-        <Button Grid.Row="2" Content="Check Book Out" Command="{Binding NavigateCheckOutBookCommand}" />
-        <Button Grid.Row="4" Content="Logout" Command="{Binding LogoutCommand}" />
+        <StackPanel Grid.Row="1">
+            <Button Height="50" Content="My Library" Command="{Binding NavigateAccountCommand}" />
+            <Button Width="130" Content="Edit Account Details" Command="{Binding NavigateEditAccountDetailsCommand}" Visibility="{Binding IsUserEditVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Button Width="130" Content="View All Users" Command="{Binding NavigateViewAllUsersCommand}" Visibility="{Binding IsAllUsersVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </StackPanel>
+        
+        <Button Grid.Row="2" Content="Check Book In" Command="{Binding NavigateCheckInBookCommand}" />
+        <Button Grid.Row="3" Content="Check Book Out" Command="{Binding NavigateCheckOutBookCommand}" />
+        <Button Grid.Row="5" Content="Logout" Command="{Binding LogoutCommand}" />
 
-        <TextBlock TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="5"
+        <TextBlock TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="6"
                    FontSize="14">
             <Run Text="Library System" /><LineBreak /><Run Text="LOGO HERE" />
         </TextBlock>

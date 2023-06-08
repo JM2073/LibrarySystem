@@ -90,6 +90,7 @@
                 <DataGrid ItemsSource="{Binding OutstandingFees}" AutoGenerateColumns="False" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding ISBN}" Visibility="Collapsed"/>
+                        <DataGridTextColumn Header="Title" Binding="{Binding BookTitle}" Width="*" />
                         <DataGridTextColumn Header="Fine Amount" Binding="{Binding FineAmount}"/>
                         <DataGridTextColumn Header="Reason" Binding="{Binding Reason}" Width="*"/>
                         <DataGridTextColumn Header="Pay By Date" Binding="{Binding PayByDate}"/>

@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Main</RootNamespace>
     <AssemblyName>Main</AssemblyName>
-    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -53,7 +53,6 @@
     <Reference Include="Microsoft.Windows.Design.Extensibility">
       <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\PublicAssemblies\Microsoft.Windows.Design.Extensibility.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Windows.Design.Interaction, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
@@ -90,9 +89,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\AddUserCommand.cs" />
     <Compile Include="Commands\CheckInCommand.cs" />
     <Compile Include="Commands\CheckOutCommand.cs" />
     <Compile Include="Commands\CommandBace.cs" />
+    <Compile Include="Commands\EditUserCommand.cs" />
     <Compile Include="Commands\LoginCommand.cs" />
     <Compile Include="Commands\LogoutCommand.cs" />
     <Compile Include="Commands\NavigateCommand.cs" />
@@ -122,9 +123,12 @@
     <Compile Include="Stores\AccountStore.cs" />
     <Compile Include="Stores\SearchStore.cs" />
     <Compile Include="ViewModel\AccountViewModel.cs" />
+    <Compile Include="ViewModel\AddUserViewModel.cs" />
+    <Compile Include="ViewModel\AllUsersViewModel.cs" />
     <Compile Include="ViewModel\BaceViewModel.cs" />
     <Compile Include="ViewModel\CheckInBookViewModel.cs" />
     <Compile Include="ViewModel\CheckOutBookViewModel.cs" />
+    <Compile Include="ViewModel\EditUserViewModel.cs" />
     <Compile Include="ViewModel\LayoutViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -135,11 +139,20 @@
     <Compile Include="Views\AccountView.xaml.cs">
       <DependentUpon>AccountView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AddUserView.xaml.cs">
+      <DependentUpon>AddUserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AllUsersView.xaml.cs">
+      <DependentUpon>AllUsersView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CheckInBookView.xaml.cs">
       <DependentUpon>CheckInBookView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CheckOutBookView.xaml.cs">
       <DependentUpon>CheckOutBookView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditUserView.xaml.cs">
+      <DependentUpon>EditUserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -150,9 +163,6 @@
     <Compile Include="Views\SearchView.xaml.cs">
       <DependentUpon>SearchView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="XML\DbSet.cs" />
-    <Compile Include="XML\LibraryContext.cs" />
-    <Compile Include="XML\XmlContext.cs" />
     <Page Include="Components\Layout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -182,6 +192,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AddUserView.xaml" />
+    <Page Include="Views\AllUsersView.xaml" />
     <Page Include="Views\CheckInBookView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -190,6 +202,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\EditUserView.xaml" />
     <Page Include="Views\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -234,15 +247,15 @@
     <Resource Include="bin\Debug\BookDetails.xml" />
     <Resource Include="bin\Debug\UserDetails.xml" />
     <Resource Include="REFS.txt" />
-    <Resource Include="XML\Book.xml" />
-    <Resource Include="XML\User.xml" />
+    <Resource Include="XML\BookDetails.xml" />
+    <Resource Include="XML\UserDetails.xml" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="NOTES.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\LogDetails.xml" />
-    <Content Include="XML\Log.xml" />
+    <Content Include="XML\LogDetails.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
