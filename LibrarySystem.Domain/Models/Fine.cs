@@ -10,7 +10,9 @@ namespace LibrarySystem.Domain.Models
         public int Id { get; set; }
         public int UserId { get; set; }
         public int BookId { get; set; }
-        public double FineAmount { get; set; }
+        
+        [DataType(DataType.Currency)]
+        public decimal FineAmount { get; set; }
         public string Reason { get; set; }
         public DateTime PayByDate { get; set; }
         

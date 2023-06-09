@@ -17,12 +17,14 @@ namespace LibrarySystem.Domain.Models;
         public string Author { get; set; }
         public string Isbn { get; set; }
         public string Publisher { get; set; }
-        public string PublishDate { get; set; }
+        public DateTime PublishDate { get; set; }
         public string Description { get; set; }
         public string Genre { get; set; }
-        public string BookCost { get; set; }
-        public string CheckedOutDate { get; set; }
-        public string DueBackDate { get; set; }
+        
+        [DataType(DataType.Currency)]
+        public decimal BookCost { get; set; }
+        public DateTime? CheckedOutDate { get; set; }
+        public DateTime? DueBackDate { get; set; }
 
         [ForeignKey("UserId")]
         public User? User { get; set; }

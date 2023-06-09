@@ -8,7 +8,7 @@ namespace LibrarySystem.Domain.Models
     {
         [Key]
         public int Id { get; set; }
-        public string LibraryCardNumber { get; set; }
+        public Guid LibraryCardNumber { get; set; }
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }

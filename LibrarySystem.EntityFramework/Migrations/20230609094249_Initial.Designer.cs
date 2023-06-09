@@ -11,14 +11,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibrarySystem.EntityFramework.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    [Migration("20230608110633_Initial")]
+    [Migration("20230609094249_Initial")]
     partial class Initial
     {
-        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.10");
 
             modelBuilder.Entity("LibrarySystem.Domain.Models.Book", b =>
                 {
@@ -30,21 +29,18 @@ namespace LibrarySystem.EntityFramework.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("BookCost")
-                        .IsRequired()
+                    b.Property<decimal>("BookCost")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("CheckedOutDate")
-                        .IsRequired()
+                    b.Property<DateTime?>("CheckedOutDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("DueBackDate")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("DueBackDate")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Genre")
                         .IsRequired()
@@ -54,8 +50,7 @@ namespace LibrarySystem.EntityFramework.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PublishDate")
-                        .IsRequired()
+                    b.Property<DateTime>("PublishDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Publisher")
@@ -85,8 +80,8 @@ namespace LibrarySystem.EntityFramework.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("FineAmount")
-                        .HasColumnType("REAL");
+                    b.Property<decimal>("FineAmount")
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("PayByDate")
                         .HasColumnType("TEXT");
@@ -153,8 +148,7 @@ namespace LibrarySystem.EntityFramework.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("LibraryCardNumber")
-                        .IsRequired()
+                    b.Property<Guid>("LibraryCardNumber")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")

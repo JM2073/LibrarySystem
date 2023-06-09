@@ -60,21 +60,6 @@ namespace LibrarySystem.WPF.Servies
 
         public void AddUser(User user)
         {
-            //DBCHANGE
-            
-            
-            
-            // _userDoc.Element("users").Add(
-            //     new XElement("user",
-            //         new XElement("library_card_number", user.LibraryCardNumber),
-            //         new XElement("name", user.Name),
-            //         new XElement("email", user.Email),
-            //         new XElement("phone_number", user.PhoneNumber),
-            //         new XElement("account_type", user.AccountType.GetHashCode()),
-            //         new XElement("books_checked_out"),
-            //         new XElement("fines")
-            //     ));
-
             _userDoc.Save(_xmlUserFilePath);
 
             LogService.InitialAccountLog(user.LibraryCardNumber, user.Name);

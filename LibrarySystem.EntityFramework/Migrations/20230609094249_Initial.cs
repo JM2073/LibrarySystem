@@ -5,10 +5,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LibrarySystem.EntityFramework.Migrations
 {
-    /// <inheritdoc />
     public partial class Initial : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -17,7 +15,7 @@ namespace LibrarySystem.EntityFramework.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    LibraryCardNumber = table.Column<string>(type: "TEXT", nullable: false),
+                    LibraryCardNumber = table.Column<Guid>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     PhoneNumber = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
@@ -39,12 +37,12 @@ namespace LibrarySystem.EntityFramework.Migrations
                     Author = table.Column<string>(type: "TEXT", nullable: false),
                     Isbn = table.Column<string>(type: "TEXT", nullable: false),
                     Publisher = table.Column<string>(type: "TEXT", nullable: false),
-                    PublishDate = table.Column<string>(type: "TEXT", nullable: false),
+                    PublishDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
                     Genre = table.Column<string>(type: "TEXT", nullable: false),
-                    BookCost = table.Column<string>(type: "TEXT", nullable: false),
-                    CheckedOutDate = table.Column<string>(type: "TEXT", nullable: false),
-                    DueBackDate = table.Column<string>(type: "TEXT", nullable: false)
+                    BookCost = table.Column<decimal>(type: "TEXT", nullable: false),
+                    CheckedOutDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    DueBackDate = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -64,7 +62,7 @@ namespace LibrarySystem.EntityFramework.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     BookId = table.Column<int>(type: "INTEGER", nullable: false),
-                    FineAmount = table.Column<double>(type: "REAL", nullable: false),
+                    FineAmount = table.Column<decimal>(type: "TEXT", nullable: false),
                     Reason = table.Column<string>(type: "TEXT", nullable: false),
                     PayByDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -148,7 +146,6 @@ namespace LibrarySystem.EntityFramework.Migrations
                 column: "UserId");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

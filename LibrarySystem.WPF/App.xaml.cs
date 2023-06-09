@@ -24,7 +24,9 @@ namespace LibrarySystem.WPF
             services.AddSingleton<AccountStore>();
             services.AddSingleton<NavigationStore>();
             services.AddSingleton<SearchStore>();
-
+            services.AddSingleton<LibraryDBContextFactory>();
+            
+            
             services.AddSingleton(s=> CreateLoginNavigationService(s));
             
             //below sets up the view modules for all user-controls  
@@ -33,7 +35,7 @@ namespace LibrarySystem.WPF
             services.AddTransient(s => new LoginViewModel(s.GetRequiredService<AccountStore>(),
                 CreateAccountNavigationService(s), CreateRegisterNavigationService(s)));
             services.AddTransient(s => new RegisterViewModel(CreateLoginNavigationService(s), s.GetRequiredService<AccountStore>()));
-            services.AddTransient(s => new AccountViewModel(s.GetRequiredService<AccountStore>()));
+            services.AddTransient(s => new AccountViewModel(s.GetRequiredService<AccountStore>(), s.GetRequiredService<LibraryDBContextFactory>()));
             services.AddTransient(s => new SearchViewModel(s.GetRequiredService<SearchStore>(), s.GetRequiredService<AccountStore>()));
             services.AddTransient(s => new CheckInBookViewModel(s.GetRequiredService<AccountStore>()));
             services.AddTransient(s => new CheckOutBookViewModel(s.GetRequiredService<AccountStore>()));
