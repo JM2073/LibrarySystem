@@ -9,7 +9,8 @@ namespace LibrarySystem.WPF.ViewModel
 {
     public class EditUserViewModel : BaceViewModel
     {
-        public string LibraryCardNumber { get; set; }
+        private int Id { get; set; }
+        public Guid LibraryCardNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -28,19 +29,19 @@ namespace LibrarySystem.WPF.ViewModel
             _accountStore = accountStore;
             IsLibrarian = _accountStore.CurrentUser.AccountType == AccountType.Librarian;
 
-            _accountService = new AccountService(accountStore);
-            LibraryCardNumber = accountStore.EditUserId ?? accountStore.CurrentUser.LibraryCardNumber;
+            _accountService = new AccountService(accountStore); 
+            LibraryCardNumber = _accountStore.EditUserId ?? _accountStore.CurrentUser.LibraryCardNumber;
 
-            var user = _accountService.GetUserDetails(LibraryCardNumber, null);
+            var user = _accountService.GetUser(LibraryCardNumber, null);
 
 
+            //Populate view
             int lastSpaceIndex = user.Name.LastIndexOf(' ');
+            Id = user.Id;
             FirstName = user.Name.Substring(0, lastSpaceIndex);
             LastName = user.Name.Substring(lastSpaceIndex + 1);
-
             Email = user.Email;
             PhoneNumber = user.PhoneNumber;
-
             AccountTypes = new ObservableCollection<string>
             {
                 "Librarian",
@@ -106,17 +107,17 @@ namespace LibrarySystem.WPF.ViewModel
 
         public void ReplaceCheckedOutBooksCollection()
         {
-            CheckedOutBooks = _accountService.GetCheckedOutBooks(LibraryCardNumber);
+            CheckedOutBooks = _accountService.GetCheckedOutBooks(Id);
         }
 
         public void ReplaceDueBackBooksCollection()
         {
-            DueBackBooks = _accountService.GetDueBackBooks(LibraryCardNumber);
+            DueBackBooks = _accountService.GetDueBackBooks(Id);
         }
 
         public void ReplaceOutstandingFeesCollection()
         {
-            OutstandingFees = _accountService.GetFines(LibraryCardNumber);
+            OutstandingFees = _accountService.GetFines(Id);
         }
 
         #endregion
@@ -141,9 +142,9 @@ namespace LibrarySystem.WPF.ViewModel
             ReplaceDueBackBooksCollection();
         }
 
-        public void PayFine(string isbn)
+        public void PayFine(int id)
         {
-            FineService.PayFine(isbn, LibraryCardNumber);
+            FineService.PayFine(id);
             ReplaceOutstandingFeesCollection();
         }
 

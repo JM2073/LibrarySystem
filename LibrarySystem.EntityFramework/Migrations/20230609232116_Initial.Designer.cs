@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibrarySystem.EntityFramework.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    [Migration("20230609094249_Initial")]
+    [Migration("20230609232116_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,12 +39,15 @@ namespace LibrarySystem.EntityFramework.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("DueBackDate")
-                        .HasColumnType("INTEGER");
+                    b.Property<DateTime?>("DueBackDate")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Genre")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("HasBeenRenewed")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Isbn")
                         .IsRequired()
@@ -64,6 +67,9 @@ namespace LibrarySystem.EntityFramework.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("isArcived")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
@@ -80,8 +86,17 @@ namespace LibrarySystem.EntityFramework.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("FinalWarningSent")
+                        .HasColumnType("INTEGER");
+
                     b.Property<decimal>("FineAmount")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsArchived")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsPayed")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("PayByDate")
                         .HasColumnType("TEXT");
@@ -159,6 +174,9 @@ namespace LibrarySystem.EntityFramework.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("isArcived")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -176,13 +194,13 @@ namespace LibrarySystem.EntityFramework.Migrations
             modelBuilder.Entity("LibrarySystem.Domain.Models.Fine", b =>
                 {
                     b.HasOne("LibrarySystem.Domain.Models.Book", "Book")
-                        .WithMany()
+                        .WithMany("Fines")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("LibrarySystem.Domain.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Fines")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -215,6 +233,8 @@ namespace LibrarySystem.EntityFramework.Migrations
 
             modelBuilder.Entity("LibrarySystem.Domain.Models.Book", b =>
                 {
+                    b.Navigation("Fines");
+
                     b.Navigation("Logs");
                 });
 
@@ -226,6 +246,8 @@ namespace LibrarySystem.EntityFramework.Migrations
             modelBuilder.Entity("LibrarySystem.Domain.Models.User", b =>
                 {
                     b.Navigation("Books");
+
+                    b.Navigation("Fines");
 
                     b.Navigation("Logs");
                 });

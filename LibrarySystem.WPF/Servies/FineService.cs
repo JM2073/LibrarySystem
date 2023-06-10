@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using LibrarySystem.Domain.Models;
+using LibrarySystem.EntityFramework;
 using LibrarySystem.WPF.Stores;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibrarySystem.WPF.Servies
 {
@@ -12,52 +15,95 @@ namespace LibrarySystem.WPF.Servies
         private readonly AccountStore _accountStore;
         private readonly LogService _logService;
         private readonly XDocument _userDoc;
-        private readonly string _xmlUserFilePath = "XML\\UserDetails.xml";
+        private static readonly DateTime PAY_BY_DATE = DateTime.Now.AddDays(7);
+        private const decimal TIMES_VALUE_BY = (decimal)0.15;
+
+        private LibraryDBContextFactory _dbContextFactory;
 
         public FineService(AccountStore accountStore)
         {
             _accountStore = accountStore;
-            _userDoc = XDocument.Load(_xmlUserFilePath);
+            _dbContextFactory = new LibraryDBContextFactory();
             _logService = new LogService();
         }
 
-        public void AddFine()
+        public void AddFine(Fine fine)
         {
-            throw new NotImplementedException();
-            //TODO add addfine, that a librarian can mange
+            using (var _db = _dbContextFactory.CreateDbContext())
+            {
+                fine.logs.Add(new Log
+                {
+                    Date = DateTime.Now,
+                    Description = "Fine was added agnest the user.",
+                });
+                _db.Fines.Add(fine);
+
+                _db.SaveChanges();
+            }
         }
 
-        public void EditFine()
+        public void EditFine(Fine fine)
         {
-            //TODO add EditFine, that a librarian can mange
-            throw new NotImplementedException();
+            using (var _db = _dbContextFactory.CreateDbContext())
+            {
+                var fineEntity = _db.Fines.Include(x => x.logs).SingleOrDefault(x => x.Id == fine.Id);
+
+                fineEntity.FineAmount = fine.FineAmount;
+                fineEntity.Reason = fine.Reason;
+                fineEntity.PayByDate = fine.PayByDate;
+                fineEntity.logs.Add(_logService.AddLog("Fine was edited"));
+                _db.SaveChanges();
+            }
         }
 
-        public void DeleteFine()
+
+        public void DeleteFine(Fine fine)
         {
-            throw new NotImplementedException();
-            //TODO add DeleteFine, that a librarian can mange
+            using (var _db = _dbContextFactory.CreateDbContext())
+            {
+                var fineEntity = _db.Fines.Include(x => x.logs).SingleOrDefault(x => x.Id == fine.Id);
+
+                fineEntity.IsArchived = true;
+                fineEntity.logs.Add(new Log
+                {
+                    Date = DateTime.Now,
+                    Description = "Fine was archived",
+                });
+                _db.SaveChanges();
+            }
         }
 
-        public void PayFine(string isbn, string libraryCardNumber)
+        public void PayFine(int fineId)
         {
-            _userDoc.Root.Elements("user")
-                .SingleOrDefault(x => x.Element("library_card_number").Value == libraryCardNumber)
-                .Element("fines").Elements().Where(x => x.Element("isbn").Value == isbn).Remove();
+            using (var _db = _dbContextFactory.CreateDbContext())
+            {
+                var fineEntity = _db.Fines.Include(x => x.logs).SingleOrDefault(x => x.Id == fineId);
 
-            _userDoc.Save(_xmlUserFilePath);
+                fineEntity.IsArchived = true;
+                fineEntity.IsPayed = true;
+                fineEntity.logs.Add(new Log
+                {
+                    Date = DateTime.Now,
+                    Description = "Fine was payed",
+                });
+                _db.SaveChanges();
+            }
         }
 
         public List<Fine> GetAllFines()
         {
-            //TODO add to return all files for all people.
-            throw new NotImplementedException();
+            using (var _db = _dbContextFactory.CreateDbContext())
+            {
+                return _db.Fines.Where(x => x.IsArchived == false).ToList();
+            }
         }
 
-        public List<Fine> GetUserFines()
+        public List<Fine> GetUserFines(int userId)
         {
-            //TODO add to return all fines for one user
-            throw new NotImplementedException();
+            using (var _db = _dbContextFactory.CreateDbContext())
+            {
+                return _db.Fines.Where(x => x.UserId == userId).Where(x => x.IsArchived == false).ToList();
+            }
         }
 
         /// <summary>
@@ -66,92 +112,93 @@ namespace LibrarySystem.WPF.Servies
         /// </summary>
         public void CheckFines()
         {
-            //This entire method could be a service that runs on a server.
-            //This would be the ideal solution especially if the program was using a database 
-
-            var userCollection = _userDoc.Descendants("user").ToList();
-
-            foreach (var singleUser in userCollection)
+            using (var _db = _dbContextFactory.CreateDbContext())
             {
-                foreach (var singleBook in singleUser.Elements("books_checked_out").Elements("book").ToList())
+                var users = _db.Users
+                    .Include(x => x.Fines).ThenInclude(x=>x.logs)
+                    .Include(x => x.Books).ThenInclude(x=>x.Fines).ThenInclude(x=>x.logs)
+                    .Include(x => x.Logs)
+                    .Where(x => x.isArcived == false)
+                    .ToList();
+
+                foreach (var user in users)
                 {
-                    if (singleUser.Element("fines").Elements("fine")
-                        .Any(x => x.Element("isbn")?.Value == singleBook.Element("isbn")?.Value))
-                        continue;
+                    var userBooks = user.Books.Where(x => x.isArcived == false).ToList();
+                    var userFines = user.Fines.Where(x => x.IsArchived == false).Where(x => x.IsPayed == false)
+                        .ToList();
 
-                    var dueBackDate = DateTime.Parse(singleBook.Element("due_back_date").Value);
-                    if (dueBackDate < DateTime.Now)
-                        if (singleUser.Elements("fines").Any() && singleUser.Elements("fines")
-                                .Any(x => x.Element("isbn")?.Value != singleBook.Element("isbn")?.Value))
-                        {
-                            var fineCost = 0.15 * double.Parse(singleBook.Element("book_cost").Value);
 
-                            var payByDate = DateTime.Now.AddDays(7).ToShortDateString();
-                            singleUser.Element("fines").Add(
-                                new XElement("fine",
-                                    new XElement("fine_amount", fineCost),
-                                    new XElement("reason", "Book Late Back"),
-                                    new XElement("book_title",singleBook.Element("title").Value),
-                                    new XElement("pay_by_date", payByDate),
-                                    new XElement("isbn", singleBook.Element("isbn").Value)));
-                            singleUser.Document.Save(_xmlUserFilePath);
-
-                            _logService.AccountLog(singleBook.Element("isbn").Value, singleUser.Element("library_card_number").Value,
-                                $"a fine was added to this user for book '{singleBook.Element("title").Value}' of amount {fineCost:C}. " +
-                                $"they have until {payByDate} to pay",
-                                "fines_logs");
-
-                            //TODO send 'email' to the member 
-                        }
-                }
-
-                foreach (var singleFine in singleUser.Elements("fines").Elements("fine").ToList())
-                {
-                    if (singleFine.Value == string.Empty)
-                        continue;
-
-                    var payByDate = DateTime.Parse(singleFine.Element("pay_by_date").Value);
-                    if (payByDate < DateTime.Now)
+                    if (userBooks.Any())
                     {
-                        var currentFine = double.Parse(singleFine.Element("fine_amount").Value);
+                        foreach (var userBook in userBooks)
+                        {
+                            if (userBook.Fines.Where(x => x.IsArchived == false).Where(x => x.IsPayed == false).Any())
+                                continue;
 
-                        var singleBook = singleUser.Elements("books_checked_out").Elements("book")
-                            .SingleOrDefault(x => x.Element("isbn").Value == singleFine.Element("isbn").Value);
+                            if (!(userBook.DueBackDate < DateTime.Now))
+                                continue;
 
-                        var bookCost = double.Parse(singleBook.Element("book_cost").Value);
+                            var fineCost = TIMES_VALUE_BY * userBook.BookCost;
+
+                            user.Fines.Add(new Fine
+                            {
+                                BookId = userBook.Id,
+                                FineAmount = fineCost,
+                                Reason = "book Late Back",
+                                PayByDate = PAY_BY_DATE,
+                                IsArchived = false,
+                                IsPayed = false,
+                                logs = new List<Log>
+                                {
+                                    _logService.AddLog("fine added to person for late book", bookId: userBook.Id,
+                                        userId: user.Id)
+                                }
+                            });
+                        }
+                    }
+
+                    if (!userFines.Any())
+                        continue;
+
+                    foreach (var userFine in userFines)
+                    {
+                        if (userFine.PayByDate >= DateTime.Now)
+                            continue;
+
+                        var currentFine = userFine.FineAmount;
+                        var bookCost = userFine.Book.BookCost;
 
                         if (bookCost <= currentFine)
                         {
-                            //TODO send email with final warning about paying the fine.
-                           
-                            _logService.AccountLog(singleBook.Element("isbn").Value, singleUser.Element("library_card_number").Value,
-                                $"the fine for book '{singleBook.Element("title").Value}' was not paid, " +
-                                $"the total cost of the book is now overdue," +
-                                $"sending final warning and email requesting book back",
-                                "fines_logs");
-                             continue;
+                            userFine.logs.Add(_logService.AddLog("fine not paid, send final warning.",
+                                bookId: userFine.BookId, userId: user.Id));
+                            userFine.FinalWarningSent = true;
                         }
 
-                        var newFine = currentFine + 0.15 * bookCost;
-                        singleFine.Element("fine_amount").Value = newFine.ToString();
+                        var newFine = currentFine + TIMES_VALUE_BY * bookCost;
+                        userFine.FineAmount = newFine;
 
-                        singleFine.Element("pay_by_date").Value = DateTime.Now.AddDays(7).ToShortDateString();
+                        userFine.PayByDate = DateTime.Now.AddDays(7);
 
-                        singleFine.Document.Save(_xmlUserFilePath);
-
-                        _logService.AccountLog(singleBook.Element("isbn").Value, singleUser.Element("library_card_number").Value,
-                            $"the fine for book '{singleBook.Element("title").Value}' was not paid, the fine of {currentFine:C} is now {newFine:C}",
-                            "fines_logs");
-
-                        //TODO send 'email' to the member 
+                        userFine.logs.Add(_logService.AddLog(
+                            "fine not paid, increased fine amount and given them 7 more days.", bookId: userFine.BookId,
+                            userId: user.Id));
                     }
                 }
+
+                _db.SaveChanges();
             }
         }
 
-        public bool CheckForFine(string isbn, string libraryCardNumber)
+        public bool CheckForFine(string isbn, int userId)
         {
-            return _userDoc.Root.Elements("user").SingleOrDefault(x => x.Element("library_card_number").Value == libraryCardNumber).Elements("fines").Elements().Any(x=>x.Element("isbn").Value == isbn);
+            using (var _db = _dbContextFactory.CreateDbContext())
+            {
+                return _db.Users
+                    .Include(x => x.Books)
+                    .Include(x => x.Fines).ThenInclude(x=>x.Book)
+                    .Single(x => x.Id == userId).Fines.Any(x => x.Book.Isbn == isbn);
+            }
         }
     }
 }

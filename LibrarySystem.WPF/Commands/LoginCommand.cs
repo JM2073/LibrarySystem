@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using LibrarySystem.WPF.Servies;
 using LibrarySystem.WPF.Stores;
 using LibrarySystem.WPF.ViewModel;
@@ -23,7 +24,9 @@ namespace LibrarySystem.WPF.Commands
         public override void Execute(object parameter)
         {
             //TODO: pass either the library card number or email to get the user.
-            AccountService.GetUser(_viewModel.Id, _viewModel.Id);
+            Guid.TryParse(_viewModel.Id, out var lcn);
+            
+            AccountService.GetUser(lcn, _viewModel.Id);
 
             if (_accountStore.CurrentUser == null)
             {

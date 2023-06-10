@@ -26,7 +26,7 @@ namespace LibrarySystem.WPF.Commands
             
             AccountService.AddUser(new User
             {
-                LibraryCardNumber = Guid.NewGuid().ToString().Remove(8),
+                LibraryCardNumber = Guid.NewGuid(),
                 Name = $"{_viewModel.FirstName} {_viewModel.LastName}",
                 PhoneNumber = _viewModel.PhoneNumber,
                 Email = _viewModel.Email,

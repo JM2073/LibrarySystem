@@ -2,117 +2,78 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using LibrarySystem.Domain.Models;
 using LibrarySystem.EntityFramework;
 using LibrarySystem.WPF.Stores;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibrarySystem.WPF.Servies
 {
     public class LogService
     {
-        private readonly string _xmlLogFilePath =  "XML\\LogDetails.xml";
+        private readonly string _xmlLogFilePath = "XML\\LogDetails.xml";
         private readonly XDocument _logDoc;
+        private LibraryDBContextFactory _dbContextFactory;
 
         public LogService()
         {
+            _dbContextFactory = new LibraryDBContextFactory();
             _logDoc = XDocument.Load(_xmlLogFilePath);
         }
 
-        public void BookLog(string isbn, string libraryCardNumber, string logDescription, string logPath)
+        
+        
+        public List<Log> GetAllLogs()
         {
-            var logDocPath = _logDoc.Descendants("book_log").SingleOrDefault(x => x.Element("isbn").Value == isbn)
-                .Element(logPath);
-
-            AddLog(isbn, libraryCardNumber, logDescription, logDocPath);
+            using (var _db = _dbContextFactory.CreateDbContext())
+            {
+                return _db.Logs.ToList();
+            }
         }
 
-        public void AccountLog(string isbn, string libraryCardNumber, string logDescription, string logPath)
+        public List<Log> GetAllBookLogs()
         {
-            var logDocPath = _logDoc.Descendants("account_log")
-                .SingleOrDefault(x => x.Element("library_card_number").Value == libraryCardNumber)
-                .Element(logPath);
-
-            AddLog(isbn, libraryCardNumber, logDescription, logDocPath);
+            using (var _db = _dbContextFactory.CreateDbContext())
+            {
+                return _db.Logs.Where(x => x.BookId != null).ToList();
+            }
         }
 
-
-        public List<XElement> GetAllBookLogs()
+        public List<Log> GetAllAccountLogs()
         {
-            var logDoc = XDocument.Load(_xmlLogFilePath);
-            return logDoc.Descendants("book_log").ToList();
+            using (var _db = _dbContextFactory.CreateDbContext())
+            {
+                return _db.Logs.Where(x => x.UserId != null).ToList();
+            }
+        }
+        public List<Log> GetAllFineLogs()
+        {
+            using (var _db = _dbContextFactory.CreateDbContext())
+            {
+                return _db.Logs.Where(x => x.FineId != null).ToList();
+            }
         }
 
-        public List<XElement> GetAllAccountLogs()
+        public Log AddLog(string description, int? bookId = null, int? userId = null, int? fineId = null)
         {
-            var logDoc = XDocument.Load(_xmlLogFilePath);
-            return logDoc.Descendants("account_log").ToList();
-        }
-
-        public void InitialAccountLog(string libraryCardNumber, string name)
-        {
-            _logDoc.Element("logs").Element("account_logs").Add(
-                new XElement("account_log",
-                    new XElement("library_card_number", libraryCardNumber),
-                    new XElement("name", name),
-                    new XElement("fines_logs"),
-                    new XElement("edit_account_logs",
-                        new XElement("log",
-                            new XElement("date", DateTime.Now.ToString()),
-                            new XElement("isbn"),
-                            new XElement("library_card_number", libraryCardNumber),
-                            new XElement("description",
-                                $"new account added to the system with the name '{name}' and the library card number '{libraryCardNumber}'")))));
-
-            _logDoc.Save(_xmlLogFilePath);
-        }
-
-        public void InitialBookLog(string isbn, string title)
-        {
-            _logDoc.Element("logs").Element("book_logs").Add(
-                new XElement("book_log",
-                    new XElement("isbn", isbn),
-                    new XElement("title", title),
-                    new XElement("check_out_logs"),
-                    new XElement("check_in_logs"),
-                    new XElement("renew_book_logs"),
-                    new XElement("edit_book_logs",
-                        new XElement("log",
-                            new XElement("date", DateTime.Now.ToString()),
-                            new XElement("isbn", isbn),
-                            new XElement("library_card_number"),
-                            new XElement("description",
-                              $"new book added to the system with the title '{title}' and the isbn {isbn}")))));
-
-            _logDoc.Save(_xmlLogFilePath);
-        }
-
-        private void AddLog(string isbn, string libraryCardNumber, string logDescription, XElement logPath)
-        {
-            logPath.Add(
-                new XElement("log",
-                    new XElement("date", DateTime.Now.ToString()),
-                    new XElement("isbn", isbn),
-                    new XElement("library_card_number", libraryCardNumber),
-                    new XElement("description", logDescription)));
-
-            logPath.Document.Save(_xmlLogFilePath);
+            return new Log
+            {
+                BookId = bookId,
+                UserId = userId,
+                FineId = fineId,
+                Date = DateTime.Now,
+                Description = description,
+            };
         }
 
         public void InitialLogs()
         {
-            var us = new AccountService(new AccountStore());
-            var users= us.GetAllUsers();
-
-            foreach (var user in users)
+            using (var _db = _dbContextFactory.CreateDbContext())
             {
-                InitialAccountLog(user.LibraryCardNumber,user.Name);
-            }
+                _db.Users.Include(x=>x.Logs).ToList().ForEach(x=>x.Logs.Add(AddLog($"new account added to the system with the name '{x.Name}' and the library card number '{x.LibraryCardNumber}'")));
+                _db.Books.Include(x=>x.Logs).ToList().ForEach(x=>x.Logs.Add(AddLog($"new book added to the system with the title '{x.Title}' and the isbn {x.Isbn}")));
 
-            var bs = new BookService(new AccountStore(),new LibraryDBContextFactory());
-            var books = bs.GetAllBooks();
-
-            foreach (var book in books)
-            {
-                InitialBookLog(book.Isbn,book.Title);
+                _db.SaveChanges();
             }
         }
     }

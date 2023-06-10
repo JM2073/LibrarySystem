@@ -17,7 +17,7 @@ namespace LibrarySystem.WPF.Stores
             }
         }
 
-        public string EditUserId { get; set; }
+        public Guid? EditUserId { get; set; }
         
         public bool IsLoggedIn => CurrentUser != null;
 

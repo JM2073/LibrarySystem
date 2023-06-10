@@ -1,4 +1,5 @@
-﻿using LibrarySystem.WPF.Servies;
+﻿using System;
+using LibrarySystem.WPF.Servies;
 using LibrarySystem.WPF.Stores;
 
 namespace LibrarySystem.WPF.Commands
@@ -18,7 +19,7 @@ namespace LibrarySystem.WPF.Commands
         {
             if (parameter != null)
             {
-                _accountStore.EditUserId = (string)parameter;
+                _accountStore.EditUserId = (Guid)parameter;
             }
 
             _navigationService.Navigate();

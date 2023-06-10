@@ -39,7 +39,7 @@ namespace LibrarySystem.WPF.Commands
             _accountService.AddUser(new User
                 
             {
-                LibraryCardNumber = Guid.NewGuid().ToString().Remove(8),
+                LibraryCardNumber = Guid.NewGuid(),
                 Name = $"{_vm.FirstName} {_vm.LastName}",
                 PhoneNumber = _vm.PhoneNumber,
                 Email = _vm.Email,

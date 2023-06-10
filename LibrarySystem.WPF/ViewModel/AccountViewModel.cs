@@ -59,15 +59,15 @@ namespace LibrarySystem.WPF.ViewModel
         }
         public void ReplaceCheckedOutBooksCollection()
         {
-            CheckedOutBooks = AccountService.GetCheckedOutBooks(_accountStore.CurrentUser.LibraryCardNumber);
+            CheckedOutBooks = AccountService.GetCheckedOutBooks(_accountStore.CurrentUser.Id);
         }       
         public void ReplaceDueBackBooksCollection()
         {
-            DueBackBooks = AccountService.GetDueBackBooks(_accountStore.CurrentUser.LibraryCardNumber);
+            DueBackBooks = AccountService.GetDueBackBooks(_accountStore.CurrentUser.Id);
         }
         public void ReplaceOutstandingFeesCollection()
         {
-            OutstandingFees = AccountService.GetFines(_accountStore.CurrentUser.LibraryCardNumber);
+            OutstandingFees = AccountService.GetFines(_accountStore.CurrentUser.Id);
         }
         #endregion
         public AccountViewModel(AccountStore accountStore, LibraryDBContextFactory librrayDbContextFactory)
@@ -81,7 +81,7 @@ namespace LibrarySystem.WPF.ViewModel
             ReplaceOutstandingFeesCollection();
         }
 
-        private BookService BookService => new BookService(_accountStore, _librrayDBContextFactory);
+        private BookService BookService => new BookService(_accountStore);
 
         public string Name => _accountStore.CurrentUser?.Name;
         public string Email => _accountStore.CurrentUser?.Email;
@@ -108,9 +108,9 @@ namespace LibrarySystem.WPF.ViewModel
             ReplaceDueBackBooksCollection();
         }
 
-        public void PayFine(string isbn)
+        public void PayFine(int id)
         {
-            FineService.PayFine(isbn, _accountStore.CurrentUser.LibraryCardNumber);
+            FineService.PayFine(id);
             ReplaceOutstandingFeesCollection();
         }
 

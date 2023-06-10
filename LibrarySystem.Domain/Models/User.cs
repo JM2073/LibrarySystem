@@ -16,6 +16,9 @@ namespace LibrarySystem.Domain.Models
         
         public List<Book> Books { get; set; }
         public List<Log> Logs { get; set; } 
+        public List<Fine> Fines { get; set; }
+        [DefaultValue(false)]
+        public bool isArcived { get; set; }
     }
     public enum AccountType
     {

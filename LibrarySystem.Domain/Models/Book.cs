@@ -25,9 +25,18 @@ namespace LibrarySystem.Domain.Models;
         public decimal BookCost { get; set; }
         public DateTime? CheckedOutDate { get; set; }
         public DateTime? DueBackDate { get; set; }
+        public bool HasBeenRenewed { get; set; }
 
         [ForeignKey("UserId")]
         public User? User { get; set; }
         
         public List<Log> Logs { get; set; }
+        public List<Fine> Fines { get; set; }
+        [DefaultValue(false)]
+        public bool isArcived { get; set; }
+        
+        [NotMapped]
+        public int AvailabilityCount { get; set; }
+        [NotMapped]
+        public bool IsCheckedOut => this.CheckedOutDate != null;
     }

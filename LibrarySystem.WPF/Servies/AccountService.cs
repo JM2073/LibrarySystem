@@ -4,7 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml.Linq;
 using LibrarySystem.Domain.Models;
+using LibrarySystem.EntityFramework;
 using LibrarySystem.WPF.Stores;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibrarySystem.WPF.Servies
 {
@@ -12,153 +14,126 @@ namespace LibrarySystem.WPF.Servies
     {
         private readonly AccountStore _accountStore;
 
-        private readonly XDocument _userDoc;
-        private readonly string _xmlUserFilePath = "XML\\UserDetails.xml";
+        private LibraryDBContextFactory _dbContextFactory;
+        private LogService LogService { get; } 
+
 
         public AccountService(AccountStore accountStore)
         {
             _accountStore = accountStore;
-            _userDoc = XDocument.Load(_xmlUserFilePath);
+            _dbContextFactory = new LibraryDBContextFactory();
+            LogService = new LogService();
         }
 
-        private LogService LogService => new LogService();
 
-        public User GetUser(string librarycardnumber, string email)
+        public User? GetUser(Guid? librarycardnumber, string email)
         {
-            //gets a collection of all librarycardnumber numbers ,or emails if that is the login method, and then pulls the one one we are passing though, returning null if there are no matches. 
-            var singleUser = GetXmlUser(librarycardnumber, email);
-
-            //if the user dose not exist return null.
-            if (singleUser == null)
+            User? user;
+            using (var _db = _dbContextFactory.CreateDbContext())
+            {
+                user = _db.Users.Where(x => x.isArcived == false)
+                    .SingleOrDefault(x => x.LibraryCardNumber == librarycardnumber || x.Email == email);
+            }
+            if (user == null)
                 return null;
 
-            _accountStore.CurrentUser = BuildUserFromXml(singleUser);
+            _accountStore.CurrentUser = user;
 
             return _accountStore.CurrentUser;
+
         }
 
-        public User GetUserDetails(string librarycardnumber, string email)
+        public List<User> GetAllActiveUsers()
         {
-            //gets a collection of all librarycardnumber numbers ,or emails if that is the login method, and then pulls the one one we are passing though, returning null if there are no matches. 
-            var singleUser = GetXmlUser(librarycardnumber, email);
-
-            //if the user dose not exist return null.
-            if (singleUser == null)
-                return null;
-
-            return BuildUserFromXml(singleUser);
-        }
-
-
-        public List<User> GetAllUsers()
-        {
-            var users = _userDoc.Descendants("user").Select(BuildUserFromXml).ToList();
-
-            return users;
+            using (var _db = _dbContextFactory.CreateDbContext())
+            {
+                return _db.Users.Where(x => x.isArcived == false).ToList();
+            }
         }
 
 
         public void AddUser(User user)
         {
-            _userDoc.Save(_xmlUserFilePath);
+            using (var _db = _dbContextFactory.CreateDbContext())
+            {
+                user.Logs.Add(new Log
+                {
+                    Date = DateTime.Now,
+                    Description = "User Added",
+                });
 
-            LogService.InitialAccountLog(user.LibraryCardNumber, user.Name);
+                _db.Users.Add(user);
+                _db.SaveChanges();
+            } 
         }
 
         public void EditUser(User user)
         {
-            var singleUser = GetXmlUser(_accountStore.CurrentUser.LibraryCardNumber);
-
-            singleUser.Element("name").Value = user.Name;
-            singleUser.Element("email").Value = user.Email;
-            singleUser.Element("phone_number").Value = user.PhoneNumber;
-            singleUser.Element("account_type").Value = user.AccountType.ToString();
-
-            singleUser.Document.Save(_xmlUserFilePath);
-
-
-            LogService.AccountLog(string.Empty, user.LibraryCardNumber,
-                "Changing account details.\nEdited Account details", "edit_account_logs");
-        }
-
-
-        public void DeleteUser(string libraryCardNumber)
-        {
-            GetXmlUser(libraryCardNumber).Remove();
-
-            _userDoc.Save(_xmlUserFilePath);
-
-            LogService.AccountLog(string.Empty, libraryCardNumber, "Changing account details.\nAccount Deleted",
-                "edit_account_logs");
-        }
-
-        public ObservableCollection<Book> GetCheckedOutBooks(string libraryCardNumber)
-        {
-            var user = GetXmlUser(libraryCardNumber);
-
-            return new ObservableCollection<Book>(user.Descendants("book").Select(x => new Book
+            using (var _db = _dbContextFactory.CreateDbContext())
             {
-                Title = x.Element("title").Value,
-                Isbn = x.Element("isbn").Value,
-                CheckedOutDate = x.Element("checked_out_date").Value,
-                DueBackDate = x.Element("due_back_date").Value
-            }));
-        }
+                var obj = _db.Users.Include(x=>x.Logs).SingleOrDefault(x => x.Id == user.Id);
 
-        public ObservableCollection<Book> GetDueBackBooks(string libraryCardNumber)
-        {
-            var user = GetXmlUser(libraryCardNumber);
-
-            return new ObservableCollection<Book>(user.Descendants("book")
-                .Where(x => DateTime.Parse(x.Element("due_back_date").Value).Date <= DateTime.Now.AddDays(7).Date)
-                .Select(x => new Book
+                obj.LibraryCardNumber = user.LibraryCardNumber;
+                obj.Email = user.Email;
+                obj.Name = user.Name;
+                obj.PhoneNumber = user.PhoneNumber;
+                obj.Logs.Add(new Log
                 {
-                    Title = x.Element("title").Value,
-                    Isbn = x.Element("isbn").Value,
-                    CheckedOutDate = x.Element("checked_out_date").Value,
-                    DueBackDate = x.Element("due_back_date").Value
-                }));
+                    Date = DateTime.Now,
+                    Description = "user Edited",
+                });
+                
+                
+                _db.SaveChanges();
+            }
         }
 
-        public ObservableCollection<Fine> GetFines(string libraryCardNumber)
+
+        public void DeleteUser(int id)
         {
-            var user = GetXmlUser(libraryCardNumber);
-
-            if (!user.Descendants("fine").Elements().Any())
-                return new ObservableCollection<Fine>();
-
-            return new ObservableCollection<Fine>(user.Descendants("fine").Select(x => new Fine
+            using (var _db = _dbContextFactory.CreateDbContext())
             {
-                FineAmount = double.Parse(x.Element("fine_amount")?.Value ?? "0"),
-                Reason = x.Element("reason").Value,
-                //DBCHANGE BookTitle = x.Element("book_title").Value,
-                PayByDate = DateTime.Parse(x.Element("pay_by_date")?.Value),
-                //DBCHANGE Isbn = x.Element("isbn").Value
-            }));
+                var obj = _db.Users.Include(x=>x.Logs).SingleOrDefault(x => x.Id == id);
+
+                obj.isArcived = true;
+                obj.Logs.Add(new Log
+                {
+                    Date = DateTime.Now,
+                    Description = "user arcived",
+                });
+                _db.SaveChanges();
+            }
         }
 
-        private User BuildUserFromXml(XElement singleUser)
+        public ObservableCollection<Book> GetCheckedOutBooks(int id)
         {
-            return new User
+            using (var _db = _dbContextFactory.CreateDbContext())
             {
-                LibraryCardNumber = singleUser.Element("library_card_number")?.Value,
-                Name = singleUser.Element("name")?.Value,
-                Email = singleUser.Element("email")?.Value,
-                PhoneNumber = singleUser.Element("phone_number")?.Value,
-                AccountType = (AccountType)int.Parse(singleUser.Element("account_type").Value)
-            };
+                var obj = _db.Users.Include(x=>x.Books).SingleOrDefault(x => x.Id == id);
+
+                return new ObservableCollection<Book>(obj.Books.Where(x=>x.IsCheckedOut).ToList());
+            }
         }
 
-        private XElement GetXmlUser(string libraryCardNumber)
+        public ObservableCollection<Book> GetDueBackBooks(int id)
         {
-            return GetXmlUser(libraryCardNumber, string.Empty);
+            using (var _db = _dbContextFactory.CreateDbContext())
+            {
+                var obj = _db.Users.Include(x=>x.Books).SingleOrDefault(x => x.Id == id);
+
+                return new ObservableCollection<Book>(obj.Books.Where(x=>x.isArcived == false).Where(x=>x.DueBackDate <= DateTime.Now.AddDays(7).Date).ToList());
+            }
         }
 
-        private XElement GetXmlUser(string lcn, string email)
+        public ObservableCollection<Fine> GetFines(int id)
         {
-            return _userDoc.Root
-                .Elements("user")
-                .SingleOrDefault(x => x.Element("email").Value == email || x.Element("library_card_number").Value == lcn);
+            using (var _db = _dbContextFactory.CreateDbContext())
+            {
+                var obj = _db.Users.Include(x=>x.Fines).SingleOrDefault(x => x.Id == id);
+
+                return new ObservableCollection<Fine>(obj.Fines.Where(x=>x.IsArchived == false).ToList());
+            }
         }
+
     }
 }

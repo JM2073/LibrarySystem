@@ -13,49 +13,68 @@ using (var _db = new LibraryDBContextFactory().CreateDbContext())
     Console.WriteLine("Finish Migration");
 
     Console.WriteLine("adding new user");
+
     _db.Users.Add(new User
     {
-        LibraryCardNumber = "3537ec73-ef63-459d-9ab2-0e3ac48272b9",
-        Name = "John Smith",
-        PhoneNumber = "555-555-5555",
-        Email = "johnsmith@email.com",
+        LibraryCardNumber = new Guid(),
+        Name = "john snow",
+        PhoneNumber = "685465465",
+        Email = "Email",
         AccountType = AccountType.Librarian,
-        Books = new List<Book>{new Book
+        Books = new List<Book>
+        {
+            new Book
             {
-                Title = "Eleanor Oliphant is Completely Fine",
-                Author = "Gail Honeyman",
-                Isbn = "9780008272614",
-                Publisher = "HarperCollins",
-                PublishDate = "01-05-2017",
-                Description = "A socially awkward woman navigates life and discovers the power of friendship.",
-                Genre = "Contemporary Fiction",
-                BookCost = "16.99",
-                CheckedOutDate = null,
-                DueBackDate = null,
-                Logs = new List<Log>{new Log
-                    {
-                        UserId = null,
-                        FineId = null,
-                        Date = DateTime.Now,
-                        Description = "Book was created",
-                        User = null,
-                        Fine = null
-                    }
-                }
+                Title = "Title",
+                Author = "auther",
+                Isbn = "isbn",
+                Publisher = "publish",
+                PublishDate = DateTime.Now,
+                Description = "some shite",
+                Genre = "anything",
+                BookCost = 5,
+                CheckedOutDate = DateTime.Now,
+                DueBackDate = DateTime.Now.AddMonths(1),
+                HasBeenRenewed = false,
             }
         },
-        Logs = new List<Log>{new Log
-            {
-                BookId = null,
-                FineId = null,
-                Date = DateTime.Now,
-                Description = "user was created",
-                Book = null,
-                Fine = null
-            }
-        }
-            
     });
+    
+    _db.SaveChanges();
+
+    var users2 = _db.Users
+        .Include(x => x.Fines)
+        .Include(x => x.Books)
+        .Include(x=>x.Logs)
+        .Where(x => x.isArcived == false)
+        .ToList();
+
+    foreach (var user in users2)
+    {
+        foreach (var userBook in user.Books)
+        {
+
+            user.Fines.Add(new Fine
+            {
+                BookId = userBook.Id,
+                FineAmount = (decimal)2.52,
+                Reason = "book Late Back",
+                PayByDate = DateTime.Now,
+                IsArchived = false,
+                IsPayed = false,
+                logs = new List<Log>
+                {
+                    new Log
+                    {
+                        Date = DateTime.Now,
+                        Description = "fine added to person for late book",
+                        isArcived = false
+                    }
+                }
+            });
+
+        }
+    }
     Console.WriteLine("new user added   ");
     _db.SaveChanges();
 

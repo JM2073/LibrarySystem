@@ -48,18 +48,15 @@ namespace LibrarySystem.WPF.ViewModel
 
         public void CheckOutBook(string isbn)
         {
-            bool success = false;
             try
             {
-                success = BookService.CheckOutBook(isbn);
+                BookService.CheckOutBook(isbn);
+                MessageBox.Show( "book checked out");
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }
-            
-            if(success) 
-                MessageBox.Show( "book checked out");
             
             var booksCollection = _searchStore.SearchString != null
                 ? BookService.SearchBooks(_searchStore.SearchString)

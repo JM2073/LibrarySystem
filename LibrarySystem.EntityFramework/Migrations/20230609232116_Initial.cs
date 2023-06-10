@@ -19,7 +19,8 @@ namespace LibrarySystem.EntityFramework.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     PhoneNumber = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
-                    AccountType = table.Column<int>(type: "INTEGER", nullable: false)
+                    AccountType = table.Column<int>(type: "INTEGER", nullable: false),
+                    isArcived = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,7 +43,9 @@ namespace LibrarySystem.EntityFramework.Migrations
                     Genre = table.Column<string>(type: "TEXT", nullable: false),
                     BookCost = table.Column<decimal>(type: "TEXT", nullable: false),
                     CheckedOutDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    DueBackDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    DueBackDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    HasBeenRenewed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    isArcived = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,7 +67,10 @@ namespace LibrarySystem.EntityFramework.Migrations
                     BookId = table.Column<int>(type: "INTEGER", nullable: false),
                     FineAmount = table.Column<decimal>(type: "TEXT", nullable: false),
                     Reason = table.Column<string>(type: "TEXT", nullable: false),
-                    PayByDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    PayByDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsArchived = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsPayed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    FinalWarningSent = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

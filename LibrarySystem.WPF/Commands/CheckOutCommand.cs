@@ -20,19 +20,16 @@ namespace LibrarySystem.WPF.Commands
         
         public override void Execute(object parameter)
         {
-            bool success = false;
-            
             try
             {
-                success = _bookService.CheckOutBook(_vm.BookIsbn);
+                _bookService.CheckOutBook(_vm.BookIsbn);
+                MessageBox.Show("Book successfully Checked Out");
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }
-            
-            if(success)
-                MessageBox.Show("Book successfully Checked Out");
+                
         }
     }
 }
