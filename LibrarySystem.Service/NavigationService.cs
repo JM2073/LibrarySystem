@@ -1,8 +1,4 @@
-﻿using System;
-using LibrarySystem.WPF.Stores;
-using LibrarySystem.WPF.ViewModel;
-
-namespace LibrarySystem.WPF.Servies
+﻿namespace LibrarySystem.Service
 {
     public class NavigationService<TViewModel> : INavigationService where TViewModel : BaceViewModel
     {

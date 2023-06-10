@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Xml.Linq;
-using LibrarySystem.Domain;
+﻿using System.Collections.ObjectModel;
 using LibrarySystem.Domain.Models;
 using LibrarySystem.EntityFramework;
-using LibrarySystem.WPF.Stores;
 using Microsoft.EntityFrameworkCore;
 
-namespace LibrarySystem.WPF.Servies
+namespace LibrarySystem.Service
 {
     public class BookService
     {

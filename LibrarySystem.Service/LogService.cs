@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
-using LibrarySystem.Domain.Models;
-using LibrarySystem.EntityFramework;
-using LibrarySystem.WPF.Stores;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Xml.Linq;
 
-namespace LibrarySystem.WPF.Servies
+namespace LibrarySystem.Service
 {
     public class LogService
     {

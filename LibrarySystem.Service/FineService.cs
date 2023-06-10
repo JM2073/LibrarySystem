@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using LibrarySystem.Domain.Models;
 using LibrarySystem.EntityFramework;
-using LibrarySystem.WPF.Stores;
 using Microsoft.EntityFrameworkCore;
 
-namespace LibrarySystem.WPF.Servies
+namespace LibrarySystem.Service
 {
     public class FineService
     {
-        private readonly AccountStore _accountStore;
         private readonly LogService _logService;
         private readonly XDocument _userDoc;
         private static readonly DateTime PAY_BY_DATE = DateTime.Now.AddDays(7);
@@ -20,9 +14,8 @@ namespace LibrarySystem.WPF.Servies
 
         private LibraryDBContextFactory _dbContextFactory;
 
-        public FineService(AccountStore accountStore)
+        public FineService()
         {
-            _accountStore = accountStore;
             _dbContextFactory = new LibraryDBContextFactory();
             _logService = new LogService();
         }

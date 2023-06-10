@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using LibrarySystem.Domain.Models;
 using LibrarySystem.EntityFramework;
+using LibrarySystem.Service;
 using LibrarySystem.WPF.Servies;
 using LibrarySystem.WPF.Stores;
 using LibrarySystem.WPF.ViewModel;

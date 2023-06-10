@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Xml.Linq;
+﻿using System.Collections.ObjectModel;
 using LibrarySystem.Domain.Models;
 using LibrarySystem.EntityFramework;
-using LibrarySystem.WPF.Stores;
 using Microsoft.EntityFrameworkCore;
 
-namespace LibrarySystem.WPF.Servies
+namespace LibrarySystem.Service
 {
     public class AccountService
     {
@@ -37,9 +32,7 @@ namespace LibrarySystem.WPF.Servies
             if (user == null)
                 return null;
 
-            _accountStore.CurrentUser = user;
-
-            return _accountStore.CurrentUser;
+            return user;
 
         }
 

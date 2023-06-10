@@ -1,4 +1,4 @@
-﻿namespace LibrarySystem.WPF.Servies
+﻿namespace LibrarySystem.Service
 {
     public interface INavigationService
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using LibrarySystem.Service;
 using LibrarySystem.WPF.Servies;
 using LibrarySystem.WPF.Stores;
 using LibrarySystem.WPF.ViewModel;
@@ -26,7 +27,7 @@ namespace LibrarySystem.WPF.Commands
             //TODO: pass either the library card number or email to get the user.
             Guid.TryParse(_viewModel.Id, out var lcn);
             
-            AccountService.GetUser(lcn, _viewModel.Id);
+            _accountStore.CurrentUser = AccountService.GetUser(lcn, _viewModel.Id);
 
             if (_accountStore.CurrentUser == null)
             {
