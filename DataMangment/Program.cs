@@ -68,7 +68,6 @@ using (var _db = new LibraryDBContextFactory().CreateDbContext())
                     {
                         Date = DateTime.Now,
                         Description = "fine added to person for late book",
-                        isArcived = false
                     }
                 }
             });
