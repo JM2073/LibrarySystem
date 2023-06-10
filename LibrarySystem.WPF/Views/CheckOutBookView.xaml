@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="LibrarySystem.WPF.Views.CheckOutBookView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="1080" d:DesignWidth="1920">
+    
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="1" Grid.Row="1">
+        <Label> Please scan your book inorder to check it out.</Label>
+            <TextBox ToolTip="Please type in or scan your book with the scanner"  Text="{Binding BookIsbn}" ></TextBox>
+            <Button Content="Check Out" Command="{Binding CheckOutCommand}"></Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,63 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Page Update="Views\AccountView.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Views\CheckInBookView.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Views\CheckOutBookView.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Views\LoginView.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Views\RegisterView.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Views\SearchView.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Components\Layout.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Components\NavigationBar.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Components\SearchBar.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="XML\BookDetails.xml">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="XML\UserDetails.xml">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Remove="XML\LogDetails.xml" />
+        <Content Include="XML\LogDetails.xml">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\LibrarySystem.Domain\LibrarySystem.Domain.csproj" />
+      <ProjectReference Include="..\LibrarySystem.EntityFramework\LibrarySystem.EntityFramework.csproj" />
+    </ItemGroup>
+
+</Project>
