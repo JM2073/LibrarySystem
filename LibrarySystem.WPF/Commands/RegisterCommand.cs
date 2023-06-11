@@ -1,6 +1,6 @@
 ﻿using System;
 using LibrarySystem.Domain.Models;
-using LibrarySystem.WPF.Servies;
+using LibrarySystem.Service;
 using LibrarySystem.WPF.Stores;
 using LibrarySystem.WPF.ViewModel;
 
@@ -19,7 +19,7 @@ namespace LibrarySystem.WPF.Commands
             _navigationService = navigationService;
         }
 
-        private AccountService AccountService => new AccountService(_accountStore);
+        private AccountService AccountService => new AccountService();
 
         public override void Execute(object parameter)
         {

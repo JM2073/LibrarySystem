@@ -16,4 +16,10 @@
         <PackageReference Include="coverlet.collector" Version="3.1.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\LibrarySystem.Domain\LibrarySystem.Domain.csproj" />
+      <ProjectReference Include="..\LibrarySystem.EntityFramework\LibrarySystem.EntityFramework.csproj" />
+      <ProjectReference Include="..\LibrarySystem.Service\LibrarySystem.Service.csproj" />
+    </ItemGroup>
+
 </Project>

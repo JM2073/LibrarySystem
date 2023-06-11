@@ -1,4 +1,7 @@
 ﻿using System.Xml.Linq;
+using LibrarySystem.Domain.Models;
+using LibrarySystem.EntityFramework;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibrarySystem.Service
 {

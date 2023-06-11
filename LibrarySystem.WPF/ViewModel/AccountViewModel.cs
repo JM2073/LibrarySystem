@@ -13,8 +13,8 @@ namespace LibrarySystem.WPF.ViewModel
         private readonly AccountStore _accountStore;
         
         private LibraryDBContextFactory _libraryDBContextFactory;
-        private AccountService AccountService => new AccountService(_accountStore);
-        private FineService FineService => new FineService(_accountStore);
+        private AccountService AccountService => new AccountService();
+        private FineService FineService => new FineService();
         
         #region Collections
 
@@ -81,7 +81,7 @@ namespace LibrarySystem.WPF.ViewModel
             ReplaceOutstandingFeesCollection();
         }
 
-        private BookService BookService => new BookService(_accountStore);
+        private BookService BookService => new BookService(_accountStore.CurrentUser.LibraryCardNumber);
 
         public string Name => _accountStore.CurrentUser?.Name;
         public string Email => _accountStore.CurrentUser?.Email;

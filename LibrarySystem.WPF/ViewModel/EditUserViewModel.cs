@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using LibrarySystem.Domain.Models;
-using LibrarySystem.WPF.Servies;
+using LibrarySystem.Service;
 using LibrarySystem.WPF.Stores;
 
 namespace LibrarySystem.WPF.ViewModel
@@ -20,7 +20,7 @@ namespace LibrarySystem.WPF.ViewModel
         private readonly AccountStore _accountStore;
         public ObservableCollection<string> AccountTypes { get; set; }
         public string SelectedAccountType { get; set; }
-        private FineService FineService => new FineService(_accountStore);
+        private FineService FineService => new FineService();
         private AccountService _accountService { get; set; }
 
 
@@ -29,7 +29,7 @@ namespace LibrarySystem.WPF.ViewModel
             _accountStore = accountStore;
             IsLibrarian = _accountStore.CurrentUser.AccountType == AccountType.Librarian;
 
-            _accountService = new AccountService(accountStore); 
+            _accountService = new AccountService(); 
             LibraryCardNumber = _accountStore.EditUserId ?? _accountStore.CurrentUser.LibraryCardNumber;
 
             var user = _accountService.GetUser(LibraryCardNumber, null);
@@ -122,7 +122,7 @@ namespace LibrarySystem.WPF.ViewModel
 
         #endregion
 
-        private BookService BookService => new BookService(_accountStore);
+        private BookService BookService => new BookService(_accountStore.CurrentUser.LibraryCardNumber);
 
 
         public void CheckInBook(string isbn)

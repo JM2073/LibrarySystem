@@ -10,16 +10,16 @@ namespace LibrarySystem.Service
         private const int MAX_BOOK_COUNT = 6;
         private const int CHECK_OUT_TIME = 21;
         private const int RENEW_PERIOD = 7;
+        private readonly Guid _currentUserlibraryCardNumber;
 
 
-        private readonly AccountStore _accountStore;
         private LibraryDBContextFactory _dbContextFactory;
         private LogService LogService { get; }
-        private FineService FineService => new FineService(_accountStore);
+        private FineService FineService => new FineService();
 
-        public BookService(AccountStore accountStore)
+        public BookService(Guid currentUserlibraryCardNumber)
         {
-            _accountStore = accountStore;
+            _currentUserlibraryCardNumber = currentUserlibraryCardNumber;
             _dbContextFactory = new LibraryDBContextFactory();
             LogService = new LogService();
         }
@@ -118,7 +118,7 @@ namespace LibrarySystem.Service
             {
                 //ErrorH check to make sure there not null, shouldnt be null but gota handle those errors
                 var currentUserEntity = _db.Users.Include(x => x.Books).Include(x => x.Logs).SingleOrDefault(x =>
-                    x.LibraryCardNumber == _accountStore.CurrentUser.LibraryCardNumber);
+                    x.LibraryCardNumber == _currentUserlibraryCardNumber);
                 var book = _db.Books.FirstOrDefault(x => x.Isbn == isbn);
 
                 //if they have already check out 6 books, dont let them check out any more
@@ -151,7 +151,7 @@ namespace LibrarySystem.Service
         {
             using (var _db = _dbContextFactory.CreateDbContext())
             {
-                libraryCardNumber = libraryCardNumber ?? _accountStore.CurrentUser.LibraryCardNumber;
+                libraryCardNumber = libraryCardNumber ?? _currentUserlibraryCardNumber;
                 //ErrorH check to make sure there not null, shouldnt be null but gota handle those errors
                 var currentUserEntity = _db.Users
                     .Include(x => x.Books)
@@ -188,7 +188,7 @@ namespace LibrarySystem.Service
         {
             using (var _db = _dbContextFactory.CreateDbContext())
             {
-                libraryCardNumber = libraryCardNumber ?? _accountStore.CurrentUser.LibraryCardNumber;
+                libraryCardNumber = libraryCardNumber ?? _currentUserlibraryCardNumber;
                 //ErrorH check to make sure there not null, shouldnt be null but gota handle those errors
                 var currentUserEntity = _db.Users
                     .Include(x => x.Books)

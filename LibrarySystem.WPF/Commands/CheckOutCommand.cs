@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using LibrarySystem.WPF.Servies;
+using LibrarySystem.Service;
 using LibrarySystem.WPF.Stores;
 using LibrarySystem.WPF.ViewModel;
 
@@ -15,7 +15,7 @@ namespace LibrarySystem.WPF.Commands
         {
             _vm = vm;
 
-            _bookService = new BookService(accountStore);
+            _bookService = new BookService(accountStore.CurrentUser.LibraryCardNumber);
         }
         
         public override void Execute(object parameter)

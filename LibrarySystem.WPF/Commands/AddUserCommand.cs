@@ -1,6 +1,6 @@
 ﻿using System;
 using LibrarySystem.Domain.Models;
-using LibrarySystem.WPF.Servies;
+using LibrarySystem.Service;
 using LibrarySystem.WPF.Stores;
 using LibrarySystem.WPF.ViewModel;
 
@@ -18,7 +18,7 @@ namespace LibrarySystem.WPF.Commands
             _accountStore = accountStore;
             _vm = vm;
 
-            _accountService = new AccountService(accountStore);
+            _accountService = new AccountService();
         }
         
         public override void Execute(object parameter)

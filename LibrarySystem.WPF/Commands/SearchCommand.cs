@@ -1,4 +1,4 @@
-﻿using LibrarySystem.WPF.Servies;
+﻿using LibrarySystem.Service;
 using LibrarySystem.WPF.Stores;
 using LibrarySystem.WPF.ViewModel;
 

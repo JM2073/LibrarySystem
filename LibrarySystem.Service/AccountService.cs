@@ -7,15 +7,13 @@ namespace LibrarySystem.Service
 {
     public class AccountService
     {
-        private readonly AccountStore _accountStore;
 
         private LibraryDBContextFactory _dbContextFactory;
         private LogService LogService { get; } 
 
 
-        public AccountService(AccountStore accountStore)
+        public AccountService()
         {
-            _accountStore = accountStore;
             _dbContextFactory = new LibraryDBContextFactory();
             LogService = new LogService();
         }

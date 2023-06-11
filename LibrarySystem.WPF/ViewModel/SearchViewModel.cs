@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using LibrarySystem.Domain.Models;
-using LibrarySystem.WPF.Servies;
+using LibrarySystem.Service;
 using LibrarySystem.WPF.Stores;
 
 namespace LibrarySystem.WPF.ViewModel
@@ -13,7 +13,7 @@ namespace LibrarySystem.WPF.ViewModel
     {
         private readonly SearchStore _searchStore;
         private readonly AccountStore _accountStore;
-        private BookService BookService => new BookService(_accountStore);
+        private BookService BookService => new BookService(_accountStore.CurrentUser.LibraryCardNumber);
 
         private ObservableCollection<Book> _books;
         public ObservableCollection<Book> Books

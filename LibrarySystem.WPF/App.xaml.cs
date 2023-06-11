@@ -4,7 +4,7 @@ using System.Windows;
 using LibrarySystem.Domain.Models;
 using LibrarySystem.EntityFramework;
 using LibrarySystem.Service;
-using LibrarySystem.WPF.Servies;
+using LibrarySystem.WPF.Navigation;
 using LibrarySystem.WPF.Stores;
 using LibrarySystem.WPF.ViewModel;
 using Microsoft.EntityFrameworkCore;
@@ -70,7 +70,7 @@ namespace LibrarySystem.WPF
             initialNavigationService.Navigate();
 
             //checks if there are any fines in the xml files and added them or updates exsisting fines.
-            var fineService = new FineService(new AccountStore());
+            var fineService = new FineService();
             fineService.CheckFines();
 
             if (MessageBox.Show("GENERATE INITIAL DATA?", "TEST", MessageBoxButton.YesNo) == MessageBoxResult.Yes)

@@ -1,5 +1,5 @@
 ﻿using System;
-using LibrarySystem.WPF.Servies;
+using LibrarySystem.Service;
 using LibrarySystem.WPF.Stores;
 
 namespace LibrarySystem.WPF.Commands

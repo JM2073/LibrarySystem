@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using LibrarySystem.WPF.Commands;
 using LibrarySystem.Domain.Models;
-using LibrarySystem.WPF.Servies;
+using LibrarySystem.Service;
 using LibrarySystem.WPF.Stores;
 
 namespace LibrarySystem.WPF.ViewModel

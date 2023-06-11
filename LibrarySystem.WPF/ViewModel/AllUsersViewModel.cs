@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Input;
 using LibrarySystem.WPF.Commands;
 using LibrarySystem.Domain.Models;
-using LibrarySystem.WPF.Servies;
+using LibrarySystem.Service;
 using LibrarySystem.WPF.Stores;
 
 namespace LibrarySystem.WPF.ViewModel
@@ -29,7 +29,7 @@ namespace LibrarySystem.WPF.ViewModel
             _accountStore = accountStore;
             EditUserCommand = new EditUserCommand(_accountStore,editUserNavigationService);
 
-            _accountService = new AccountService(_accountStore);
+            _accountService = new AccountService();
             
             dti = _accountService.GetAllActiveUsers().Select(x=> new DataTableItem
             {

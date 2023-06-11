@@ -1,4 +1,4 @@
-﻿using LibrarySystem.WPF.Servies;
+﻿using LibrarySystem.Service;
 
 namespace LibrarySystem.WPF.Commands
 {
